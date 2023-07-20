@@ -1,0 +1,43 @@
+\chapter{Requisitos Não Funcionais}
+\label{sec-rnfs}
+\vspace{-1cm}
+
+A Tabela~\ref{tabela-rnfs} apresenta a especificação dos requisitos não funcionais identificados no Documento de Especificação de Requisitos, os quais foram considerados condutores da arquitetura.
+
+% Contador para IDs de Requisitos Não Funcionais.
+% Substitua rnf-definir-label dentro dos \label{} abaixo por IDs do seu projeto.
+\newcounter{rnfcount}
+\renewcommand*\thernfcount{RNF-\arabic{rnfcount}}
+\newcommand*\RNF{\refstepcounter{rnfcount}\thernfcount}
+\setcounter{rnfcount}{0}
+
+\begin{footnotesize}
+\begin{longtable}{|r|p{13cm}|}
+	\caption{Especificação de Requisitos Não Funcionais.}
+	\label{tabela-rnfs}\\\hline
+	
+	\multicolumn{2}{|p{\dimexpr\linewidth-2\tabcolsep-2\arrayrulewidth}|}{\cellcolor{lightgray}\RNF\label{rnf-definir-label01} -- sentença descrevendo o RNF, conforme Documento de Especificação de Requisitos.}\\\hline
+	
+	Categoria: & \hl{Possíveis valores: Interoperabilidade, Segurança, Usabilidade, Eficiência, Confiabilidade, Disponibilidade, Manutenibilidade, Portabilidade.} \\\hline
+	
+	\parbox[t]{2cm}{\raggedleft Tática /\\Tratamento:} & \hl{Apontar a tática a ser usada e algum detalhe, quando pertinente sobre como essa tática será aplicada no contexto do projeto.} \\\hline
+	
+	Medida: & \hl{Medida a ser usada para estabelecer objetivamente um critério de aceitação para o atendimento do RNF.} \\\hline
+	
+	\parbox[t]{2cm}{\raggedleft Critério de\\Aceitação:} & \hl{Descrição do critério de aceitação. Deve permitir avaliar objetivamente se o RNF foi satisfeito ou não.} \\\hline
+	
+	% Linha em branco.
+	\multicolumn{2}{c}{}\\\hline
+	
+	\multicolumn{2}{|p{\dimexpr\linewidth-2\tabcolsep-2\arrayrulewidth}|}{\cellcolor{lightgray}\RNF\label{rnf-definir-label02} -- sentença descrevendo o RNF, conforme Documento de Especificação de Requisitos.}\\\hline
+	
+	Categoria: & \hl{Possíveis valores: Interoperabilidade, Segurança, Usabilidade, Eficiência, Confiabilidade, Disponibilidade, Manutenibilidade, Portabilidade.} \\\hline
+	
+	\parbox[t]{2cm}{\raggedleft Tática /\\Tratamento:} & \hl{Apontar a tática a ser usada e algum detalhe, quando pertinente sobre como essa tática será aplicada no contexto do projeto.} \\\hline
+	
+	Medida: & \hl{Medida a ser usada para estabelecer objetivamente um critério de aceitação para o atendimento do RNF.} \\\hline
+	
+	\parbox[t]{2cm}{\raggedleft Critério de\\Aceitação:} & \hl{Descrição do critério de aceitação. Deve permitir avaliar objetivamente se o RNF foi satisfeito ou não.} \\\hline
+
+\end{longtable}
+\end{footnotesize}

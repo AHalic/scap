@@ -1,0 +1,48 @@
+% Exemplo de tabela 01:
+\begin{table}
+\caption{Exemplo de tabela com diferentes alinhamentos de conteudo.}
+\label{tbl-intro-exemplo01}
+\centering
+\begin{tabular}{ | c | l | r | p{40mm} |}\hline
+\textbf{Centralizado} & \textbf{Esquerda} & \textbf{Direita} & \textbf{Parágrafo}\\\hline
+C & L & R & Alinhamento de tipo parágrafo especifica largura da coluna e quebra o texto automaticamente.\\
+\hline
+Linha 2 & Linha 2 & Linha 2 & Linha 2\\
+\hline
+\end{tabular}
+\end{table}
+
+% Exemplo de tabela 02:
+\begin{table}
+\caption{Exemplo que especifica largura de coluna e usa lista enumerada (adaptada de~\cite{souza-mylopoulos:spe13}).}
+\label{tbl-intro-exemplo02}
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{small}
+\begin{tabular}{ | p{15mm} | p{77mm} | p{55mm} |}\hline
+\textbf{\textit{AwReq}} & \textbf{Adaptation strategies} & \textbf{Applicability conditions}\\\hline
+
+AR1 &
+\vspace{-2mm}\begin{enumerate}[topsep=0cm, partopsep=0cm, itemsep=0cm, parsep=0cm, leftmargin=0.5cm]
+\item \textit{Warning(``AS Management'')}
+\item \textit{Reconfigure($\varnothing$)}
+\end{enumerate}\vspace{-4mm} &
+\vspace{-2mm}\begin{enumerate}[topsep=0cm, partopsep=0cm, itemsep=0cm, parsep=0cm, leftmargin=0.5cm]
+\item Once per adaptation session;
+\item Always.
+\end{enumerate}\vspace{-4mm}
+\\\hline
+
+AR2 &
+\vspace{-2mm}\begin{enumerate}[topsep=0cm, partopsep=0cm, itemsep=0cm, parsep=0cm, leftmargin=0.5cm]
+\item \textit{Warning(``AS Management'')}
+\item \textit{Reconfigure($\varnothing$)}
+\end{enumerate}\vspace{-4mm} &
+\vspace{-2mm}\begin{enumerate}[topsep=0cm, partopsep=0cm, itemsep=0cm, parsep=0cm, leftmargin=0.5cm]
+\item Once per adaptation session;
+\item Always.
+\end{enumerate}\vspace{-4mm}
+\\\hline
+\end{tabular}
+\end{small}
+\end{table}

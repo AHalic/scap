@@ -1,0 +1,88 @@
+% ==============================================================================
+% Projeto de Sistema - Nome do Aluno
+% Capítulo 2 - Plataforma de Desenvolvimento
+% ==============================================================================
+\chapter{Plataforma de Desenvolvimento}
+\label{sec-plataforma}
+\vspace{-1cm}
+
+
+\vitor{Esta seção deve apresentar a plataforma de implementação a ser adotada para o desenvolvimento do sistema, incluindo: linguagem de programação, mecanismo de persistência de dados e componentes ou \textit{frameworks} a serem usados. As tabelas abaixo trazem exemplos (defasados) que devem ser adaptados para o contexto do seu projeto.}
+
+
+%=======================================================================================================
+%			Tabela de Plataforma de Desenvolvimento e Tecnologias Utilizadas
+%=======================================================================================================
+
+Na Tabela~\ref{tabela-plataforma} são listadas as tecnologias utilizadas no desenvolvimento da ferramenta, bem como o propósito de sua utilização.
+
+\begin{footnotesize}
+\begin{longtable}{|p{1.8cm}|c|p{5cm}|p{6.3cm}|}
+	\caption{Plataforma de Desenvolvimento e Tecnologias Utilizadas.}	
+	\label{tabela-plataforma}\\\hline
+
+	\rowcolor{lightgray}
+	\textbf{Tecnologia} & \textbf{Versão} & \textbf{Descrição} & \textbf{Propósito} \\\hline 
+	\endfirsthead
+	\hline
+	\rowcolor{lightgray}
+	\textbf{Tecnologia} & \textbf{Versão} & \textbf{Descrição} & \textbf{Propósito} \\\hline 
+	\endhead
+		
+	Java EE & 7 & Conjunto de especificação de APIs e tecnologias, que são implementadas por programas servidores de aplicação. & Redução da complexidade do desenvolvimento, implantação e gerenciamento de aplicações Web a partir de seus componentes de infra-estrutura prontos para o uso. \\ \hline
+
+	Java & 8 & Linguagem de programação orientada a objetos e independente de plataforma. & Escrita do código-fonte das classes que compõem o sistema. \\\hline
+	
+	JSF & 2.2.12 & API para a construção de interfaces de usuários baseada em componentes para aplicações Web & Criação das páginas Web e sua comunicação com as classes Java.  \\\hline  
+	
+	EJB & 4.0.9 & API para construção de componentes transacionais gerenciados por \textit{container}. & Implementação das regras de negócio em componentes distribuídos, transacionais, seguros e portáveis. \\\hline
+	
+	JPA & 2.1 & API para persistência de dados por meio de mapeamento objeto/relacional. & Persistência dos objetos de domínio sem necessidade de escrita dos comandos SQL. \\\hline
+	
+	CDI & 1.1 & API para injeção de dependências. & Integração das diferentes camadas da arquitetura. \\\hline
+	
+	Facelets & 2.0 &  API para definição de decoradores (\textit{templates}) integrada ao JSF. & Reutilização da estrutura visual comum às paginas, facilitando a manutenção do padrão visual do sistema. \\\hline
+	
+	PrimeFaces & 6.2 &  Conjunto de componentes visuais JSF \textit{open source}. & Reutilização de componentes visuais Web de alto nível. \\\hline
+	
+	MySQL Server & 8.0 & Sistema Gerenciador de Banco de Dados Relacional gratuito. & Armazenamento dos dados manipulados pela ferramenta. \\\hline
+	
+	WildFly & 13 & Servidor de Aplicações para Java EE. & Fornecimento de implementação das APIs citadas acima e hospedagem da aplicação Web, dando acesso aos usuários via HTTP. \\\hline
+\end{longtable}
+\end{footnotesize}
+
+
+
+
+
+
+%=======================================================================================================
+%			Tabela de Softwares de Apoio ao Desenvolvimento do Projeto
+%=======================================================================================================
+
+Na Tabela~\ref{tabela-software} vemos os softwares que apoiaram o desenvolvimento de documentos e também do código fonte.
+
+\begin{footnotesize}
+\begin{longtable}{|p{2.5cm}|c|p{5cm}|p{5.5cm}|}
+	\caption{Softwares de Apoio ao Desenvolvimento do Projeto}	
+	\label{tabela-software}\\\hline
+	
+	\rowcolor{lightgray}
+	\textbf{Tecnologia} & \textbf{Versão} & \textbf{Descrição} & \textbf{Propósito} \\\hline 
+	\endfirsthead
+	\hline
+	\rowcolor{lightgray}
+	\textbf{Tecnologia} & \textbf{Versão} & \textbf{Descrição} & \textbf{Propósito} \\\hline 
+	\endhead
+	 
+	FrameWeb Editor & 1.0 & Ferramenta CASE do método FrameWeb. & Criação dos modelos de Entidades, Aplicação, Persistência e Navegação. \\\hline
+
+	TeX Live  & 2018 & Implementadão do \LaTeX & Documentação do projeto arquitetural do sistema. \\\hline       
+	
+	TeXstudio & 2.12 & Editor de LaTeX. &  Escrita da documentação do sistema, sendo usado o \textit{template} \textit{abnTeX}.\footnote{\url{http://www.abntex.net.br}.} \\\hline    
+
+	Eclipse Java EE IDE for Web Developers & 4.8 & Ambiente de desenvolvimento (IDE) com suporte ao desenvolvimento Java EE. & Implementação, implantação e testes da aplicação Web Java EE. \\\hline 
+	
+	Apache Maven & 3.5 & Ferramenta de gerência/construção de projetos de software. & Obtenção e integração das dependências do projeto. \\\hline
+\end{longtable}
+\end{footnotesize}

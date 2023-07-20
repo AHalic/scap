@@ -1,0 +1,19 @@
+% Exemplo de tabela 04:
+\begin{table}[h]
+	\caption{Exemplo que utiliza o pacote \texttt{tabularx}, extraído de um artigo ainda não publicado.}
+	\label{tbl-intro-exemplo04}
+	\centering\tiny\def\tabularxcolumn#1{m{#1}}
+	\begin{tabularx}{\columnwidth}{ >{\centering}X | >{\centering}X | >{\hsize=1.2\hsize\centering}X | >{\hsize=0.9\hsize\centering}X | >{\hsize=0.9\hsize\centering\arraybackslash}X }
+		\hline
+		\textbf{Applied Criteria} & \textbf{Analyzed Content} & \textbf{Initial\\Occurrences} & \textbf{Final Results} & \textbf{Reduction (\%)} \\
+		\hline
+		Duplicate Removal & Title, authors and year & 903 & 420 & 54,84\% \\ 
+		\hline 
+		IC and ECs & Title, abstract and keywords & 420 & 130 & 69,05\% \\ 
+		\hline 
+		IC and ECs & Full text & 130 & 117 & 10\% \\ 
+		\hline 
+		Final Results & -- & 903 & 117 & 87,04\% \\ 
+		\hline 
+	\end{tabularx}
+\end{table}
