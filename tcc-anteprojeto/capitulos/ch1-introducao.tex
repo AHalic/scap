@@ -25,54 +25,77 @@ e a relevância do trabalho, referindo-se a estudos anteriores sobre o tema, res
 suas eventuais limitações e destacando a necessidade de se continuar pesquisando o
 assunto.
 
-
 %%% Início de seção. %%%
 \section{Objetivos}
 \label{sec-intro-obj}
 
-Nesta subseção, deve ser descrito o \textbf{objetivo geral} do trabalho, detalhando em
-seguida, seus \textbf{objetivos específicos}.
+% Nesta subseção, deve ser descrito o \textbf{objetivo geral} do trabalho, detalhando em
+% seguida, seus \textbf{objetivos específicos}.
 
-O \textbf{Objetivo Geral} expressa a finalidade do trabalho: para quê? Deve ter coerência
-direta com o tema do trabalho e ser apresentado em uma frase que inicie com um verbo
-no infinitivo. O objetivo geral do trabalho está relacionado ao resultado principal do trabalho.
+% O \textbf{Objetivo Geral} expressa a finalidade do trabalho: para quê? Deve ter coerência
+% direta com o tema do trabalho e ser apresentado em uma frase que inicie com um verbo
+% no infinitivo. O objetivo geral do trabalho está relacionado ao resultado principal do trabalho.
 
-Os \textbf{Objetivos Específicos} apresentam os detalhes e/ou desdobramentos do
-objetivo geral que levam a resultados intermediários e relevantes para alcançar o objetivo geral. Sempre será mais de um objetivo específico, todos iniciando com verbo no infinitivo.
+% Os \textbf{Objetivos Específicos} apresentam os detalhes e/ou desdobramentos do
+% objetivo geral que levam a resultados intermediários e relevantes para alcançar o objetivo geral. Sempre será mais de um objetivo específico, todos iniciando com verbo no infinitivo.
 
+Este trabalho tem como objetivo geral aplicar o método FrameWeb~\cite{souza:2007} em uma nova implementação do SCAP (Sistema de Controle de Afastamento de Professores),
+baseando-se nos requisitos levantados por \cite{duarte:2014} e \cite{prado:2015}. Será utilizado o \textit{framework} Next.js, de forma a contribuir com a análise do método FrameWeb, assim como em sua evolução.
 
-%OsObjetivos Específicosapresentam os detalhes e/ou desdobramento do objetivogeral. Sempre serão mais de um objetivo, todos iniciando com verbo no infinitivo queapresente tarefas parciais de pesquisa em prol da execução do objetivo geral.
+Para isso, faz-se necessária a definição de objetivos específicos que, juntos, auxiliam na conclusão do objetivo geral, sendo eles:
+\begin{itemize}
+    \item Compreender o método FrameWeb;
+    \item Analisar os requisitos da aplicação SCAP;
+    \item Implementar a aplicação SCAP utilizando o \textit{framework} Next.js e o método FrameWeb.
+\end{itemize}
 
 
 %%% Início de seção. %%%
 \section{Método de Desenvolvimento do Trabalho}
 \label{sec-intro-met}
+\sophie{o método deveria ser mais próximo a um texto descritivo?}
 
-Nesta subseção, deve ser apresentado o \textbf{Método de Desenvolvimento} (ou o \textbf{Método de Pesquisa}, quando for o caso) do trabalho. Aqui são apresentados os procedimentos/técnicas que serão usados durante o desenvolvimento do trabalho. 
+% Nesta subseção, deve ser apresentado o \textbf{Método de Desenvolvimento} (ou o \textbf{Método de Pesquisa}, quando for o caso) do trabalho. Aqui são apresentados os procedimentos/técnicas que serão usados durante o desenvolvimento do trabalho. 
+Para que os objetivos apresentados na seção anterior sejam satisfeitos, os seguintes passos devem ser seguidos:
+
+\begin{itemize}
+    \item Conduzir estudo abrangente da bibliografia disponível sobre o FrameWeb~\cite{souza:2007,souza:2020};
+    \item Revisar e compreender os requisitos da aplicação SCAP levantados por \cite{duarte:2014} e \cite{prado:2015};
+    \item Estudar padrões de arquitetura, em específico MVC e MVVM, assim como os \textit{frameworks} baseados em tais padrões;
+    \item Elaborar os modelos FrameWeb e gerar o Documento de Projeto, considerando o \textit{frameworks} escolhido para a implementação;
+    \item Implementar o sistema SCAP, a partir dos requisitos já levantados e do Documento de Projeto gerado, utilizando o \textit{framework} Next.js;
+    \item Redigir a monografia utilizando o \textit{template} abnTeX\footnote{\url{https://www.abntex.net.br/}} para a escrita em \latex\footnote{\url{https://www.latex-project.org/}} seguindo os requisitos das normas da ABNT (Associação Brasileira de Normas Técnicas);
+\end{itemize}
+
 
 %%% Início de seção. %%%
 \section{Cronograma}
 \label{sec-intro-crono}
 
-O \textbf{Cronograma de Execução} apresenta a distribuição no tempo das atividades
-que deverão ser desenvolvidas ao longo do trabalho. As atividades apresentadas no cronograma devem estar alinhadas com os objetivos apresentados na Subseção~\ref{sec-intro-obj}, ou seja, elas devem ser capazes de produzir os resultados necessários para alcançar os objetivos estabelecidos. Deve-se apresentar uma listagem com a descrição de cada uma dessas atividades e em seguida mostrada uma tabela contendo todas as atividades previstas juntamente com a  previsão do período de execução de cada uma.
+% O \textbf{Cronograma de Execução} apresenta a distribuição no tempo das atividades
+% que deverão ser desenvolvidas ao longo do trabalho. As atividades apresentadas no cronograma devem estar alinhadas com os objetivos apresentados na Subseção~\ref{sec-intro-obj}, ou seja, elas devem ser capazes de produzir os resultados necessários para alcançar os objetivos estabelecidos. Deve-se apresentar uma listagem com a descrição de cada uma dessas atividades e em seguida mostrada uma tabela contendo todas as atividades previstas juntamente com a  previsão do período de execução de cada uma.
 
-Um exemplo seria:
 \begin{itemize}
-\item Atividade 1: detalhamento ...
-\item Atividade 2: detalhamento ...
-\item ...
+\item Atividade 1: Revisão bibliográfica sobre o método FrameWeb e \textit{frameworks} baseados em MVC e MVVM;
+\item Atividade 2: Estudo dos requisitos da aplicação SCAP;
+\item Atividade 3: Escrita do anteprojeto a partir dos resultados obtidos nas atividades 1 e 2;
+\item Atividade 4: Produção do documento de Projeto, segundo método FrameWeb;
+\item Atividade 5: Desenvolvimento da aplicação SCAP com o \textit{framework} Next.js;
+\item Atividade 6: Escrita do Trabalho de Conclusão de Curso, apresentando os resultados obtidos e a produção desenvolvida;
+\item Atividade 7: Apresentação do trabalho para a banca avaliadora.
 \end{itemize}
 
 \begin{table}[h]
 \centering
-\begin{tabular}{c|c|c|c|c|c|c|}
-\cline{2-7}
-\multicolumn{1}{l|}{} & \textbf{(mês)} & \textbf{(mês)} & \textbf{(mês)} & \textbf{(mês)} & \textbf{(mês)} & \textbf{(mês)} \\ \hline
-\multicolumn{1}{|c|}{\textbf{Atividade 1}} & X & X &  &  &  &  \\ \hline
-\multicolumn{1}{|c|}{\textbf{Atividade 2}} &  & X & X &  &  &  \\ \hline
-\multicolumn{1}{|c|}{\textbf{Atividade 3}} &  &  &  & X &  &  \\ \hline
-\multicolumn{1}{|c|}{\textbf{Atividade 4}} &  & X &  & X &  &  \\ \hline
-\multicolumn{1}{|c|}{\textbf{. . .}} &  &  &  &  & X & X \\ \hline
+\begin{tabular}{c|c|c|c|c|c|}
+\cline{2-6}
+\multicolumn{1}{l|}{} & \textbf{Agosto} & \textbf{Setembro} & \textbf{Outubro} & \textbf{Novembro} & \textbf{Dezembro} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 1}} & x &   &   &   &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 2}} & x &   &   &   &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 3}} & x & x &   &   &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 4}} &   & x & x &   &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 5}} &   &   & x & x &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 6}} &   &   & x & x & x \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 7}} &   &   &   &   & x \\ \hline
 \end{tabular}
 \end{table}
