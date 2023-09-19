@@ -14,16 +14,35 @@ Descrição do trabalho, a qual apresenta o contexto do trabalho e a definição
 mesmo. Deve-se delimitar o escopo do trabalho de forma que haja condições
 técnicas suficientes para que o mesmo seja concluído em tempo hábil.
 
-
 %%% Início de seção. %%%
 \section{Motivação e Justificativa}
 \label{sec-intro-motjus}
 
-A \textbf{Motivação} apresenta as circunstancias que interferiram na escolha do tema.
-A \textbf{Justificativa} apresenta o porquê da escolha do tema, o problema a ser resolvido
-e a relevância do trabalho, referindo-se a estudos anteriores sobre o tema, ressaltando
-suas eventuais limitações e destacando a necessidade de se continuar pesquisando o
-assunto.
+% A \textbf{Motivação} apresenta as circunstancias que interferiram na escolha do tema.
+% A \textbf{Justificativa} apresenta o porquê da escolha do tema, o problema a ser resolvido
+% e a relevância do trabalho, referindo-se a estudos anteriores sobre o tema, ressaltando
+% suas eventuais limitações e destacando a necessidade de se continuar pesquisando o
+% assunto.
+
+% Ref 1
+% Conforme mencionado anteriormente, \citeonline{duarte:2014} foi o primeiro a experimentar o método FrameWeb no processo de desenvolvimento de um sistema chamado SCAP. Foi utilizado Java EE como a plataforma de desenvolvimento, incluindo seu conjunto de \textit{frameworks} padrão. Sucessivamente outros trabalhos expandiram a utilização de novos \textit{frameworks} e contribuíram para a fortalecimento e analise do método. Por exemplo, \citeonline{guterres:2019} desenvolveu o SCAP utilizando o \textit{framework} Play, \citeonline{berger:2021} com os \textit{frameworks} Yii e Symfony, \citeonline{dalapicola:2021} com os \textit{frameworks} Quasar e AdonisJS, dentre outros.\footnote{Outros trabalhos de conclusão de curso que implementaram o SCAP com diferentes \textit{frameworks} e realizando sua modelagem com o FrameWeb podem ser encontrados em \url{http://www.inf.ufes.br/~vitorsouza/orientacao/trabalhos-orientados/}.}
+% Neste mesmo espírito, o presente trabalho tem como motivação utilizar o Angular, que é um \textit{framework} que vem sendo amplamente utilizado no mercado atual, seguindo o método FrameWeb~\cite{souza:2007,souza-celebratingfalbo20}. Com a finalidade de contribuir para a avaliação do método com um novo conjunto de \textit{frameworks}.
+% ------
+% Ref 2
+% Como visto, o processo de requisição de afastamento é longo e cheio de detalhes, portanto a possibilidade de um sistema Web para auxiliar o DI é bastante atraente. Tal proposta de um ambiente de fácil usabilidade e com um mecanismo de notificações automáticas beneficia não apenas os secretários do DI, como também os professores que requisitam ou avaliam afastamentos,   facilitando o trabalho para todos.
+% Além de ser um tema relevante dentro do contexto do DI, o desenvolvimento do sistema, com o método FrameWeb, apresenta uma vasta gama de possibilidade de estudo dentro da área de computação e desenvolvimento Web, proporcionando um grande aprendizado durante o processo de sua implementação. 
+% Por fim, esse projeto também representa um passo a mais no desenvolvimento do método FrameWeb, oferecendo uma oportunidade de analisar como sua aplicação se encaixa no contexto de um \textit{framework} diferente, o Play, e comparar com implementações anteriores do SCAP em outros frameworks.
+
+% ------
+
+% Motivação e justificativa baseadas nas referências a cima
+O sistema SCAP surge da necessidade de facilitar e agilizar o processo de requisição de afastamento de 
+professores do Departamento de Informática da UFES. Originalmente, o processo é realizado 
+de forma manual, com o envio de uma série de e-mails, o que faz com que este seja um processo lento.
+
+Em outros trabalhos este sistema foi implementado utilizando diferentes \textit{frameworks} e o método FrameWeb, a fim de analisar a aplicação do método em diferentes contextos, são exemplos: \citeonline{duarte:2014} com Java EE 7, ~\citeonline{prado:2015} com VRaptor 4 e ~\citeonline{gomes:2022} com Angular. 
+Este trabalho tem como motivação utilizar o \textit{framework} Next.js, seguindo o método FrameWeb~\cite{souza:2007}. Com a finalidade de contribuir para a avaliação do método com um novo conjunto de \textit{frameworks}.
+
 
 %%% Início de seção. %%%
 \section{Objetivos}
@@ -53,14 +72,13 @@ Para isso, faz-se necessária a definição de objetivos específicos que, junto
 %%% Início de seção. %%%
 \section{Método de Desenvolvimento do Trabalho}
 \label{sec-intro-met}
-\sophie{o método deveria ser mais próximo a um texto descritivo?}
 
 % Nesta subseção, deve ser apresentado o \textbf{Método de Desenvolvimento} (ou o \textbf{Método de Pesquisa}, quando for o caso) do trabalho. Aqui são apresentados os procedimentos/técnicas que serão usados durante o desenvolvimento do trabalho. 
 Para que os objetivos apresentados na seção anterior sejam satisfeitos, os seguintes passos devem ser seguidos:
 
 \begin{itemize}
     \item Conduzir estudo abrangente da bibliografia disponível sobre o FrameWeb~\cite{souza:2007,souza:2020};
-    \item Revisar e compreender os requisitos da aplicação SCAP levantados por \cite{duarte:2014} e \cite{prado:2015};
+    \item Revisar e compreender os requisitos da aplicação SCAP levantados por \citeonline{duarte:2014} e \citeonline{prado:2015};
     \item Estudar padrões de arquitetura, em específico MVC e MVVM, assim como os \textit{frameworks} baseados em tais padrões;
     \item Elaborar os modelos FrameWeb e gerar o Documento de Projeto, considerando o \textit{frameworks} escolhido para a implementação;
     \item Implementar o sistema SCAP, a partir dos requisitos já levantados e do Documento de Projeto gerado, utilizando o \textit{framework} Next.js;
