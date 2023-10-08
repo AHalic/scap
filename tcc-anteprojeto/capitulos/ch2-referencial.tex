@@ -61,22 +61,22 @@ Negócio, requisitos provenientes do domínio de aplicação do sistema que refl
 e restrições do mesmo \cite{sommerville:2011,falbo:2014}.
 
 
-\subsection{Engenharia Web}
+\subsection{Engenharia \textit{Web}}
 \label{subsec-fundteo-engsoft-engweb}
 
 Com o crescimento da Internet, foi significativo o impacto que a mesma causou em diversos
 setores da economia, comércios utilizando sites para realizar suas vendas, indústrias com
 sistemas para gerenciar seus processos e até mesmo em nossas vidas pessoais \cite{murugesan:2001}.
 A rápida necessidade de sistemas complexos deixa de lado a preocupação por qualidade à longo prazo,
-surgindo a chamada "Crise Web" \cite{murugesan:2001}, uma variação potencialmente mais séria da 
-conhecida "Crise de Software" \cite{gibbs:1994}. É importante ressaltar que, embora os sistemas Web
+surgindo a chamada "Crise \textit{Web}" \cite{murugesan:2001}, uma variação potencialmente mais séria da 
+conhecida "Crise de Software" \cite{gibbs:1994}. É importante ressaltar que, embora os sistemas \textit{Web}
 sejam softwares, eles possuem características e requisitos exclusivos \cite{pressman:2011},
-o que trouxe a necessidade de uma nova área da Engenharia de Software, a Engenharia Web.
+o que trouxe a necessidade de uma nova área da Engenharia de Software, a Engenharia \textit{Web}.
 
-A Engenharia Web pode então ser descrita como a aplicação de princípios e métodos da Engenharia
-de Software, adaptados ao desenvolvimento de sistemas Web e suas características específicas 
-\cite{beder:2017,murugesan:2001}, com o objetivo de garantir a qualidade dos sistemas Web. 
-\cite{olsina:2001} define um conjunto de atributos técnicos que levam a qualidade de um sistema Web,
+A Engenharia \textit{Web} pode então ser descrita como a aplicação de princípios e métodos da Engenharia
+de Software, adaptados ao desenvolvimento de sistemas \textit{Web} e suas características específicas 
+\cite{beder:2017,murugesan:2001}, com o objetivo de garantir a qualidade dos sistemas \textit{Web}. 
+\cite{olsina:2001} define um conjunto de atributos técnicos que levam a qualidade de um sistema \textit{Web},
 são eles:
 
 \begin{itemize}
@@ -89,7 +89,7 @@ são eles:
     \item \textbf{Manutenibilidade}: O sistema deve ser fácil de ser corrigido, adaptado e melhorado.
 \end{itemize}
 
-A Engenharia Web se baseia em dois conceitos para atingir a qualidade dos sistemas Web: Agilidade e Arcabouço de Processo.
+A Engenharia \textit{Web} se baseia em dois conceitos para atingir a qualidade dos sistemas \textit{Web}: Agilidade e Arcabouço de Processo.
 A agilidade é uma abordagem de desenvolvimento de software que se baseia em ciclos curtos de desenvolvimento,
 já o Arcabouço de Processo é um conjunto de atividades que devem ser realizadas ao longo de todo o processo
 de desenvolvimento do sistema, independente do seu tamanho e complexidade \cite{beder:2017}.
@@ -101,7 +101,7 @@ de desenvolvimento do sistema, independente do seu tamanho e complexidade \cite{
 \label{sec-fundteo-frameweb}
 
 Com o uso de \textit{frameworks} se tornando estado-da-prática no  desenvolvimento 
-de sistemas de informação Web (WIS), surge a necessidade de um método de projeto
+de sistemas de informação \textit{Web} (WIS), surge a necessidade de um método de projeto
 que trate diretamente os aspectos relacionados a esses \textit{frameworks}.
 Nesse contexto, \citeonline{souza:2007} propõe o FrameWeb, método de projeto 
 para construção de WIS baseado em \textit{frameworks} que possui como principal 
@@ -123,7 +123,7 @@ A arquitetura é dividida em três camadas, sendo elas:
 \begin{itemize}
     \item \textbf{Lógica de Apresentação}: Tem o objetivo de prover a interface gráfica
         ao usuário, e é dividida em dois pacotes. O primeiro é o pacote \textbf{Visão},
-        que contém as páginas Web, folhas de estilo, imagens, scripts que executam do lado do cliente,
+        que contém as páginas \textit{Web}, folhas de estilo, imagens, scripts que executam do lado do cliente,
         e outros arquivos relacionados exclusivamente com a exibição de informações ao usuário.
         O segundo é o pacote \textbf{Controle}, que envolve classes de ação que lidam com as requisições
         feitas pelos componentes do pacote Visão, utilizando a infraestrutura do \textit{framework} 
@@ -156,7 +156,7 @@ quatro modelos baseados no diagrama de classes UML \cite{souza:2007,souza:2020}:
         que define os métodos de persistência para uma dada classe, guiando assim a 
         construção da Camada de Persistência.
     
-    \item \textbf{Modelo de Navegação}: Diagrama de classes UML que representa as páginas Web
+    \item \textbf{Modelo de Navegação}: Diagrama de classes UML que representa as páginas \textit{Web}
         e outros elementos da Camada de Apresentação. Esse modelo auxilia o desenvolvedor a
         implementar os pacotes Visão e Controle uma vez que todos os atributos e fluxos de 
         navegação baseados nos estímulos enviados pelo usuário são definidos nele. 
@@ -190,7 +190,7 @@ que se encaixa nesta categoria.
 \label{sec-fundteo-framework-spa}
 
 \textit{Frameworks} SPA (\textit{Single Page Application}) são \textit{frameworks} que implementam
-aplicações Web executadas por uma única página, ou seja, a página é carregada apenas uma vez 
+aplicações \textit{Web} executadas por uma única página, ou seja, a página é carregada apenas uma vez 
 ao iniciar a aplicação \cite{emmitt:2015}. Toda a responsabilidade de renderizar a aplicação é
 transferida ao \textit{browser} do cliente, o chamado \textit{Client-Side Rendering} (CSR),
 e então a DOM é manipulada via \textit{JavaScript} para alterar a visualização da 
@@ -211,14 +211,14 @@ de vendas, por exemplo, que precisa ser indexado por mecanismos de busca para qu
 fácilmente encontrado por possíveis consumidores.
 
 
-\subsection{NextJS}
+\subsection{Next.js}
 \label{sec-fundteo-framework-next}
-O NextJS é um \textit{framework Web} baseado na biblioteca React, que tem como objetivo 
+O Next.js é um \textit{framework Web} baseado na biblioteca React, que tem como objetivo 
 resolver os problemas encontrados nesta. Por ser uma biblioteca, o React não implementa 
 técnicas de roteamento, o que faz com que exista a dependência do uso de outras bibliotecas, 
 como o React Router\footnote{React Router, \url{https://reactrouter.com}},
-já o NextJS faz isso de forma nativa. Outro ponto de destaque são as técnicas de renderização, 
-além do CSR, o NextJS implementa os métodos \textit{Server-Side Rendering} (SSR)
+já o Next.js faz isso de forma nativa. Outro ponto de destaque são as técnicas de renderização, 
+além do CSR, o Next.js implementa os métodos \textit{Server-Side Rendering} (SSR)
 e \textit{Static Site Generation} (SSG), que permitem que o código da aplicação seja executado
 no servidor, e resolvem os problemas de SEO e tempo de carregamento inicial, comuns de 
 aplicações SPA. Um detalhe que tem feito com que esse \textit{framework}
