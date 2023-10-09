@@ -12,18 +12,20 @@ e outros setores da sociedade. Nesse contexto, emerge na \textit{Web} uma varied
 complexas e de grande porte, os chamados \textit{WebApps}, que no entanto, não eram desenvolvidas com o apoio de
 metodologias e processos bem definidos.
 
+\vitor{Adicionar uma citação bibliográfica ao final do parágrafo acima que embase a informação de que surgem os WebApp e no início não eram desenvolvidos com métodos/processos bem definidos.}
+
 Surge então a necessidade de adaptar métodos da Engenharia de Software ao desenvolvimento
 das \textit{WebApps}, de forma a construir soluções eficazes e garantir a qualidade e a manutenibilidade 
-dos sistemas \cite{beder:2017}. A Engenharia \textit{Web} pode ser definida como o uso de 
+dos sistemas~\cite{beder:2017}. A Engenharia \textit{Web} pode ser definida como o uso de 
 princípios científicos, de engenharia, de gerência e abordagens sistemáticas para o desenvolvimento,
-implantação e manutenção de aplicações \textit{Web} de alta qualidade \cite{murugesan:2001}.
+implantação e manutenção de aplicações \textit{Web} de alta qualidade~\cite{murugesan:2001}.
 
-Ao final dos anos 90 a ideia de \textit{frameworks web} começou a ser popularizada, reunindo 
-várias bibliotecas úteis para desenvolvimento \textit{web} em uma única \textit{stack} de \textit{software}
+Ao final dos anos 90 a ideia de \textit{frameworks Web} começou a ser popularizada, reunindo 
+várias bibliotecas úteis para desenvolvimento \textit{Web} em uma única \textit{stack} de \textit{software}
 para os desenvolvedores utilizarem e agilizarem o processo de desenvolvimento. A maioria dos
 \textit{frameworks Web} são baseados na arquitetura Model View Controller (MVC), alguns exemplos
-são o Ruby on Rails\footnote{\url{https://rubyonrails.org}}, Django\footnote{\url{https://www.djangoproject.com}}, 
-Laravel\footnote{\url{https://laravel.com}}, Spring MVC\footnote{\url{https://spring.io}}, entre outros.
+são o Ruby on Rails,\footnote{\url{https://rubyonrails.org}} Django,\footnote{\url{https://www.djangoproject.com}} 
+Laravel,\footnote{\url{https://laravel.com}} Spring MVC,\footnote{\url{https://spring.io}} entre outros.
 
 Apesar do crescimento no uso dos \textit{frameworks Web}, não havia um método da Engenharia \textit{Web} 
 voltado exclusivamente para o desenvolvimento de sistemas que os utilizassem, nesse contexto, em sua 
@@ -31,9 +33,9 @@ tese de mestrado, \citeonline{souza:2007} propôs o FrameWeb, método para o pro
 informação \textit{Web} baseado em \textit{frameworks}. Objetivando o aumento da produtividade da 
 equipe de desenvolvimento.
 
-Neste trabalho, será aplicado o método FrameWeb em uma nova implementação do SCAP (Sistema de Controle de Afastamento de Professores), 
-\textit{WebApp} que auxilia o controle de afastamento de professores do Departamento de Informática (DI) 
-pela Internet. Para isso, será utilizado o \textit{framework} Next.js, que diferente dos trabalhos anteriores, 
+O método FrameWeb vem sendo evoluído nos últimos anos e, como parte de sua avaliação, diferentes implementações de um mesmo sistema de informação Web chamado SCAP (Sistema de Controle de Afastamento de Professores) --- uma \textit{WebApp} que auxilia o controle de afastamento de professores do Departamento de Informática (DI) pela Internet --- foram desenvolvidas, aplicando-se o método. 
+Neste trabalho, será aplicado o método FrameWeb em uma nova implementação do SCAP, 
+utilizando o \textit{framework} Next.js que, diferente da grande maioria dos trabalhos anteriores, 
 não é um \textit{framework} baseado em MVC.
 
 
@@ -44,7 +46,9 @@ O sistema SCAP surge da necessidade de facilitar e agilizar o processo de requis
 professores do Departamento de Informática da UFES. Originalmente, o processo é realizado 
 de forma manual, com o envio de uma série de e-mails, o que faz com que este seja um processo lento.
 
-Em outros trabalhos este sistema foi implementado utilizando diferentes \textit{frameworks} e o método FrameWeb, a fim de analisar a aplicação do método em diferentes contextos, são exemplos: \citeonline{duarte:2014} com Java EE 7, ~\citeonline{prado:2015} com VRaptor 4 e ~\citeonline{gomes:2022} com Angular. 
+\vitor{Acho que a motivação deveria girar em torno da aplicação do método FrameWeb e não no desenvolvimento do SCAP, que não será de fato usado na prática (e se fosse, poderia já ter sido usada uma das implementações anteriores). No cap. 4 do TCC do Danilo (\url{https://bitbucket.org/vitorsouza-students/pg-2022-danilo-gomes/src/main/pg-monografia/capitulos/ch4-avaliacao.tex}) tem uma lista de trabalhos anteriores que desenvolveram o SCAP, com citações bibliográficas (você pode copiar no BibTeX dele as fontes). Note que o Angular já foi usado, então nem todas as implementações anteriores são baseadas em MVC. Daí justifique seu TCC neste contexto de experimentação do FrameWeb com diferentes frameworks.}
+
+Em outros trabalhos este sistema foi implementado utilizando diferentes \textit{frameworks} e o método FrameWeb, a fim de analisar a aplicação do método em diferentes contextos, por exemplo: Java EE 7~\cite{duarte:2014}, VRaptor 4~\cite{prado:2015}, Angular~\cite{gomes:2022}, etc. 
 Este trabalho tem como motivação utilizar o \textit{framework} Next.js, seguindo o método FrameWeb~\cite{souza:2007}. Com a finalidade de contribuir para a avaliação do método com um novo conjunto de \textit{frameworks}.
 
 
@@ -53,7 +57,7 @@ Este trabalho tem como motivação utilizar o \textit{framework} Next.js, seguin
 \label{sec-intro-obj}
 
 Este trabalho tem como objetivo geral aplicar o método FrameWeb~\cite{souza:2007} em uma nova implementação do SCAP (Sistema de Controle de Afastamento de Professores),
-baseando-se nos requisitos levantados por \cite{duarte:2014} e \cite{prado:2015}. Será utilizado o \textit{framework} Next.js, de forma a contribuir com a análise do método FrameWeb, assim como em sua evolução.
+baseando-se nos requisitos levantados por \citeonline{duarte:2014} e \citeonline{prado:2015}. Será utilizado o \textit{framework} Next.js, de forma a contribuir com a análise do método FrameWeb, assim como em sua evolução.
 
 Para isso, faz-se necessária a definição de objetivos específicos que, juntos, auxiliam na conclusão do objetivo geral, sendo eles:
 \begin{itemize}
@@ -75,7 +79,7 @@ Para que os objetivos apresentados na seção anterior sejam satisfeitos, os seg
     \item Estudar padrões de arquitetura, em específico MVC e MVVM, assim como os \textit{frameworks} baseados em tais padrões, e \textit{frameworks} SPA;
     \item Elaborar os modelos FrameWeb e gerar o Documento de Projeto, considerando o \textit{frameworks} escolhido para a implementação;
     \item Implementar o sistema SCAP, a partir dos requisitos já levantados e do Documento de Projeto gerado, utilizando o \textit{framework} Next.js;
-    \item Redigir a monografia utilizando o \textit{template} abnTeX\footnote{\url{https://www.abntex.net.br/}} para a escrita em \latex\footnote{\url{https://www.latex-project.org/}} seguindo os requisitos das normas da ABNT (Associação Brasileira de Normas Técnicas);
+    \item Redigir a monografia utilizando o \textit{template} abnTeX\footnote{\url{https://www.abntex.net.br/}} para a escrita em \latex\footnote{\url{https://www.latex-project.org/}} seguindo os requisitos das normas da ABNT (Associação Brasileira de Normas Técnicas).
 \end{itemize}
 
 
