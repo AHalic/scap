@@ -10,9 +10,9 @@ forma de comunicação e interação entre as pessoas. O crescimento da \textit{
 rápida que, em pouco tempo, ela se tornou uma plataforma essencial para os negócios, comércios
 e outros setores da sociedade. Nesse contexto, emerge na \textit{Web} uma variedade de aplicações
 complexas e de grande porte, os chamados \textit{WebApps}, que no entanto, não eram desenvolvidas com o apoio de
-metodologias e processos bem definidos.
+metodologias e processos bem definidos \cite{murugesan:2001}.
 
-\vitor{Adicionar uma citação bibliográfica ao final do parágrafo acima que embase a informação de que surgem os WebApp e no início não eram desenvolvidos com métodos/processos bem definidos.}
+% \vitor{Adicionar uma citação bibliográfica ao final do parágrafo acima que embase a informação de que surgem os WebApp e no início não eram desenvolvidos com métodos/processos bem definidos.}
 
 Surge então a necessidade de adaptar métodos da Engenharia de Software ao desenvolvimento
 das \textit{WebApps}, de forma a construir soluções eficazes e garantir a qualidade e a manutenibilidade 
@@ -33,8 +33,10 @@ tese de mestrado, \citeonline{souza:2007} propôs o FrameWeb, método para o pro
 informação \textit{Web} baseado em \textit{frameworks}. Objetivando o aumento da produtividade da 
 equipe de desenvolvimento.
 
-O método FrameWeb vem sendo evoluído nos últimos anos e, como parte de sua avaliação, diferentes implementações de um mesmo sistema de informação Web chamado SCAP (Sistema de Controle de Afastamento de Professores) --- uma \textit{WebApp} que auxilia o controle de afastamento de professores do Departamento de Informática (DI) pela Internet --- foram desenvolvidas, aplicando-se o método. 
-Neste trabalho, será aplicado o método FrameWeb em uma nova implementação do SCAP, 
+O método FrameWeb vem sendo evoluído nos últimos anos e, como parte de sua avaliação, diferentes implementações de um mesmo 
+sistema de informação Web chamado SCAP (Sistema de Controle de Afastamento de Professores) --- uma \textit{WebApp} que auxilia o 
+controle de afastamento de professores do Departamento de Informática (DI) pela Internet --- foram desenvolvidas, aplicando-se o método. 
+Neste trabalho, será aplicado o método FrameWeb em uma nova implementação do SCAP,
 utilizando o \textit{framework} Next.js que, diferente da grande maioria dos trabalhos anteriores, 
 não é um \textit{framework} baseado em MVC.
 
@@ -42,14 +44,18 @@ não é um \textit{framework} baseado em MVC.
 \section{Motivação e Justificativa}
 \label{sec-intro-motjus}
 
-O sistema SCAP surge da necessidade de facilitar e agilizar o processo de requisição de afastamento de 
-professores do Departamento de Informática da UFES. Originalmente, o processo é realizado 
-de forma manual, com o envio de uma série de e-mails, o que faz com que este seja um processo lento.
+Em seu trabalho de conclusão de curso, \citeonline{duarte:2014} desenvolveu a primeira implementação do SCAP, utilizando o método FrameWeb e os
+\textit{frameworks} da plataforma Java EE 7, com o objetivo de avaliar o método com uma gama maior de \textit{frameworks} e tecnologias,
+em relação à proposta original do método de \cite{souza:2007}. Em trabalhos seguintes, o método foi
+avaliado com outros diferentes \textit{frameworks}, como o VRaptor 4~\cite{prado:2015}, 
+Symfony~\cite{berger:2019}, Angular~\cite{gomes:2022}, etc.
 
-\vitor{Acho que a motivação deveria girar em torno da aplicação do método FrameWeb e não no desenvolvimento do SCAP, que não será de fato usado na prática (e se fosse, poderia já ter sido usada uma das implementações anteriores). No cap. 4 do TCC do Danilo (\url{https://bitbucket.org/vitorsouza-students/pg-2022-danilo-gomes/src/main/pg-monografia/capitulos/ch4-avaliacao.tex}) tem uma lista de trabalhos anteriores que desenvolveram o SCAP, com citações bibliográficas (você pode copiar no BibTeX dele as fontes). Note que o Angular já foi usado, então nem todas as implementações anteriores são baseadas em MVC. Daí justifique seu TCC neste contexto de experimentação do FrameWeb com diferentes frameworks.}
+Seguindo essa mesma linha, este trabalho tem como motivação avaliar o método FrameWeb com um novo \textit{framework},
+o Next.js, que assim como Angular, é um \textit{framework} SPA (Single Page Application), e com crescente popularidade 
+no mercado. Contruibuindo então com a avaliação e evolução do método.
 
-Em outros trabalhos este sistema foi implementado utilizando diferentes \textit{frameworks} e o método FrameWeb, a fim de analisar a aplicação do método em diferentes contextos, por exemplo: Java EE 7~\cite{duarte:2014}, VRaptor 4~\cite{prado:2015}, Angular~\cite{gomes:2022}, etc. 
-Este trabalho tem como motivação utilizar o \textit{framework} Next.js, seguindo o método FrameWeb~\cite{souza:2007}. Com a finalidade de contribuir para a avaliação do método com um novo conjunto de \textit{frameworks}.
+
+% \vitor{Acho que a motivação deveria girar em torno da aplicação do método FrameWeb e não no desenvolvimento do SCAP, que não será de fato usado na prática (e se fosse, poderia já ter sido usada uma das implementações anteriores). No cap. 4 do TCC do Danilo (\url{https://bitbucket.org/vitorsouza-students/pg-2022-danilo-gomes/src/main/pg-monografia/capitulos/ch4-avaliacao.tex}) tem uma lista de trabalhos anteriores que desenvolveram o SCAP, com citações bibliográficas (você pode copiar no BibTeX dele as fontes). Note que o Angular já foi usado, então nem todas as implementações anteriores são baseadas em MVC. Daí justifique seu TCC neste contexto de experimentação do FrameWeb com diferentes frameworks.}
 
 
 %%% Início de seção. %%%
@@ -102,10 +108,10 @@ Para que os objetivos apresentados na seção anterior sejam satisfeitos, os seg
 \begin{tabular}{c|c|c|c|c|c|}
 \cline{2-6}
 \multicolumn{1}{l|}{} & \textbf{Agosto} & \textbf{Setembro} & \textbf{Outubro} & \textbf{Novembro} & \textbf{Dezembro} \\ \hline
-\multicolumn{1}{|c|}{\textbf{Atividade 1}} & x &   &   &   &   \\ \hline
-\multicolumn{1}{|c|}{\textbf{Atividade 2}} & x &   &   &   &   \\ \hline
-\multicolumn{1}{|c|}{\textbf{Atividade 3}} & x & x &   &   &   \\ \hline
-\multicolumn{1}{|c|}{\textbf{Atividade 4}} &   & x & x &   &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 1}} & x & x &   &   &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 2}} & x &   & x &   &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 3}} & x & x & x &   &   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Atividade 4}} &   &   & x &   &   \\ \hline
 \multicolumn{1}{|c|}{\textbf{Atividade 5}} &   &   & x & x &   \\ \hline
 \multicolumn{1}{|c|}{\textbf{Atividade 6}} &   &   & x & x & x \\ \hline
 \multicolumn{1}{|c|}{\textbf{Atividade 7}} &   &   &   &   & x \\ \hline

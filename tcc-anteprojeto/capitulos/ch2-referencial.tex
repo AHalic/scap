@@ -213,17 +213,25 @@ fácilmente encontrado por possíveis consumidores.
 
 \subsection{Next.js}
 \label{sec-fundteo-framework-next}
-O Next.js é um \textit{framework Web} baseado na biblioteca React, que tem como objetivo 
-resolver os problemas encontrados nesta. Por ser uma biblioteca, o React não implementa 
+
+
+
+O Next.js é um \textit{framework Web} baseado no React, biblioteca JavaScript \textit{front-end open-source}
+baseada em componentes, voltada para a construção da interface de usuário e mantida pela Meta.\footnote{Meta, \url{https://about.meta.com}}
+Por ser uma biblioteca, o React não implementa 
 técnicas de roteamento, o que faz com que exista a dependência do uso de outras bibliotecas, 
 como o React Router.\footnote{React Router, \url{https://reactrouter.com}}
 Já o Next.js faz isso de forma nativa. Outro ponto de destaque são as técnicas de renderização, 
-além do CSR, o Next.js implementa os métodos \textit{Server-Side Rendering} (SSR), o Renderização do Lado do Servidor,
+além do CSR, o Next.js implementa os métodos \textit{Server-Side Rendering} (SSR), ou Renderização do Lado do Servidor,
 e \textit{Static Site Generation} (SSG), ou Geração Estática de Site, que permitem que o código da aplicação seja executado
 no servidor, e resolvem os problemas de SEO e tempo de carregamento inicial, comuns de 
 aplicações SPA. Um detalhe que tem feito com que esse \textit{framework}
 ganhe popularidade, é o fato de que o desenvolvedor pode escolher qual método de renderização
-utilizar para cada página do sistema~\cite{nextjs:2023}.
+utilizar para cada página do sistema~\cite{vercel:2023}.
 
-\sophie{Posso citar a página da vercel/next como referencia?}
-\vitor{Pode sim. Só achei a descrição do Next.js muito breve e que também poderia ter uma descrição do React, já que ele usa como base.}
+Outro ponto alto do Next.js é a facilidade de se fazer o \textit{deploy} da aplicação, que pode ser feito
+de forma otimizada com o provedor de \textit{hosting} da Vercel,\footnote{Vercel, \url{https://vercel.com}} 
+plataforma que desenvolveu o \textit{framework}~\cite{nextjs:2023}.
+
+% \sophie{Posso citar a página da vercel/next como referencia?}
+% \vitor{Pode sim. Só achei a descrição do Next.js muito breve e que também poderia ter uma descrição do React, já que ele usa como base.}
