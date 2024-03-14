@@ -23,7 +23,7 @@ escolhida para a implementação do sistema, dessa forma são apresentados os ti
 de cada propriedade. A Figura \ref{fig-modelo-entidades-enum} apresenta
 os tipos enumerados do modelo de entidades do SCAP.
 
-\sophie{Adicionar not null}
+\sophie{Adicionar null}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{figuras/fig-modelo-entidades.png}
@@ -69,21 +69,14 @@ retorna um elemento da classe \textbf{Afastamento}.
 
 As interfaces do modelo herdam \textbf{IBase}, enquanto as classes \textit{Repository} estendem a
 classe \textbf{BaseRepository}. De modo que todas as classes de persistência possuam, além dos métodos
-específicos dessas, os métodos comuns definidos na interface base. As Figuras \ref{fig-modelo-persist-1}
-e \ref{fig-modelo-persist-2} apresentam o modelo de persistência do SCAP.
+específicos dessas, os métodos comuns definidos na interface base. As Figuras \ref{fig-modelo-persist}
+apresentam o modelo de persistência do SCAP.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figuras/fig-modelo-persist-1.png}
+    \includegraphics[width=0.9\textwidth]{figuras/fig-modelo-persist.png}
     \caption{Modelo de Persistência do SCAP.}
-    \label{fig-modelo-persist-1}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{figuras/fig-modelo-persist-2.png}
-    \caption{Modelo de Persistência do SCAP.}
-    \label{fig-modelo-persist-2}
+    \label{fig-modelo-persist}
 \end{figure}
 
 
@@ -169,9 +162,25 @@ para isso ele deve preencher os campos do formulário e clicar em um botão que 
 O Modelo de Aplicação é um diagrama de classes da UML que representa as classes de
 serviço, que são responsáveis pela codificação dos casos de uso, e suas dependências~\cite{souza:2007}.
 Por ele pode-se visualizar a dependência entre os pacotes Controle (classes de ação),
-Aplicação (classes de serviço) e Persistência (interfaces \textit{Repository}), as solicitações
-dos usuários são tratadas pelas classes de controle, que por sua vez chamam as classes de serviço
-para realizar as operações de negócio, que por fim acessam as classes de persistência para
-realizar as operações de leitura e escrita no banco de dados.
+Aplicação (classes de serviço) e Persistência (interfaces \textit{Repository}). 
 
+As Figuras \ref{fig-modelo-aplicacao-1} e \ref{fig-modelo-aplicacao-2} contém os Modelos de Aplicação.
+As solicitações dos usuários são tratadas pelas classes de controle, que por sua vez
+chamam as classes de serviço para realizar as operações de negócio, que por fim acessam
+as classes de persistência para realizar as operações de leitura e escrita no banco de dados.
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figuras/fig-modelo-apl-1.png}
+    \caption{Modelo de Aplicação do SCAP.}
+    \label{fig-modelo-aplicacao-1}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figuras/fig-modelo-apl-2.png}
+    \caption{Modelo de Aplicação do SCAP.}
+    \label{fig-modelo-aplicacao-2}
+\end{figure}
 
