@@ -10,9 +10,11 @@
 
 Neste capítulo serão apresentados os referenciais teóricos utilizados para o desenvolvimento
 deste trabalho. A Seção \ref{sec-fundteo-engsoft} aborda os conceitos da Engenharia de Software,
-em seguida, o método FrameWeb é explicitado na Seção \ref{sec-fundteo-frameweb}
-e por fim, os \textit{frameworks} suportados pelo método, assim como o \textit{framework}
+em seguida, o método FrameWeb é explicado na Seção \ref{sec-fundteo-frameweb}
+e, por fim, as categorias de \textit{frameworks} suportadas pelo método, assim como o \textit{framework}
 utilizado neste trabalho são apresentados na Seção \ref{sec-fundteo-framework}.
+
+\vitor{E a Seção~\ref{sec-fundteo-framework-ts}? Vide também comentário lá na Seção~\ref{sec-fundteo-framework-ts}, pois ela acabou ficando muito pequena, talvez seja melhor não ter mesmo, incorporar em outra seção.}
 
 %%%%%%%%% Início de seção. %%%%%%%%%
 \section{Engenharia de Software}
@@ -63,6 +65,8 @@ Além dos requisitos funcionais e não funcionais, é importante dar destaque à
 Negócio, requisitos provenientes do domínio de aplicação do sistema que refletem características
 e restrições do mesmo~\cite{sommerville:2011,falbo:2014}.
 
+\vitor{Seria interessante colocar uma breve seção sobre Projeto de Sistemas aqui, entre requisitos e Web. Quando você fala de FrameWeb mais à frente, você menciona a fase de projeto de sistemas.}
+
 
 \subsection{Engenharia \textit{Web}}
 \label{subsec-fundteo-engsoft-engweb}
@@ -104,7 +108,7 @@ de desenvolvimento do sistema, independente do seu tamanho e complexidade~\cite{
 \label{sec-fundteo-frameweb}
 
 Com o uso de \textit{frameworks} se tornando estado-da-prática no  desenvolvimento 
-de sistemas de informação \textit{Web} (WIS), surge a necessidade de um método de projeto
+de sistemas de informação \textit{Web} (\textit{Web-based Information Systems}, ou WIS), surge a necessidade de um método de projeto
 que trate diretamente os aspectos relacionados a esses \textit{frameworks}.
 Nesse contexto, \citeonline{souza:2007} propõe o FrameWeb, método de projeto 
 para construção de WIS baseado em \textit{frameworks} que possui como principal 
@@ -118,7 +122,7 @@ A arquitetura é dividida em três camadas, sendo elas:
 \begin{figure}
     \centering
     \includegraphics[width=.9\textwidth]{figuras/fig-arquitetura-frameweb.png} 
-    \caption{Arquitetura suportada pelo método FrameWeb~\cite{souza:2020}.}
+    \caption{Arquitetura sugerida pelo método FrameWeb~\cite{souza:2020}.}
     \label{fig-arquitetura-frameweb}
 \end{figure}
 
@@ -129,7 +133,7 @@ A arquitetura é dividida em três camadas, sendo elas:
         que contém as páginas \textit{Web}, folhas de estilo, imagens, scripts que executam do lado do cliente,
         e outros arquivos relacionados exclusivamente com a exibição de informações ao usuário.
         O segundo é o pacote \textbf{Controle}, que envolve classes de ação que lidam com as requisições
-        feitas pelos componentes do pacote Visão, utilizando a infraestrutura do \textit{framework} 
+        feitas pelos componentes do pacote \textbf{Visão}, utilizando a infraestrutura do \textit{framework} 
         Controlador Frontal e chamando serviços oferecidos pelo pacote \textbf{Aplicação};
 
     \item \textbf{Lógica de Negócio}: tem o objetivo de prover os serviços do sistema e é dividida
@@ -222,6 +226,8 @@ os mais utilizados. Esses sistemas possuem uma estrutura de dados organizada em 
 um sistema de gerenciamento de banco de dados relacional (SGBDR), é possível manipular esses dados
 por meio da linguagem SQL (\textit{Structured Query Language} ou Linguagem Estruturada de Consulta).
 
+\vitor{Veja se consegue na bibliografia da disciplina de banco de dados alguma publicação que diga o que você menciona acima (o livro do Elmasri \& Navathe talvez diga?) e adicione a referência bibliográfica. Se não vai ficar como sendo sua opinião (apesar de ser uma opinião popular). No trabalho de Mestrado do Félix ele provavelmente disse algo parecido com o parágrafo acima e deve ter citado alguém pra embasar, se quiser dar uma olhada: \url{http://www.inf.ufes.br/~vitorsouza/wp-content/papercite-data/pdf/zanetti-msc20.pdf}}
+
 Por outro lado, muitas aplicações utilizam linguagens de programação orientadas a objetos (OO), o que
 pode tornar a manipulação de dados em um banco de dados relacional mais complexa, uma vez que
 as SGBDR representam os dados como tabelas, enquanto as linguagens OO os representam como um grafo 
@@ -276,5 +282,8 @@ Nesse ambiente, surge o \textit{TypeScript}, linguagem de programação de alto 
 O \textit{TypeScript} é convertido em código \textit{JavaScript}, e portanto fornece todas as características desta, além de adicionar suporte a tipos, 
 permitindo a detecção de erros em tempo de compilação,
 e outras funcionalidades, como interfaces, \textit{generics} e \textit{unions}~\cite{typescript:2024}.
+
+\vitor{Esta seção está muito pequena. Se você está falando de TypeScript por ela ser a linguagem usada no desenvolvimento com Next.js, então você pode incluir essa informação e mais este parágrafo na seção do Next.js.}
+
 
 \sophie{Adicionar subseções para falar sobre  MVC}

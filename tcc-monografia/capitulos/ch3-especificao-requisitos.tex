@@ -6,7 +6,7 @@
 \label{chap-especificacao-requisitos}
 
 Este capítulo tem como objetivo apresentar a especificação de requisitos do SCAP (Sistema de Controle de Afastamento de Professores), 
-assim como os modelos de casos de uso levantados por \citeonline{duarte:2014} e \citeonline{prado:2015}, que serão utilizados como base para a implementação do sistema.
+assim como os modelos de casos de uso e de classes levantados por \citeonline{duarte:2014} e \citeonline{prado:2015}, que serão utilizados como base para a implementação do sistema.
 
 \section{Descrição do Escopo}
 \label{sec-espec-escopo}
@@ -15,7 +15,7 @@ afastamento de professores do Departamento de Informática (DI) da Universidade 
 para participação em eventos, sejam eles no Brasil ou no exterior. 
 Nesses casos, o professor deve submeter uma solicitação de afastamento temporário
 que será avaliada pelos professores do DI, e em alguns casos,
-pela reitoria do Centro Tecnológico (CT) e Pró-Reitoria de Pesquisa e Pós-Graduação (PRPPG) da UFES.
+pelo Conselho do Centro Tecnológico (CT) e Pró-Reitoria de Pesquisa e Pós-Graduação (PRPPG) da UFES.
 Ao ser aprovada em todas as instâncias, o afastamento temporário é autorizado.
 
 Para eventos no Brasil, as solicitações tramitam apenas no DI, e devem ser
@@ -28,11 +28,11 @@ da Câmara Departamental se oponha ao pedido em até dez dias, o afastamento é 
 Para eventos no exterior, um professor, que não tenha parentesco com o solicitante,
 é escolhido para ser o relator do pedido. Após emitido o parecer do relator, o
 processo deve ser aprovado pela Câmara Departamental, como no caso de eventos no Brasil.
-Além disso, a solicitação deve ser aprovada pela reitoria do CT e PRPPG.
+Além disso, a solicitação deve ser aprovada pelo Conselho Departamental do CT e pela PRPPG.
 Depois de ser aprovado por todos os envolvidos, o afastamento é autorizado
 e o pedido é publicado no Diário Oficial da União. 
 No entanto, o SCAP é responsável por assistir o processo apenas dentro do DI,
-não havendo uma integração com os processos da reitoria do CT e PRPPG.
+não havendo uma integração com os processos no CT e na PRPPG.
 
 O objetivo do SCAP é agilizar e simplificar o processo para os professores
 e secretários do DI, automatizando o envio de e-mails aos membros envolvidos
@@ -42,7 +42,7 @@ e utilizando formulários para a criação dos documentos necessários.
 \section{Modelos de Casos de Uso}
 \label{sec-espec-casos-uso}
 
-Na tabela~\ref{tab:atores} são apresentados os atores do SCAP, identificados
+Na Tabela~\ref{tab:atores} são apresentados os atores do SCAP, identificados
 por \citeonline{duarte:2014} no levantamento de requisitos do sistema.
 
 \begin{table}[h!]
@@ -80,7 +80,7 @@ O SCAP foi dividido em dois módulos: Cadastral e Núcleo. O primeiro é respons
 cadastral, ou seja, casos de uso dos secretários. Já o segundo, abrange
 as funcionalidades de professores e chefes de departamento. Uma versão mais
 completa e detalhada pode ser vista em~\cite{duarte:2014,prado:2015}.
-As Figuras~\ref{fig:casos-de-uso-cadastral} e~\ref{fig:casos-de-uso-nucleo} apresentam
+As figuras~\ref{fig:casos-de-uso-cadastral} e~\ref{fig:casos-de-uso-nucleo} apresentam
 os diagramas de casos de uso do SCAP.
 
 \begin{figure}
@@ -96,7 +96,7 @@ o secretário cadastra o mandato do chefe ou subchefe do departamento, assim com
 
 Os casos de uso \textbf{Registrar parecer do PRPPG} e \textbf{Registrar parecer do CT}, ocorrem
 apenas em casos de afastamento no exterior. O secretário é responsável por registrar as decisões
-do PRPPG e CT, respectivamente, quando estes aprovam ou não um pedido de afastamento.
+da PRPPG e do CT, respectivamente, quando estes aprovam ou não um pedido de afastamento.
 
 Em \textbf{Arquivar solicitação}, o secretário arquiva um processo que foi concluído, ou seja, que
 já passou por todas as instâncias e foi aprovado. \textbf{Consultar Solicitação} é um caso de uso
@@ -135,6 +135,8 @@ A Figura~\ref{fig:diagrama-classes} apresenta o diagrama de classes do SCAP, ada
 do levantamento feito por~\citeonline{prado:2015}, juntamente com o que havia sido
 levantado anteriormente por~\citeonline{duarte:2014}.
 
+\vitor{A figura foi tirada de \cite{prado:2015}? Se sim, incluir \cite{prado:2015} ao final da legenda (\textit{label}) da figura. Está estranha a relação entre a classe \textsf{Parentesco} e a associação que a clases \textsf{Professor} tem com si própria. Se você refez o diagrama de classes do \citeonline{prado:2015}, precisamos corrigir essa relação.}
+
 \begin{figure}
     \centering  
     \includegraphics[width=0.9\textwidth]{figuras/fig-diagrama-classes.png}
@@ -142,7 +144,7 @@ levantado anteriormente por~\citeonline{duarte:2014}.
     \label{fig:diagrama-classes}
 \end{figure}
 
-As classes \textbf{Professor} e \textbf{Secretario} representam os professores
+As classes \textbf{Professor} e \textbf{Secretario}, que representam os professores
 e secretários do DI, respectivamente, ambas herdam as propriedades da classe \textbf{Pessoa},
 que contém as informações pessoais do usuário. A classe \textbf{Parentesco} 
 guarda relações de parentesco que podem existir entre professores do DI.
@@ -158,14 +160,13 @@ mas seu \textbf{Parecer} é único para cada solicitação de afastamento intern
 
 Restrições de integridade complementam o modelos de classes, que por muitas vezes não são
 capazes de representá-las por notações gráficas. Abaixo estão listadas as restrições
-levantadas por~\citeonline{duarte:2014} e posteriormente ampliadas por~\citeonline{prado:2015}.
+levantadas por~\citeonline{duarte:2014} e posteriormente ampliadas por~\citeonline{prado:2015}:
 
 \begin{itemize}
     \item Um professor não pode ser nomeado como relator, nem emitir um parecer, para sua própria solicitação de afastamento;
-    \item Um professor não pode ser relator de um afastamento solicitado por um parente.
+    \item Um professor não pode ser relator de um afastamento solicitado por um parente;
     \item A data de início de um afastamento não pode ser posterior a data de fim do mesmo afastamento;
     \item A data de início de um mandato de professor não pode ser posterior a data de fim do mesmo mandato;
     \item Não pode haver mais de dois professores (chefe e subchefe de departamento) exercendo um mandato ao mesmo tempo;
-    \item O secretário do departamento não pode abrir uma solicitação de afastamento;
-    
+    \item O secretário do departamento não pode abrir uma solicitação de afastamento.
 \end{itemize}
