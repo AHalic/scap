@@ -5,6 +5,8 @@
 \chapter{Projeto Arquitetural e Implementação}
 \label{chap-projeto}
 
+\vitor{Não iniciar um capítulo direto com uma seção ou uma seção direto com subseção. Adicionar um parágrafo explicando o que será apresentado neste capítulo, quando você tiver adicionado as demais seções.}
+
 \section{Modelos FrameWeb}
 \label{sec-projeto-frameweb}
 
@@ -17,10 +19,10 @@ O modelo de entidades de FrameWeb é um diagrama de classes UML que representam
 os objetos de domínio do problema e seu mapeamento para a persistência no banco de dados
 relacional. A partir dele são implementadas as classes da camada de domínio~\cite{souza:2007}.
 
-A Figura \ref{fig-modelo-entidades} apresenta o modelo de entidades do SCAP. O modelo foi feito
+A Figura~\ref{fig-modelo-entidades} apresenta o modelo de entidades do SCAP. O modelo foi feito
 a partir do diagrama de classes mostrado anteriormente, com adaptações para a plataforma 
 escolhida para a implementação do sistema, dessa forma são apresentados os tipos
-de cada propriedade. A Figura \ref{fig-modelo-entidades-enum} apresenta
+de cada propriedade. A Figura~\ref{fig-modelo-entidades-enum} apresenta
 os tipos enumerados do modelo de entidades do SCAP.
 
 \sophie{Adicionar null}
@@ -30,6 +32,12 @@ os tipos enumerados do modelo de entidades do SCAP.
     \caption{Modelo de Entidades do SCAP.}
     \label{fig-modelo-entidades}
 \end{figure}
+
+\vitor{Figura~\ref{fig-modelo-entidades}: 
+	\begin{itemize}
+		\item No TypeScript há um tipo de dado só pra datas e outro só pra horas ou existe apenas o \textsf{DateTime} usado no modelo? Se existir apenas um tipo unificado, é preciso especificar \textsf{precision=date} quando só estamos interessados na data (que é o caso na maioria das datas representadas no diagrama);
+		\item As navegabilidades entre \textsf{Professor} e \textsf{Parentesco} foram pensadas pra ser desta forma mesmo? O objeto \textsf{p1} da classe \textsf{Professor} teria um atributo \textsf{parentesco} que se refere a uma instância da classe \textsf{Parentesco} que, por sua vez, tem um atributo \textsf{professor} que aponta para um objeto \textsf{p2} da classe \textsf{Professor}, mas \textsf{p2} não tem uma referência para este parentesco... Não seria melhor modelar como uma relação única \textsf{Professor} 2 -- 0.* \textsf{Parentesco}? A navegabilidade neste caso poderia ser dupla ou de \textsf{Parentesco} pra \textsf{Professor} apenas, pois essa informação é usada apenas num momento muito específico.
+	\end{itemize}}
 
 \begin{figure}
     \centering
@@ -53,7 +61,7 @@ este propõe uma camada de separação entre o domínio e o mapeamento de dados.
 Para isso, foi criada uma interface base (\textbf{IBase}) que define os métodos comuns a todas as classes de persistência,
 sendo eles: \textit{get} para buscar todos os elementos com base nos filtros passados como parâmetro,
 \textit{post} para criar um novo elemento, \textit{getById} para buscar um elemento a partir de seu
-\textit{id} e \textit{delete}. A Figura \ref{fig-modelo-persist-base} apresenta essa interface e a
+\textit{id} e \textit{delete}. A Figura~\ref{fig-modelo-persist-base} apresenta essa interface e a
 classe \textit{Repository} que a implementa. O tipo genérico \textit{T} representa a classe de domínio
 sendo manipulada, ou seja, em \textbf{AfastamentoRepository} o método \textit{getById}
 retorna um elemento da classe \textbf{Afastamento}.
@@ -69,7 +77,7 @@ retorna um elemento da classe \textbf{Afastamento}.
 
 As interfaces do modelo herdam \textbf{IBase}, enquanto as classes \textit{Repository} estendem a
 classe \textbf{BaseRepository}. De modo que todas as classes de persistência possuam, além dos métodos
-específicos dessas, os métodos comuns definidos na interface base. As Figuras \ref{fig-modelo-persist}
+específicos dessas, os métodos comuns definidos na interface base. As Figuras~\ref{fig-modelo-persist}
 apresentam o modelo de persistência do SCAP.
 
 \begin{figure}[h!]
@@ -79,15 +87,19 @@ apresentam o modelo de persistência do SCAP.
     \label{fig-modelo-persist}
 \end{figure}
 
+\vitor{Figura~\ref{fig-modelo-persist}: são só esses métodos mesmo que você precisou na implementação? Caso ainda vá avançar na implementação e surja a necessidade de novos métodos nos repositories, adicione-os neste modelo. 
+	
+	Além disso, o padrão de nome das interfaces é curioso. Eu imaginaria que a interface de \textsf{PessoaRepository} fosse \textsf{IPessoaRepository} e não apenas \textsf{IPessoa}. Esse é o padrão sugerido pelo \textit{framework} mesmo?}
+
 
 \subsection{Modelo de Navegação}
 \label{subsec-frameweb-navegacao}
 
 O Modelo de Navegação é um diagrama de classe da UML que representa os diferentes componentes que
-formam a camada de Lógica de Apresentação, como páginas Web, formulários HTML e classes de ação do framework específico~\cite{souza:2007}. 
+formam a camada de Lógica de Apresentação, como páginas Web, formulários HTML e classes de ação do \textit{framework} específico~\cite{souza:2007}. 
 Esse modelo é utilizado para guiar a implementação dos pacotes Visão e Controle.
 
-A Tabela \ref{tab-estereotipos-navegacao} apresenta os estereótipos UML utilizados no modelo de navegação do SCAP,
+A Tabela~\ref{tab-estereotipos-navegacao} apresenta os estereótipos UML utilizados no modelo de navegação do SCAP,
 propostos por~\citeonline{hoppe:2023} como uma adaptação, para \textit{frameworks} SPA,
 dos estereótipos propostos originalmente por~\citeonline{souza:2007}.
 
@@ -110,7 +122,7 @@ dos estereótipos propostos originalmente por~\citeonline{souza:2007}.
     \end{tabular}
 \end{table}
 
-A Figura \ref{fig-modelo-navegacao-afast} apresenta o modelo de navegação do SCAP para os casos de uso
+A Figura~\ref{fig-modelo-navegacao-afast} apresenta o modelo de navegação do SCAP para os casos de uso
 \textbf{Cancelar Afastamento}, \textbf{Cadastrar Afastamento} e \textbf{Consultar Afastamento}.
 
 \begin{figure}
@@ -122,7 +134,7 @@ A Figura \ref{fig-modelo-navegacao-afast} apresenta o modelo de navegação do S
 
 A \textbf{PaginaListaAfastamento} é responsável por listar os afastamentos cadastrados.
 Ela possui um componente filtro (\textbf{FiltroBuscaAfastamento}), em que é possível buscar
-os afastamentos por diferentes critérios, definidos pela interface mostrada na Figura \ref{fig-interface-filtro-afast}.
+os afastamentos por diferentes critérios, definidos pela interface mostrada na Figura~\ref{fig-interface-filtro-afast}.
 O componente \textbf{ListagemAfastamento} consiste de uma tabela que lista os afastamentos buscados,
 cada linha da tabela possui um botão que redireciona para a página de detalhes do afastamento (\textbf{PaginaAfastamento}).
 
@@ -151,10 +163,12 @@ o usuário deve então preencher os campos do formulário e clicar em um botão 
     \label{fig-modelo-navegacao-professor}
 \end{figure}
 
-A Figura \ref{fig-modelo-navegacao-professor} apresenta o modelo de navegação do SCAP para o caso de uso
+A Figura~\ref{fig-modelo-navegacao-professor} apresenta o modelo de navegação do SCAP para o caso de uso
 \textbf{Cadastrar Professor}. Na \textbf{PaginaProfessor} o secretário pode cadastrar um novo professor,
 para isso ele deve preencher os campos do formulário e clicar em um botão que faz uma chamada ao método
 \textbf{criar} da \textit{controller} \textbf{PessoaController}.
+
+\vitor{Explicar o componente \textsf{NavBar} presente nas duas figuras.}
 
 
 \subsection{Modelo de Aplicação}
@@ -164,7 +178,7 @@ serviço, que são responsáveis pela codificação dos casos de uso, e suas dep
 Por ele pode-se visualizar a dependência entre os pacotes Controle (classes de ação),
 Aplicação (classes de serviço) e Persistência (interfaces \textit{Repository}). 
 
-As Figuras \ref{fig-modelo-aplicacao-1} e \ref{fig-modelo-aplicacao-2} contém os Modelos de Aplicação.
+As figuras~\ref{fig-modelo-aplicacao-1} e~\ref{fig-modelo-aplicacao-2} contém os Modelos de Aplicação.
 As solicitações dos usuários são tratadas pelas classes de controle, que por sua vez
 chamam as classes de serviço para realizar as operações de negócio, que por fim acessam
 as classes de persistência para realizar as operações de leitura e escrita no banco de dados.
@@ -176,6 +190,8 @@ as classes de persistência para realizar as operações de leitura e escrita no
     \caption{Modelo de Aplicação do SCAP.}
     \label{fig-modelo-aplicacao-1}
 \end{figure}
+
+\vitor{Figura~\ref{fig-modelo-aplicacao-1}: acredito ue a direção da dependência entre \textsf{IParecer} e \textsf{ParecerService} esteja invertida, idem para \textsf{IMandato}. Além disso, foi usada uma relação de dependência entre as classes (controlador-serviço e serviço-repository). O FrameWeb geralmente usa uma associação entre essas classes, mas pode ser porque no Java, que é meu background, as classes de fato possuem um atributo que é uma referência pra outra classe. No seu caso uma dependência representa isso melhor? Se sim, inclua no texto uma explicação sobre isso.}
 
 \begin{figure}[h!]
     \centering
