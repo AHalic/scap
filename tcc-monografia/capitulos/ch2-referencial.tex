@@ -14,7 +14,8 @@ em seguida, o método FrameWeb é explicado na Seção \ref{sec-fundteo-frameweb
 e, por fim, as categorias de \textit{frameworks} suportadas pelo método, assim como o \textit{framework}
 utilizado neste trabalho são apresentados na Seção \ref{sec-fundteo-framework}.
 
-\vitor{E a Seção~\ref{sec-fundteo-framework-ts}? Vide também comentário lá na Seção~\ref{sec-fundteo-framework-ts}, pois ela acabou ficando muito pequena, talvez seja melhor não ter mesmo, incorporar em outra seção.}
+\vitor{E a Seção? Vide também comentário lá na Seção, pois ela acabou ficando muito pequena, talvez seja melhor não ter mesmo, incorporar em outra seção.}
+\sophie{Achei de fato melhor incorporar na Seção~\ref{sec-fundteo-framework-next}}.
 
 %%%%%%%%% Início de seção. %%%%%%%%%
 \section{Engenharia de Software}
@@ -66,6 +67,22 @@ Negócio, requisitos provenientes do domínio de aplicação do sistema que refl
 e restrições do mesmo~\cite{sommerville:2011,falbo:2014}.
 
 \vitor{Seria interessante colocar uma breve seção sobre Projeto de Sistemas aqui, entre requisitos e Web. Quando você fala de FrameWeb mais à frente, você menciona a fase de projeto de sistemas.}
+
+
+\subsection{Projeto de Sistemas}
+\label{subsec-fundteo-engsoft-projsis}
+
+A fase Projeto de Sistemas ocorre após a Especificação de Software, e tem como objetivo
+incorporar a tecnologia aos requisitos funcionais e não funcionais definidos anteriormente,
+projetando o que será construído na implementação. 
+Assim, é necessário conhecer as tecnologias disponíveis e as facilidades do ambiente de software no qual o
+sistema será implementado, uma vez que essas informações não eram consideradas na etapa
+anterior~\cite{falbo:2014,pressman:2011}. 
+
+Inicialmente, o projeto é representado em um nível alto de abstração e, à medida que o trabalho avança,
+os refinamentos conduzem a representações de menores níveis de abstração~\cite{falbo:2014}.
+Dessa forma, o resultado do processo de projeto de arquitetura é um modelo de arquitetura que descreve como o sistema
+está organizado em um conjunto de componentes de comunicação~\cite{sommerville:2011}.
 
 
 \subsection{Engenharia \textit{Web}}
@@ -224,9 +241,10 @@ Grande parte dos sistemas precisam que seus dados sejam armazenados de alguma fo
 dentre os diversos tipos de sistemas de armazenamento, os bancos de dados relacionais são
 os mais utilizados. Esses sistemas possuem uma estrutura de dados organizada em tabelas, e a partir de 
 um sistema de gerenciamento de banco de dados relacional (SGBDR), é possível manipular esses dados
-por meio da linguagem SQL (\textit{Structured Query Language} ou Linguagem Estruturada de Consulta).
+por meio da linguagem SQL (\textit{Structured Query Language} ou Linguagem Estruturada de Consulta)~\cite{silberschatz:2019}.
 
 \vitor{Veja se consegue na bibliografia da disciplina de banco de dados alguma publicação que diga o que você menciona acima (o livro do Elmasri \& Navathe talvez diga?) e adicione a referência bibliográfica. Se não vai ficar como sendo sua opinião (apesar de ser uma opinião popular). No trabalho de Mestrado do Félix ele provavelmente disse algo parecido com o parágrafo acima e deve ter citado alguém pra embasar, se quiser dar uma olhada: \url{http://www.inf.ufes.br/~vitorsouza/wp-content/papercite-data/pdf/zanetti-msc20.pdf}}
+\sophie{Adicionada referência bibliográfica.}
 
 Por outro lado, muitas aplicações utilizam linguagens de programação orientadas a objetos (OO), o que
 pode tornar a manipulação de dados em um banco de dados relacional mais complexa, uma vez que
@@ -249,7 +267,6 @@ Prisma para TypeScript.\footnote{Prisma, \url{https://www.prisma.io}}
 \label{sec-fundteo-framework-next}
 
 
-
 O Next.js é um \textit{framework Web} baseado no React, biblioteca JavaScript \textit{front-end open-source}
 baseada em componentes, voltada para a construção da interface de usuário e mantida pela Meta.\footnote{Meta, \url{https://about.meta.com}}
 Por ser uma biblioteca, o React não implementa 
@@ -269,12 +286,6 @@ Outro ponto alto do Next.js é a facilidade de se fazer o \textit{deploy} da apl
 de forma otimizada com o provedor de \textit{hosting} da Vercel,\footnote{Vercel, \url{https://vercel.com}} 
 plataforma que desenvolveu o \textit{framework}~\cite{nextjs:2023}.
 
-% \sophie{Posso citar a página da vercel/next como referencia?}
-% \vitor{Pode sim. Só achei a descrição do Next.js muito breve e que também poderia ter uma descrição do React, já que ele usa como base.}
-
-
-\section{TypeScript}
-\label{sec-fundteo-framework-ts}
 \textit{JavaScript} é uma linguagem leve e interpretada, que é utilizada para adicionar interatividade e dinamicidade
 à páginas \textit{Web}. No entanto, por ser uma linguagem de tipagem fraca e dinâmica, ela pode ser propensa a erros
 em tempo de execução, o que, em sistemas de porte elevado, pode se tornar um grande problema~\cite{typescript:2024}.
@@ -283,7 +294,10 @@ O \textit{TypeScript} é convertido em código \textit{JavaScript}, e portanto f
 permitindo a detecção de erros em tempo de compilação,
 e outras funcionalidades, como interfaces, \textit{generics} e \textit{unions}~\cite{typescript:2024}.
 
-\vitor{Esta seção está muito pequena. Se você está falando de TypeScript por ela ser a linguagem usada no desenvolvimento com Next.js, então você pode incluir essa informação e mais este parágrafo na seção do Next.js.}
+O Next.js suporta o uso de \textit{TypeScript} em suas aplicações, o que pode ser uma grande vantagem para
+desenvolvedores que desejam ter um código mais seguro e menos propenso a erros.
+
+% \vitor{Esta seção está muito pequena. Se você está falando de TypeScript por ela ser a linguagem usada no desenvolvimento com Next.js, então você pode incluir essa informação e mais este parágrafo na seção do Next.js.}
 
 
 \sophie{Adicionar subseções para falar sobre  MVC}
