@@ -7,6 +7,14 @@
 
 \vitor{Não iniciar um capítulo direto com uma seção ou uma seção direto com subseção. Adicionar um parágrafo explicando o que será apresentado neste capítulo, quando você tiver adicionado as demais seções.}
 
+\section{Tecnologias Utilizadas}
+\label{sec-projeto-tecnologias}
+
+
+\section{Arquitetura do Sistema}
+\label{sec-projeto-arquitetura}
+
+
 \section{Modelos FrameWeb}
 \label{sec-projeto-frameweb}
 
@@ -25,7 +33,6 @@ escolhida para a implementação do sistema, dessa forma são apresentados os ti
 de cada propriedade. A Figura~\ref{fig-modelo-entidades-enum} apresenta
 os tipos enumerados do modelo de entidades do SCAP.
 
-\sophie{Adicionar null}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{figuras/fig-modelo-entidades.png}
@@ -38,6 +45,8 @@ os tipos enumerados do modelo de entidades do SCAP.
 		\item No TypeScript há um tipo de dado só pra datas e outro só pra horas ou existe apenas o \textsf{DateTime} usado no modelo? Se existir apenas um tipo unificado, é preciso especificar \textsf{precision=date} quando só estamos interessados na data (que é o caso na maioria das datas representadas no diagrama);
 		\item As navegabilidades entre \textsf{Professor} e \textsf{Parentesco} foram pensadas pra ser desta forma mesmo? O objeto \textsf{p1} da classe \textsf{Professor} teria um atributo \textsf{parentesco} que se refere a uma instância da classe \textsf{Parentesco} que, por sua vez, tem um atributo \textsf{professor} que aponta para um objeto \textsf{p2} da classe \textsf{Professor}, mas \textsf{p2} não tem uma referência para este parentesco... Não seria melhor modelar como uma relação única \textsf{Professor} 2 -- 0.* \textsf{Parentesco}? A navegabilidade neste caso poderia ser dupla ou de \textsf{Parentesco} pra \textsf{Professor} apenas, pois essa informação é usada apenas num momento muito específico.
 	\end{itemize}}
+
+\sophie{Fiz as duas alterações}
 
 \begin{figure}
     \centering
@@ -55,10 +64,10 @@ as classes responsáveis pela persistência das classes de domínio no banco de 
 Foi utilizado o padrão \textit{Repository} para a implementação das classes de persistência,
 este propõe uma camada de separação entre o domínio e o mapeamento de dados.
 
-\sophie{Acho que o get com filtros pode ser do IBase mas não ser definido em BaseRepository (filtros vão ser específicos de cada entidade)}
+\sophie{Acho que o get com filtros pode ser do IBaseRepositoy mas não ser definido em BaseRepository (filtros vão ser específicos de cada entidade)}
 
 
-Para isso, foi criada uma interface base (\textbf{IBase}) que define os métodos comuns a todas as classes de persistência,
+Para isso, foi criada uma interface base (\textbf{IBaseRepositoy}) que define os métodos comuns a todas as classes de persistência,
 sendo eles: \textit{get} para buscar todos os elementos com base nos filtros passados como parâmetro,
 \textit{post} para criar um novo elemento, \textit{getById} para buscar um elemento a partir de seu
 \textit{id} e \textit{delete}. A Figura~\ref{fig-modelo-persist-base} apresenta essa interface e a
@@ -75,7 +84,7 @@ retorna um elemento da classe \textbf{Afastamento}.
 \end{figure}
 
 
-As interfaces do modelo herdam \textbf{IBase}, enquanto as classes \textit{Repository} estendem a
+As interfaces do modelo herdam \textbf{IBaseRepositoy}, enquanto as classes \textit{Repository} estendem a
 classe \textbf{BaseRepository}. De modo que todas as classes de persistência possuam, além dos métodos
 específicos dessas, os métodos comuns definidos na interface base. As Figuras~\ref{fig-modelo-persist}
 apresentam o modelo de persistência do SCAP.
@@ -91,6 +100,8 @@ apresentam o modelo de persistência do SCAP.
 	
 	Além disso, o padrão de nome das interfaces é curioso. Eu imaginaria que a interface de \textsf{PessoaRepository} fosse \textsf{IPessoaRepository} e não apenas \textsf{IPessoa}. Esse é o padrão sugerido pelo \textit{framework} mesmo?}
 
+\sophie{Por enquanto só esses métodos, mas se precisar de mais métodos adiciono aqui sim.
+    Sobre o padrão de nomes, pesquisando sobre o Repository Pattern vi que não existe um consenso em relação ao nome das interfaces e classes, mas achei que de fato ficou mais claro nomear as interfaces com o sufixo Repository.}
 
 \subsection{Modelo de Navegação}
 \label{subsec-frameweb-navegacao}
@@ -140,7 +151,7 @@ cada linha da tabela possui um botão que redireciona para a página de detalhes
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{figuras/fig-interface-filtro-afast.png}
+    \includegraphics[width=0.4\textwidth]{figuras/fig-interface-filtro-afast.png}
     \caption{Interface Filtro Afastamento.}
     \label{fig-interface-filtro-afast}
 \end{figure}
@@ -170,6 +181,10 @@ para isso ele deve preencher os campos do formulário e clicar em um botão que 
 
 \vitor{Explicar o componente \textsf{NavBar} presente nas duas figuras.}
 
+O componente \textbf{NavBar} presente em ambos os modelos de navegação é responsável por exibir
+no topo da tela uma barra de navegação com links para as páginas principais do sistema, como a página inicial,
+a página de listagem de afastamentos e a página de cadastro de professores. Ele é um componente
+comum a todas as páginas do sistema, exceto à tela de \textit{login}.
 
 \subsection{Modelo de Aplicação}
 \label{subsec-frameweb-aplicacao}
@@ -192,6 +207,7 @@ as classes de persistência para realizar as operações de leitura e escrita no
 \end{figure}
 
 \vitor{Figura~\ref{fig-modelo-aplicacao-1}: acredito ue a direção da dependência entre \textsf{IParecer} e \textsf{ParecerService} esteja invertida, idem para \textsf{IMandato}. Além disso, foi usada uma relação de dependência entre as classes (controlador-serviço e serviço-repository). O FrameWeb geralmente usa uma associação entre essas classes, mas pode ser porque no Java, que é meu background, as classes de fato possuem um atributo que é uma referência pra outra classe. No seu caso uma dependência representa isso melhor? Se sim, inclua no texto uma explicação sobre isso.}
+\sophie{Consertei as direções e verifiquei que a associação é mais adequada mesmo, então mudei para associação.}
 
 \begin{figure}[h!]
     \centering
@@ -200,3 +216,9 @@ as classes de persistência para realizar as operações de leitura e escrita no
     \label{fig-modelo-aplicacao-2}
 \end{figure}
 
+
+\section{Implementação e Resultados}
+\label{sec-projeto-impl}
+
+Essa seção apresenta a implementação do SCAP, por meio de capturas de tela,
+e discute os resultados obtidos.
