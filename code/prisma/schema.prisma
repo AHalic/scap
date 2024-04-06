@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Secretario {
+  id     String  @id @default(uuid())
+  pessoa Pessoa?
+}
+
+model Professor {
+  id                      String        @id @default(uuid())
+  afastamentosRelatados   Afastamento[] @relation("relatorAfastamento")
+  afastamentosSolicitados Afastamento[] @relation("solicitanteAfastamento")
+  mandato                 Mandato?
+  pareceres               Parecer[]
+  parentescoA             Parentesco[]  @relation("ParentescoProfessoresA")
+  parentescoB             Parentesco[]  @relation("ParentescoProfessoresB")
+  pessoa                  Pessoa?
+}
+
+model Pessoa {
+  id           String      @id @default(uuid())
+  nome         String
+  sobrenome    String
+  email        String
+  telefone     String
+  senha        String
+  secretarioId String?     @unique
+  professorId  String?     @unique
+  professor    Professor?  @relation(fields: [professorId], references: [id])
+  secretario   Secretario? @relation(fields: [secretarioId], references: [id])
+}
+
+model Parentesco {
+  id           String         @id @default(uuid())
+  tipo         TipoParentesco
+  professorAId String
+  professorBId String
+  professorA   Professor      @relation("ParentescoProfessoresA", fields: [professorAId], references: [id])
+  professorB   Professor      @relation("ParentescoProfessoresB", fields: [professorBId], references: [id])
+
+  @@unique([professorAId, professorBId])
+  @@index([professorBId], map: "Parentesco_professorBId_fkey")
+}
+
+model Mandato {
+  id          String    @id @default(uuid())
+  professorId String    @unique
+  dataFim     DateTime
+  dataInicio  DateTime
+  isChefe     Boolean
+  professor   Professor @relation(fields: [professorId], references: [id])
+}
+
+model Afastamento {
+  id               String            @id @default(uuid())
+  tipo             TipoAfastamento
+  onus             Onus
+  motivo           String
+  estado           EstadoSolicitacao
+  solicitanteId    String
+  relatorId        String?
+  dataFim          DateTime
+  dataFimEvento    DateTime
+  dataInicio       DateTime
+  dataInicioEvento DateTime
+  dataSolicitacao  DateTime
+  nomeEvento       String
+  relator          Professor?        @relation("relatorAfastamento", fields: [relatorId], references: [id])
+  solicitante      Professor         @relation("solicitanteAfastamento", fields: [solicitanteId], references: [id])
+  documentos       Documento[]
+  pareceres        Parecer[]
+
+  @@index([relatorId], map: "Afastamento_relatorId_fkey")
+  @@index([solicitanteId], map: "Afastamento_solicitanteId_fkey")
+}
+
+model Parecer {
+  id            String      @id @default(uuid())
+  data          DateTime
+  julgamento    TipoParecer
+  motivo        String
+  afastamentoId String
+  professorId   String
+  afastamento   Afastamento @relation(fields: [afastamentoId], references: [id])
+  professor     Professor   @relation(fields: [professorId], references: [id])
+
+  @@index([afastamentoId], map: "Parecer_afastamentoId_fkey")
+  @@index([professorId], map: "Parecer_professorId_fkey")
+}
+
+model Documento {
+  id            String      @id @default(uuid())
+  titulo        String
+  url           String
+  afastamentoId String
+  afastamento   Afastamento @relation(fields: [afastamentoId], references: [id])
+
+  @@index([afastamentoId], map: "Documento_afastamentoId_fkey")
+}
+
+enum EstadoSolicitacao {
+  INICIADO
+  BLOQUEADO
+  LIBERADO
+  APROVADO_DI
+  APROVADO_CT
+  APROVADO_PRPPG
+  ARQUIVADO
+  CANCELADO
+  REPROVADO
+}
+
+enum TipoAfastamento {
+  NACIONAL
+  INTERNACIONAL
+}
+
+enum TipoParecer {
+  FAVORAVEL
+  DESFAVORAVEL
+}
+
+enum Onus {
+  TOTAL
+  PARCIAL
+  INEXISTENTE
+}
+
+enum TipoParentesco {
+  SANGUINEO
+  MATRIMONIAL
+}
