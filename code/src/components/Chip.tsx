@@ -1,10 +1,4 @@
-import { useEffect } from "react";
-
 export default function Chip({ children, color = "red" }: { children: React.ReactNode, color?: string}) {
-	useEffect(() => {
-		console.log("Chip component loaded", color);
-	}, [color]);
-
 	const colorClasses: { [key: string]: string } = {
 		red: 'bg-red-600',
 		blue: 'bg-blue-600',
@@ -20,7 +14,7 @@ export default function Chip({ children, color = "red" }: { children: React.Reac
 	};
 
 	return (
-		<span className={`px-2 py-1 ${colorClasses[color]} text-white rounded-lg`}>
+		<span className={`px-2 py-1 ${colorClasses[color]} text-sm text-white rounded-lg`}>
 			{children}
 		</span>
 	);
