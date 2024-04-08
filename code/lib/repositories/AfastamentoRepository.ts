@@ -39,6 +39,22 @@ export default class AfastamentoRepository extends BaseRepository<
 
 	async getById(id: string): Promise<Afastamento | null> {
 		const afastamento = await prisma.afastamento.findUnique({
+			include: {
+				solicitante: {
+					include: {
+						pessoa: {
+							select: {
+								id: true,
+								nome: true,
+								sobrenome: true,
+								email: true,
+								secretarioId: true,
+								professorId: true,
+							},
+						},
+					},
+				},
+			},
 			where: { id },
 		});
 		return afastamento;
@@ -51,9 +67,12 @@ export default class AfastamentoRepository extends BaseRepository<
 					include: {
 						pessoa: {
 							select: {
+								id: true,
 								nome: true,
 								sobrenome: true,
 								email: true,
+								secretarioId: true,
+								professorId: true,
 							},
 						},
 					},
