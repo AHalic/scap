@@ -36,7 +36,7 @@ export const RedirectLogin = ({ children }: { children: React.ReactNode }): Reac
 		
 		if (isAuthenticated) {
 			// If user is authenticated, redirect to afastamentos page
-			router.push("/afastamentos");
+			router.push("/afastamento");
 		} else {
 			setLoading(false);
 		}

@@ -36,7 +36,7 @@ export default function LoginPage() {
 	
 			// add loading time
 			setTimeout(() => {
-				router.push('/afastamentos');
+				router.push('/afastamento');
 			}, 1100);
 		}).catch(error => {
 			const {data} = error.response;

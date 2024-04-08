@@ -17,14 +17,14 @@ export default function NavBar() {
 			<div className="flex mb-8 mt-4 flex-col items-start justify-start flex-grow ">
 				<div
 					className={`block p-4 lg:inline-block lg:mt-0 text-lg w-full
-            ${router.pathname === '/afastamentos' ? 'font-bold text-slate-50' : 'text-slate-300 hover:text-slate-50 hover:cursor-pointer'} 
+            ${router.pathname === '/afastamento' ? 'font-bold text-slate-50' : 'text-slate-300 hover:text-slate-50 hover:cursor-pointer'} 
             transition duration-200 ease-in-out ${inter.className} border-b-2 border-blue-950`
 					}
 				>
 					<a
 						onClick={() => {
-							if (router.pathname !== "/afastamentos") {
-								router.push("/afastamentos");
+							if (router.pathname !== "/afastamento") {
+								router.push("/afastamento");
 							}
 						}}
 					>

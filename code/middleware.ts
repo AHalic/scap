@@ -5,8 +5,8 @@ export const middleware = (request: NextRequest) => {
 
 	console.log("currentUser", currentUser);
 
-	if (currentUser && !request.nextUrl.pathname.startsWith("/afastamentos")) {
-		return Response.redirect(new URL("/afastamentos", request.url));
+	if (currentUser && !request.nextUrl.pathname.startsWith("/afastamento")) {
+		return Response.redirect(new URL("/afastamento", request.url));
 	}
 
 	if (!currentUser && !request.nextUrl.pathname.startsWith("/")) {
