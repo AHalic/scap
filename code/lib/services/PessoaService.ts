@@ -4,6 +4,7 @@ import { Pessoa } from "@prisma/client";
 
 import { FiltrosPessoa } from "../interfaces/Filtros";
 import PessoaRepository from "../repositories/PessoaRepository";
+import Errors from "./interfaces/Errors";
 import { IPessoaService } from "./interfaces/IPessoaService";
 
 export default class PessoaService implements IPessoaService {
@@ -14,35 +15,81 @@ export default class PessoaService implements IPessoaService {
 	}
 
 	async buscarPorId(id: string): Promise<Pessoa | null> {
-		return this.pessoaRepository.getById(id);
+		const pessoa = await this.pessoaRepository.getById(id);
+
+		if (!pessoa) {
+			return Promise.reject(new Error(Errors.OBJETO_NAO_ENCONTRADO.toString()));
+		}
+
+		return pessoa;
 	}
 
 	async buscar(filtros: FiltrosPessoa): Promise<Pessoa[]> {
-		return this.pessoaRepository.get(filtros);
+		return this.pessoaRepository.get(filtros, false);
 	}
 
-	async criar(data: Pessoa): Promise<Pessoa> {
+	async criar(data: Pessoa, userId: string): Promise<Pessoa> {
+		const secretario = await this.pessoaRepository.getById(userId);
+
+		if (!secretario) {
+			return Promise.reject(
+				new Error(Errors.USUARIO_NAO_ENCONTRADO.toString())
+			);
+		} else if (!secretario.secretarioId) {
+			return Promise.reject(new Error(Errors.USUARIO_SEM_PERMISSAO.toString()));
+		}
+
 		return this.pessoaRepository.post({
 			...data,
 			senha: await hash(data.senha, 10),
 		});
 	}
 
-	async editar(data: Pessoa): Promise<Pessoa> {
+	async editar(data: Pessoa, userId: string): Promise<Pessoa> {
+		const pessoa = await this.pessoaRepository.getById(userId);
+
+		if (!pessoa) {
+			return Promise.reject(
+				new Error(Errors.USUARIO_NAO_ENCONTRADO.toString())
+			);
+		} else if (!pessoa.secretarioId && data?.id !== userId) {
+			return Promise.reject(new Error(Errors.USUARIO_SEM_PERMISSAO.toString()));
+		}
+
+		const pessoaEditada = await this.pessoaRepository.getById(data.id);
+
+		if (!pessoaEditada) {
+			return Promise.reject(new Error(Errors.OBJETO_NAO_ENCONTRADO.toString()));
+		}
+
 		return this.pessoaRepository.put({
 			...data,
 			senha: await hash(data.senha, 10),
 		});
 	}
 
-	async deletar(id: string): Promise<Pessoa> {
+	async deletar(id: string, userId: string): Promise<Pessoa> {
+		const secretario = await this.pessoaRepository.getById(userId);
+
+		if (!secretario) {
+			return Promise.reject(
+				new Error(Errors.USUARIO_NAO_ENCONTRADO.toString())
+			);
+		} else if (!secretario.secretarioId) {
+			return Promise.reject(new Error(Errors.USUARIO_SEM_PERMISSAO.toString()));
+		}
+
+		const pessoaEditada = await this.pessoaRepository.getById(id);
+
+		if (!pessoaEditada) {
+			return Promise.reject(new Error(Errors.OBJETO_NAO_ENCONTRADO.toString()));
+		}
+
 		return this.pessoaRepository.delete(id);
 	}
 
 	async login(email: string, senha: string): Promise<Pessoa | null> {
 		const pessoa = await this.pessoaRepository.get({ email } as FiltrosPessoa);
-
-		console.log(await hash("12345", 10));
 
 		if (pessoa.length === 0) {
 			return null;

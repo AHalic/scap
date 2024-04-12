@@ -76,6 +76,13 @@ export default class AfastamentoController {
 
 	async criar(req: NextApiRequest, res: NextApiResponse) {
 		const user = req.cookies.session;
+		if (!user) {
+			res.status(401).json({
+				message: "Usuário sem permissão para acessar o sistema",
+			});
+			return;
+		}
+
 		const { id: userId } = JSON.parse(user ? user : "");
 
 		const afastamento = await this.afastamentoService

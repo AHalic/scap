@@ -39,15 +39,24 @@ export default class PessoaRepository extends BaseRepository<
 		return pessoa;
 	}
 
-	async get(filtros: FiltrosPessoa): Promise<Pessoa[]> {
+	async get(filtros: FiltrosPessoa, selectPassword = true): Promise<Pessoa[]> {
 		const pessoas = await prisma.pessoa.findMany({
+			select: {
+				id: true,
+				nome: true,
+				email: true,
+				telefone: true,
+				secretarioId: true,
+				professorId: true,
+				// if selectPassword is false, then do not select senha
+				senha: selectPassword ? true : undefined,
+			},
 			where: {
 				AND: [
-					{ nome: filtros.nome ? { equals: filtros.nome } : undefined },
 					{
-						sobrenome: filtros.sobrenome
-							? { equals: filtros.sobrenome }
-							: undefined,
+						OR: [
+							{ nome: filtros.nome ? { contains: filtros.nome } : undefined },
+						],
 					},
 					{ email: filtros.email ? { equals: filtros.email } : undefined },
 					{

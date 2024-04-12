@@ -1,11 +1,12 @@
-import { FiltrosPessoa } from "../../interfaces/Filtros";
 import { Pessoa } from "@prisma/client";
+
+import { FiltrosPessoa } from "../../interfaces/Filtros";
 
 export interface IPessoaService {
 	login(email: string, senha: string): Promise<Pessoa | null>;
-	criar(data: Pessoa): Promise<Pessoa>;
-	editar(data: Pessoa): Promise<Pessoa>;
-	deletar(id: string): Promise<Pessoa>;
+	criar(data: Pessoa, userId: string): Promise<Pessoa>;
+	editar(data: Pessoa, userId: string): Promise<Pessoa>;
+	deletar(id: string, userId: string): Promise<Pessoa>;
 	buscarPorId(id: string): Promise<Pessoa | null>;
 	buscar(filtros: FiltrosPessoa): Promise<Pessoa[]>;
 }

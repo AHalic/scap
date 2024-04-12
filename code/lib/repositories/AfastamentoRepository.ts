@@ -46,7 +46,6 @@ export default class AfastamentoRepository extends BaseRepository<
 							select: {
 								id: true,
 								nome: true,
-								sobrenome: true,
 								email: true,
 								secretarioId: true,
 								professorId: true,
@@ -69,9 +68,20 @@ export default class AfastamentoRepository extends BaseRepository<
 							select: {
 								id: true,
 								nome: true,
-								sobrenome: true,
 								email: true,
 								secretarioId: true,
+								professorId: true,
+							},
+						},
+					},
+				},
+				relator: {
+					include: {
+						pessoa: {
+							select: {
+								id: true,
+								nome: true,
+								email: true,
 								professorId: true,
 							},
 						},
@@ -89,26 +99,34 @@ export default class AfastamentoRepository extends BaseRepository<
 					},
 					{
 						dataInicio: filtros.dataInicio
-							? { equals: filtros.dataInicio }
+							? { gte: filtros.dataInicio }
 							: undefined,
 					},
 					{
-						dataFim: filtros.dataFim ? { equals: filtros.dataFim } : undefined,
+						dataFim: filtros.dataFim ? { lte: filtros.dataFim } : undefined,
 					},
 					{
 						dataInicioEvento: filtros.dataInicioEvento
-							? { equals: filtros.dataInicioEvento }
+							? { gte: filtros.dataInicioEvento }
 							: undefined,
 					},
 					{
 						dataFimEvento: filtros.dataFimEvento
-							? { equals: filtros.dataFimEvento }
+							? { lte: filtros.dataFimEvento }
 							: undefined,
 					},
 					{
-						solicitanteId: filtros.solicitanteId
-							? { equals: filtros.solicitanteId }
-							: undefined,
+						OR: [
+							{
+								solicitante: {
+									pessoa: {
+										nome: filtros.solicitante
+											? { contains: filtros.solicitante }
+											: undefined,
+									},
+								},
+							},
+						],
 					},
 					{ tipo: filtros.tipo ? { equals: filtros.tipo } : undefined },
 				],
