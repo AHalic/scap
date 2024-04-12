@@ -26,7 +26,6 @@ model Professor {
 model Pessoa {
   id           String      @id @default(uuid())
   nome         String
-  sobrenome    String
   email        String
   telefone     String
   senha        String
