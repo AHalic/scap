@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
 import { ArrowTopRightOnSquareIcon,  TrashIcon} from "@heroicons/react/24/outline";
-import { Afastamento, Pessoa, TipoAfastamento, EstadoSolicitacao } from "@prisma/client";
+import { Afastamento, Pessoa, TipoAfastamento } from "@prisma/client";
 
+import { FiltrosAfastamento, estadoAfastamentoColors } from "../../../lib/interfaces/Filtros";
 import Chip from "../Chip";
 import ConfirmModal from "../ConfirmModal";
 import { LoadingCircle } from "../LoadingPage";
@@ -26,22 +27,9 @@ const tipoAfastamentoColors = {
 	[TipoAfastamento.INTERNACIONAL]: { tipo: TipoAfastamento.INTERNACIONAL, color: "stone" },
 };
 
-const estadoAfastamentoColors = {
-	[EstadoSolicitacao.INICIADO]: { estado: EstadoSolicitacao.INICIADO, color: "indigo" },
-	[EstadoSolicitacao.BLOQUEADO]: { estado: EstadoSolicitacao.BLOQUEADO, color: "yellow" },
-	[EstadoSolicitacao.LIBERADO]: { estado: EstadoSolicitacao.LIBERADO, color: "teal" },
-	[EstadoSolicitacao.APROVADO_DI]: { estado: EstadoSolicitacao.APROVADO_DI, color: "blue" },
-	[EstadoSolicitacao.APROVADO_CT]: { estado: EstadoSolicitacao.APROVADO_CT, color: "cyan" },
-	[EstadoSolicitacao.APROVADO_PRPPG]: { estado: EstadoSolicitacao.APROVADO_PRPPG, color: "sky" },
-	[EstadoSolicitacao.ARQUIVADO]: { estado: EstadoSolicitacao.ARQUIVADO, color: "green" },
-	[EstadoSolicitacao.CANCELADO]: { estado: EstadoSolicitacao.CANCELADO, color: "zinc" },
-	[EstadoSolicitacao.REPROVADO]: { estado: EstadoSolicitacao.REPROVADO, color: "red" },
-};
 
-
-export default function TableAfastamento() {
+export default function TableAfastamento({params}: {params: FiltrosAfastamento}) {
 	const [data, setData] = useState<AfastamentoWithSolicitante[]>();
-	const [params, setParams] = useState({});
 	const [loading, setLoading] = useState(true);
   
 	const session = Cookies.get('session');
@@ -51,7 +39,7 @@ export default function TableAfastamento() {
     
 
 	useEffect(() => {
-		axios.get('/api/afastamento')
+		axios.get('/api/afastamento', { params })
 			.then(response => {
 				setData(response.data);
 				setLoading(false);
@@ -94,7 +82,7 @@ export default function TableAfastamento() {
 
 						data ? data.map((afastamento) => (
 							<tr key={afastamento.id} className="bg-slate-50">
-								<td className="px-4 py-2 border capitalize">{afastamento.solicitante.pessoa.nome} {afastamento.solicitante.pessoa.sobrenome}</td>
+								<td className="px-4 py-2 border capitalize">{afastamento.solicitante.pessoa.nome}</td>
 								<td className="px-4 py-2 border">
 									{afastamento.nomeEvento}
 								</td>
@@ -107,7 +95,7 @@ export default function TableAfastamento() {
 								<td className="px-4 py-2 border">{new Date(afastamento.dataInicio).toLocaleDateString('pt-BR')}</td>
 								<td className="px-4 py-2 border">{new Date(afastamento.dataFim).toLocaleDateString('pt-BR')}</td>
 								<td className="py-2 border text-center space-x-3">
-									<Link href={`/afastamento/${afastamento.id}`}>
+									<Link href={`/afastamento/solicitacao/${afastamento.id}`}>
 										<button  className="text-slate-600 hover:text-blue-800 h-full" title="Abrir Formulário">
 											<ArrowTopRightOnSquareIcon className="w-5 h-6" />
 										</button>
@@ -137,7 +125,6 @@ export default function TableAfastamento() {
 				onConfirm={() => {
 					axios.delete(`/api/afastamento/${confirmDelete}`)
 						.then(() => {
-							setParams({});
 							setConfirmDelete(undefined);
 							toast('Afastamento deletado com sucesso', {
 								type: 'success',
