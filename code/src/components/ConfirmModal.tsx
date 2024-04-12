@@ -1,3 +1,5 @@
+import { createPortal } from "react-dom";
+
 export default function ConfirmModal({
 	open,
 	title,
@@ -5,7 +7,7 @@ export default function ConfirmModal({
 	onConfirm,
 	onCancel
 }: {open: boolean, title: string, message: string, onConfirm: () => void, onCancel: () => void}) {
-	return (
+	return createPortal(
 		<div className={`fixed inset-0 z-50 flex items-center justify-center ${open ? '' : 'hidden'}`}>
 			<div className="absolute inset-0 bg-black opacity-50"></div>
 			<div className="bg-white rounded-lg px-6 py-4 z-10">
@@ -16,6 +18,7 @@ export default function ConfirmModal({
 					<button onClick={onConfirm} className="px-4 py-2 bg-green-600 text-white rounded-lg">Confirmar</button>
 				</div>
 			</div>
-		</div>
+		</div>,
+		document.body
 	);
 } 

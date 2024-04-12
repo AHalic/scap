@@ -9,7 +9,7 @@ export default function NavBar() {
 	const router = useRouter();
 
 	return (
-		<nav className="flex flex-col bg-blue-930 w-48 h-screen">
+		<nav className="flex flex-col bg-blue-930 w-48">
 			<div className="flex items-center justify-center h-16 bg-blue-950">
 				<Image src="/logoUfes.png" alt="Logo Ufes" width={80} height={80} />
 			</div>
