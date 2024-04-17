@@ -2,25 +2,16 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { ArrowTopRightOnSquareIcon,  TrashIcon} from "@heroicons/react/24/outline";
-import { Afastamento, Pessoa, TipoAfastamento } from "@prisma/client";
+import { TipoAfastamento } from "@prisma/client";
 
-import { FiltrosAfastamento, estadoAfastamentoColors } from "../../../lib/interfaces/Filtros";
+import { AfastamentoCompleto, FiltrosAfastamento, estadoAfastamentoColors } from "../../../lib/interfaces/Filtros";
 import Chip from "../Chip";
 import ConfirmModal from "../ConfirmModal";
 import { LoadingCircle } from "../LoadingPage";
 
-import 'react-toastify/dist/ReactToastify.css';
-
-
-type AfastamentoWithSolicitante = Afastamento & {
-  solicitante: {
-    id: string;
-    pessoa: Pessoa
-  };
-};
 
 const tipoAfastamentoColors = {
 	[TipoAfastamento.NACIONAL]: { tipo: TipoAfastamento.NACIONAL, color: "gray" },
@@ -29,7 +20,7 @@ const tipoAfastamentoColors = {
 
 
 export default function TableAfastamento({params}: {params: FiltrosAfastamento}) {
-	const [data, setData] = useState<AfastamentoWithSolicitante[]>();
+	const [data, setData] = useState<AfastamentoCompleto[]>();
 	const [loading, setLoading] = useState(true);
   
 	const session = Cookies.get('session');
@@ -125,12 +116,14 @@ export default function TableAfastamento({params}: {params: FiltrosAfastamento})
 				onConfirm={() => {
 					axios.delete(`/api/afastamento/${confirmDelete}`)
 						.then(() => {
+							setData(data?.filter(afastamento => afastamento.id !== confirmDelete));
 							setConfirmDelete(undefined);
 							toast('Afastamento deletado com sucesso', {
 								type: 'success',
 							});
 						})
 						.catch(error => {
+							setConfirmDelete(undefined);
 							console.error(error);
 							const message = error.response?.data?.message;
 							toast(message ? message : 'Ocorreu um erro ao deletar o Afastamento', {
@@ -140,7 +133,6 @@ export default function TableAfastamento({params}: {params: FiltrosAfastamento})
 				}}
 				onCancel={() => setConfirmDelete(undefined)}
 			/>
-			<ToastContainer />
 		</>
 
 	);
