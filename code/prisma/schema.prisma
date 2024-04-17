@@ -61,14 +61,14 @@ model Afastamento {
   tipo             TipoAfastamento
   onus             Onus
   motivo           String
-  estado           EstadoSolicitacao
+  estado           EstadoSolicitacao @default(INICIADO)
   solicitanteId    String
   relatorId        String?
   dataFim          DateTime
   dataFimEvento    DateTime
   dataInicio       DateTime
   dataInicioEvento DateTime
-  dataSolicitacao  DateTime
+  dataSolicitacao  DateTime?         @default(now())
   nomeEvento       String
   relator          Professor?        @relation("relatorAfastamento", fields: [relatorId], references: [id])
   solicitante      Professor         @relation("solicitanteAfastamento", fields: [solicitanteId], references: [id])
@@ -94,11 +94,11 @@ model Parecer {
 }
 
 model Documento {
-  id            String      @id @default(uuid())
+  id            String       @id @default(uuid())
   titulo        String
   url           String
-  afastamentoId String
-  afastamento   Afastamento @relation(fields: [afastamentoId], references: [id])
+  afastamentoId String?
+  afastamento   Afastamento? @relation(fields: [afastamentoId], references: [id])
 
   @@index([afastamentoId], map: "Documento_afastamentoId_fkey")
 }
