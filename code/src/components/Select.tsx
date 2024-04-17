@@ -9,18 +9,33 @@ interface Option {
 
 interface SelectProps {
 	name: string;
+	defaultValue?: Option | null | string;
   options: Option[];
 	light?: boolean;
+	disabled?: boolean;
 	onChange?: (value: Option) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderFunction: (option: any) => ReactNode;
 }
 
-const Select: FC<SelectProps> = ({name, options, light=false, onChange = () => {}, renderFunction = (option) => option.label }: SelectProps) => {
-	const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+const Select: FC<SelectProps> = ({name, defaultValue=null, options, light=false, disabled=false, onChange = () => {}, renderFunction = (option) => option.label }: SelectProps) => {
+	const [selectedOption, setSelectedOption] = useState<Option | null>();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const dropdownRef = useRef(null);
+
+	useEffect(() => {
+		if (defaultValue) {
+			const option = options.find((option) => option.value === defaultValue);
+
+			if (!option) {
+				return;
+			}
+
+			onChange(option);
+			setSelectedOption(option);
+		}
+	}, [defaultValue]);
 
 	const toggleDropdown = () => {
 		setIsOpen(!isOpen);
@@ -50,12 +65,13 @@ const Select: FC<SelectProps> = ({name, options, light=false, onChange = () => {
 		<div ref={dropdownRef} className="relative">
 			<input type="hidden" name={name} value={selectedOption?.value || ''} />
 			<button
+				disabled={disabled}
 				name={name}
 				type="button"
 				onClick={toggleDropdown}
-				className={`flex items-center justify-between w-full ${light ? 'bg-white text-gray-500' : 'text-slate-600'} px-2 py-2 mt-1 text-left rounded-md border border-gray-300 focus:outline-none focus:border-blue-500`}
+				className={`flex items-center justify-between w-full ${light ? `bg-white ${disabled ? 'text-gray-400' : 'text-gray-500'}` :  disabled ? 'text-gray-500' : 'text-slate-600'}  px-2 py-2 mt-1 text-left rounded-md border border-gray-300 focus:outline-none focus:border-blue-500`}
 			>
-				{selectedOption ? renderFunction(selectedOption) : 'Select an option'}
+				{selectedOption ? renderFunction(selectedOption) : 'Selecione uma opção'}
 				<ChevronDownIcon className="w-4 h-4 inline-block text-slate-600 float-right" />
 			</button>
 			{isOpen && (

@@ -59,7 +59,7 @@ export default function InputAsync({loadOptions, light =false, ...props}: {
 				type="text"
 				value={inputValue}
 				onChange={e => setInputValue(e.target.value)}
-				className={`flex items-center justify-between w-full ${light ? 'bg-white text-gray-500' : 'text-slate-600'} px-2 py-2 mt-1 text-left rounded-md border border-gray-300 focus:outline-none focus:border-blue-500`}
+				className={`flex items-center justify-between w-full  ${light ? `bg-white ${props.disabled ? 'text-gray-400' : 'text-gray-500'}` :  props.disabled ? 'text-gray-500' : 'text-slate-600'} px-2 py-2 mt-1 text-left rounded-md border border-gray-300 focus:outline-none focus:border-blue-500`}
 			/>
 			{isOpen && (
 				<div className="max-h-40 overflow-auto absolute z-10 mt-2 w-full bg-white shadow-lg rounded-md">
