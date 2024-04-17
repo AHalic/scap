@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import PessoaController from "../../../lib/controllers/PessoaController";
-import PessoaRepository from "../../../lib/repositories/PessoaRepository";
-import PessoaService from "../../../lib/services/PessoaService";
+import PessoaController from "../../../../lib/controllers/PessoaController";
+import PessoaRepository from "../../../../lib/repositories/PessoaRepository";
+import PessoaService from "../../../../lib/services/PessoaService";
 
 const pessoaRepository = new PessoaRepository();
 const pessoaService = new PessoaService(pessoaRepository);
@@ -13,7 +13,7 @@ export default async function handler(
 	res: NextApiResponse
 ) {
 	if (req.method === "GET") {
-		await pessoaController.buscar(req, res);
+		await pessoaController.buscarPorId(req, res);
 	}
 }
 

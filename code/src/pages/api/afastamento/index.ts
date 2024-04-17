@@ -14,6 +14,8 @@ export default async function handler(
 ) {
 	if (req.method === "GET") {
 		await afastamentoController.buscar(req, res);
+	} else if (req.method === "POST") {
+		await afastamentoController.criar(req, res);
 	}
 }
 

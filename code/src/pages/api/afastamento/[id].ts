@@ -8,17 +8,18 @@ const afastamentoRepository = new AfastamentoRepository();
 const afastamentoService = new AfastamentoService(afastamentoRepository);
 const afastamentoController = new AfastamentoController(afastamentoService);
 
-export default function handler(
+export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
 	if (req.method === "GET") {
-		afastamentoController.buscarPorId(req, res);
+		await afastamentoController.buscarPorId(req, res);
 	} else if (req.method === "DELETE") {
-		afastamentoController.deletar(req, res);
+		await afastamentoController.deletar(req, res);
 	} else if (req.method === "PUT") {
-		afastamentoController.editar(req, res);
+		await afastamentoController.editar(req, res);
 	} else {
 		res.status(405).json({ message: "Método não existente" });
 	}
 }
+
