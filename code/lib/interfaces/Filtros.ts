@@ -1,4 +1,11 @@
-import { EstadoSolicitacao, Onus, TipoAfastamento } from "@prisma/client";
+import {
+	Afastamento,
+	Documento,
+	EstadoSolicitacao,
+	Onus,
+	Pessoa,
+	TipoAfastamento,
+} from "@prisma/client";
 
 enum TipoPessoa {
 	professor,
@@ -10,6 +17,10 @@ interface FiltrosPessoa {
 	email: string | null;
 	telefone: string | null;
 	tipo: TipoPessoa | null;
+}
+
+interface FiltrosDocumento {
+	titulo: string | null;
 }
 
 interface FiltrosAfastamento {
@@ -63,6 +74,21 @@ const estadoAfastamentoColors = {
 	},
 };
 
-export type { FiltrosPessoa, FiltrosAfastamento };
+interface AfastamentoCompleto extends Afastamento {
+	solicitante: {
+		pessoa: Pessoa;
+	};
+	relator: {
+		pessoa: Pessoa;
+	};
+	documentos: Documento[];
+}
+
+export type {
+	AfastamentoCompleto,
+	FiltrosPessoa,
+	FiltrosAfastamento,
+	FiltrosDocumento,
+};
 export { TipoPessoa, estadoAfastamentoColors };
 

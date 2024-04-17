@@ -150,6 +150,13 @@ export default class AfastamentoController {
 					});
 					return;
 				}
+
+				if (error.message === Errors.ESTADO_INVALIDO.toString()) {
+					res.status(400).json({
+						message: "Dados inválidos para o Afastamento",
+					});
+					return;
+				}
 			});
 
 		if (!afastamento) {

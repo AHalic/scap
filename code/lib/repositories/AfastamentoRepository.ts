@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Afastamento } from "@prisma/client";
 
-import { FiltrosAfastamento } from "../interfaces/Filtros";
+import { AfastamentoCompleto, FiltrosAfastamento } from "../interfaces/Filtros";
 import prisma from "../prisma";
 import { BaseRepository } from "./BaseRepository";
 
@@ -8,23 +9,45 @@ export default class AfastamentoRepository extends BaseRepository<
 	Afastamento,
 	FiltrosAfastamento
 > {
-	async post(data: Afastamento): Promise<Afastamento> {
+	async post(data: AfastamentoCompleto): Promise<Afastamento> {
+		const { relator, solicitante, ...afastamentoData } = data;
+
 		const afastamento = await prisma.afastamento.create({
-			data: data,
+			data: {
+				...afastamentoData,
+				documentos: {
+					create: data.documentos,
+				},
+			},
 		});
 		return afastamento;
 	}
 
-	async put(data: Afastamento): Promise<Afastamento> {
+	async put(data: AfastamentoCompleto): Promise<Afastamento> {
+		console.log("repository", data);
+
 		const afastamento = await prisma.afastamento.update({
 			where: { id: data.id },
 			data: {
-				motivo: data.motivo,
 				estado: data.estado,
-				dataInicio: data.dataInicio,
-				dataFim: data.dataFim,
-				dataInicioEvento: data.dataInicioEvento,
-				dataFimEvento: data.dataFimEvento,
+				// nomeEvento: data.nomeEvento,
+				// motivo: data.motivo,
+				// dataInicio: data.dataInicio,
+				// dataFim: data.dataFim,
+				// dataInicioEvento: data.dataInicioEvento,
+				// dataFimEvento: data.dataFimEvento,
+				// documentos: {
+				// 	upsert: data.documentos.map((d) => ({
+				// 		where: { id: d.id },
+				// 		update: { titulo: d.titulo, url: d.url },
+				// 		create: { titulo: d.titulo, url: d.url },
+				// 	})),
+				// 	deleteMany: {
+				// 		id: {
+				// 			notIn: data.documentos.map((d) => d.id).filter(Boolean),
+				// 		},
+				// 	},
+				// },
 			},
 		});
 		return afastamento;
@@ -40,6 +63,7 @@ export default class AfastamentoRepository extends BaseRepository<
 	async getById(id: string): Promise<Afastamento | null> {
 		const afastamento = await prisma.afastamento.findUnique({
 			include: {
+				documentos: true,
 				solicitante: {
 					include: {
 						pessoa: {
@@ -48,6 +72,18 @@ export default class AfastamentoRepository extends BaseRepository<
 								nome: true,
 								email: true,
 								secretarioId: true,
+								professorId: true,
+							},
+						},
+					},
+				},
+				relator: {
+					include: {
+						pessoa: {
+							select: {
+								id: true,
+								nome: true,
+								email: true,
 								professorId: true,
 							},
 						},
