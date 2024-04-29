@@ -25,7 +25,12 @@ export default class PessoaController {
 			return;
 		}
 
-		const sessionData = { email: pessoa.email, id: pessoa.id }; // Customize as per your requirements
+		const sessionData = {
+			email: pessoa.email,
+			id: pessoa.id,
+			secretarioId: pessoa.secretarioId,
+			professorId: pessoa.professorId,
+		}; // Customize as per your requirements
 		const encryptedSessionData = JSON.stringify(sessionData); // Encrypt the session data if needed
 		const cookie = serialize("session", encryptedSessionData, {
 			httpOnly: false,

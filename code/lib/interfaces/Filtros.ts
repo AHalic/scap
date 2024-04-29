@@ -2,8 +2,11 @@ import {
 	Afastamento,
 	Documento,
 	EstadoSolicitacao,
+	Mandato,
 	Onus,
+	Parentesco,
 	Pessoa,
+	Secretario,
 	TipoAfastamento,
 } from "@prisma/client";
 
@@ -84,11 +87,32 @@ interface AfastamentoCompleto extends Afastamento {
 	documentos: Documento[];
 }
 
+interface ParentescoCompleto extends Parentesco {
+	professorA: {
+		pessoa: Pessoa;
+	};
+	professorB: {
+		pessoa: Pessoa;
+	};
+}
+
+interface PessoaCompleta extends Pessoa {
+	tipoPessoa: TipoPessoa;
+	secretario?: Secretario;
+	professor?: {
+		mandato: Mandato[];
+		parentescoA: ParentescoCompleto[];
+		parentescoB: ParentescoCompleto[];
+	};
+}
+
 export type {
 	AfastamentoCompleto,
 	FiltrosPessoa,
 	FiltrosAfastamento,
 	FiltrosDocumento,
+	PessoaCompleta,
+	ParentescoCompleto,
 };
 export { TipoPessoa, estadoAfastamentoColors };
 

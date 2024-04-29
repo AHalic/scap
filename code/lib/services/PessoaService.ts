@@ -2,7 +2,11 @@ import { compare, hash } from "bcrypt";
 
 import { Pessoa } from "@prisma/client";
 
-import { FiltrosPessoa } from "../interfaces/Filtros";
+import {
+	FiltrosPessoa,
+	PessoaCompleta,
+	TipoPessoa,
+} from "../interfaces/Filtros";
 import PessoaRepository from "../repositories/PessoaRepository";
 import Errors from "./interfaces/Errors";
 import { IPessoaService } from "./interfaces/IPessoaService";
@@ -25,10 +29,24 @@ export default class PessoaService implements IPessoaService {
 	}
 
 	async buscar(filtros: FiltrosPessoa): Promise<Pessoa[]> {
-		return this.pessoaRepository.get(filtros, false);
+		const pessoas = await this.pessoaRepository.get(filtros, false);
+
+		return pessoas.filter((pessoa) => {
+			if (
+				Number(filtros.tipo) === TipoPessoa.secretario &&
+				pessoa.secretarioId
+			) {
+				return pessoa;
+			} else if (
+				Number(filtros.tipo) === TipoPessoa.professor &&
+				pessoa.professorId
+			) {
+				return pessoa;
+			}
+		});
 	}
 
-	async criar(data: Pessoa, userId: string): Promise<Pessoa> {
+	async criar(data: PessoaCompleta, userId: string): Promise<Pessoa> {
 		const secretario = await this.pessoaRepository.getById(userId);
 
 		if (!secretario) {
@@ -62,9 +80,13 @@ export default class PessoaService implements IPessoaService {
 			return Promise.reject(new Error(Errors.OBJETO_NAO_ENCONTRADO.toString()));
 		}
 
+		const { senha, ...rest } = data;
+		const hasSenha =
+			data?.id === userId && senha ? { senha: await hash(senha, 10) } : {};
+
 		return this.pessoaRepository.put({
-			...data,
-			senha: await hash(data.senha, 10),
+			...rest,
+			...hasSenha,
 		});
 	}
 
