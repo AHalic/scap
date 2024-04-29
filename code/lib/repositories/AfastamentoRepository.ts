@@ -97,6 +97,9 @@ export default class AfastamentoRepository extends BaseRepository<
 
 	async get(filtros: FiltrosAfastamento): Promise<Afastamento[]> {
 		const afastamentos = await prisma.afastamento.findMany({
+			orderBy: {
+				dataSolicitacao: "desc",
+			},
 			include: {
 				solicitante: {
 					include: {

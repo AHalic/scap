@@ -4,13 +4,11 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FormEvent } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { RedirectLogin } from "@/auth"; 
 import InputText from "@/components/InputText";
 
-
-import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({style: "normal", weight: "400", subsets: ["latin"]});
 
@@ -90,8 +88,6 @@ export default function LoginPage() {
 							</div>
 						</form>
 					</div>
-
-					<ToastContainer />
 				</div>
 			</main>
 		</RedirectLogin>

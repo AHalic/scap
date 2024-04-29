@@ -3,8 +3,6 @@ import type { NextRequest } from "next/server";
 export const middleware = (request: NextRequest) => {
 	const currentUser = request.cookies.get("session")?.value;
 
-	console.log("currentUser", currentUser);
-
 	if (currentUser && !request.nextUrl.pathname.startsWith("/afastamento")) {
 		return Response.redirect(new URL("/afastamento", request.url));
 	}

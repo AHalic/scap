@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -7,8 +8,7 @@ import ProtectedRoute from '@/auth';
 import FiltroAfastamentoModal from '@/components/afastamento/FiltroAfastamentoModal';
 import TableAfastamento from '@/components/afastamento/TableAfastamento';
 import NavBar from '@/components/NavBar';
-import { ChevronRightIcon, FunnelIcon } from '@heroicons/react/16/solid';
-import { PlusCircleIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon, FunnelIcon, PlusCircleIcon } from '@heroicons/react/16/solid';
 
 import { FiltrosAfastamento } from '../../../lib/interfaces/Filtros';
 
@@ -17,6 +17,10 @@ const inter = Inter({style: "normal", weight: "400", subsets: ["latin"]});
 export default function AfastamentosPage() {
 	const [paramsFilter, setParamsFilter] = useState<FiltrosAfastamento>({} as FiltrosAfastamento);
 	const [isModalFilterOpen, setIsModalFilterOpen] = useState(false);
+
+	const session = Cookies.get('session');
+	const user = session ? JSON.parse(session) : undefined;
+  
 
 	return (
 		<ProtectedRoute>
@@ -44,18 +48,20 @@ export default function AfastamentosPage() {
 								Listagem
 							</nav>
 
-							<button 
-								className="flex py-1 px-2 rounded-md items-center text-green-600 border-[1px] border-green-200 bg-green-100  hover:text-green-800"
-							>
-								<Link href="/afastamento/solicitacao" className='w-full flex flex-row select-none'>
-									<PlusCircleIcon className="w-6 h-6 mr-2" />
+							{user?.professorId &&
+								<button 
+									className="flex py-1 px-2 rounded-md items-center text-green-600 border-[1px] border-green-200 bg-green-100  hover:text-green-800"
+								>
+									<Link href="/afastamento/solicitacao" className='w-full flex flex-row select-none items-center'>
+										<PlusCircleIcon className="w-4 h-4 mr-2" />
 								Solicitar Afastamento
-								</Link>
-							</button>
+									</Link>
+								</button>
+							}
 						</div>
 
 						<div className="w-full">
-							<TableAfastamento params={paramsFilter} />
+							<TableAfastamento params={paramsFilter} currentUser={user} />
 						</div>
 					</div>
 

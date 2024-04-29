@@ -1,11 +1,10 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import { ArrowTopRightOnSquareIcon,  TrashIcon} from "@heroicons/react/24/outline";
-import { TipoAfastamento } from "@prisma/client";
+import { Pessoa, TipoAfastamento } from "@prisma/client";
 
 import { AfastamentoCompleto, FiltrosAfastamento, estadoAfastamentoColors } from "../../../lib/interfaces/Filtros";
 import Chip from "../Chip";
@@ -19,12 +18,9 @@ const tipoAfastamentoColors = {
 };
 
 
-export default function TableAfastamento({params}: {params: FiltrosAfastamento}) {
+export default function TableAfastamento({params, currentUser}: {params: FiltrosAfastamento, currentUser?: Pessoa}) {
 	const [data, setData] = useState<AfastamentoCompleto[]>();
 	const [loading, setLoading] = useState(true);
-  
-	const session = Cookies.get('session');
-	const userId = session ? JSON.parse(session).id : undefined;
   
 	const [confirmDelete, setConfirmDelete] = useState<undefined | string>();
     
@@ -93,7 +89,7 @@ export default function TableAfastamento({params}: {params: FiltrosAfastamento})
 									</Link>
   
 									{
-										afastamento.solicitante.pessoa.id === userId &&
+										afastamento.solicitante.pessoa.id === currentUser?.id &&
 										<button onClick={() => setConfirmDelete(afastamento.id)} className="text-slate-600 hover:text-red-900 h-full" title="Deletar">
 											<TrashIcon className="w-5 h-6" />
 										</button>
