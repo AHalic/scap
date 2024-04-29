@@ -14,6 +14,10 @@ export default async function handler(
 ) {
 	if (req.method === "GET") {
 		await pessoaController.buscarPorId(req, res);
+	} else if (req.method === "PUT") {
+		await pessoaController.editar(req, res);
+	} else if (req.method === "DELETE") {
+		await pessoaController.deletar(req, res);
 	}
 }
 
