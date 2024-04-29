@@ -7,17 +7,30 @@ interface Option {
   label: string;
 }
 
-export default function InputAsync({loadOptions, light =false, ...props}: {
+export default function InputAsync({loadOptions, defaultValue=null, light=false, reset, handleSelect=()=>{}, ...props}: {
   loadOptions: (inputValue: string) => Promise<Option[]>;
   light: boolean;
+	defaultValue?: Option | null;
+	reset?: boolean;
+	handleSelect?: (option: Option) => void;
   [x: string]: any
 }) {
-	const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+	const [selectedOption, setSelectedOption] = useState<Option | null>(defaultValue);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [inputValue, setInputValue] = useState<string>('');
 	const [options, setOptions] = useState<Option[]>([]);
 
 	const dropdownRef = useRef(null);
+	const firstRenderRef = useRef(true);
+
+	useEffect(() => {
+		if (firstRenderRef.current) {
+			firstRenderRef.current = false;
+		} else {
+			setSelectedOption(null);
+			setInputValue('');
+		}
+	}, [reset]);
 
 	const handleClickOutside = (event: MouseEvent) => {
 		if (dropdownRef.current && !((dropdownRef.current as unknown) as Node).contains(event.target as Node)) {
@@ -26,6 +39,7 @@ export default function InputAsync({loadOptions, light =false, ...props}: {
 	};
 
 	const handleOptionSelect = (option: Option) => {
+		handleSelect(option);
 		setSelectedOption(option);
 		setInputValue(option.label);
 		setIsOpen(false);

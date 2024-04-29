@@ -16,13 +16,15 @@ interface SelectProps {
 	onChange?: (value: Option) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderFunction: (option: any) => ReactNode;
+	reset?: boolean;
 }
 
-const Select: FC<SelectProps> = ({name, defaultValue=null, options, light=false, disabled=false, onChange = () => {}, renderFunction = (option) => option.label }: SelectProps) => {
+const Select: FC<SelectProps> = ({name, defaultValue=null, options, light=false, disabled=false, onChange = () => {}, renderFunction = (option) => option.label, reset = false }: SelectProps) => {
 	const [selectedOption, setSelectedOption] = useState<Option | null>();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const dropdownRef = useRef(null);
+	const firstRenderRef = useRef(true);
 
 	useEffect(() => {
 		if (defaultValue) {
@@ -34,8 +36,18 @@ const Select: FC<SelectProps> = ({name, defaultValue=null, options, light=false,
 
 			onChange(option);
 			setSelectedOption(option);
+		} else {
+			setSelectedOption(null);
 		}
 	}, [defaultValue]);
+
+	useEffect(() => {
+		if (firstRenderRef.current) {
+			firstRenderRef.current = false;
+		} else {
+			setSelectedOption(null);
+		}
+	}, [reset]);
 
 	const toggleDropdown = () => {
 		setIsOpen(!isOpen);
