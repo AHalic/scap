@@ -41,14 +41,14 @@ export default function NavBar() {
 
 				<div
 					className={`block p-4 lg:inline-block lg:mt-0 text-lg w-full
-            ${router.pathname === '/professores' ? 'font-bold text-slate-50' : 'text-slate-300 hover:text-slate-50 hover:cursor-pointer'}
+            ${router.pathname === '/professor' ? 'font-bold text-slate-50' : 'text-slate-300 hover:text-slate-50 hover:cursor-pointer'}
             transition duration-200 ease-in-out ${inter.className} border-b-2 border-blue-950`
 					}
 				>
 					<a
 						onClick={() => {
-							if (router.pathname !== "/professores") {
-								router.push("/professores");
+							if (router.pathname !== "/professor") {
+								router.push("/professor");
 							}
 						}}
 					>
@@ -58,14 +58,14 @@ export default function NavBar() {
 
 				<div
 					className={`block p-4 lg:inline-block lg:mt-0 text-lg w-full
-            ${router.pathname === '/secretarios' ? 'font-bold text-slate-50' : 'text-slate-300 hover:text-slate-50 hover:cursor-pointer'} 
+            ${router.pathname === '/secretario' ? 'font-bold text-slate-50' : 'text-slate-300 hover:text-slate-50 hover:cursor-pointer'} 
             transition duration-200 ease-in-out ${inter.className} border-b-2 border-blue-950`
 					}
 				>
 					<a
 						onClick={() => {
-							if (router.pathname !== "/secretarios") {
-								router.push("/secretarios");
+							if (router.pathname !== "/secretario") {
+								router.push("/secretario");
 							}
 						}}
 					>
