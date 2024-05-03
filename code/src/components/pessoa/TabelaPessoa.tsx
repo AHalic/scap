@@ -59,7 +59,7 @@ export default function TablePessoa({params, currentUser, type='pessoa', getId=(
 						</tr>
 					): (
 
-						data ? data.map((pessoa) => (
+						data && data.length > 0 ? data.map((pessoa) => (
 							<tr key={pessoa.id} className="bg-slate-50">
 								<td className="px-4 py-2 border capitalize">{pessoa.nome}</td>
 								<td className="px-4 py-2 border">
@@ -87,7 +87,7 @@ export default function TablePessoa({params, currentUser, type='pessoa', getId=(
 							</tr>
 						)) : (
 							<tr>
-								<td className="px-4 py-2 border" colSpan={7}>Nenhum usuário encontrado</td>
+								<td className="px-4 py-2 border text-center" colSpan={7}>Nenhum usuário encontrado</td>
 							</tr>
 						))
 					}

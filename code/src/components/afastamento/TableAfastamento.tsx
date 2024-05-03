@@ -66,8 +66,7 @@ export default function TableAfastamento({params, currentUser}: {params: Filtros
 							</td>
 						</tr>
 					): (
-
-						data ? data.map((afastamento) => (
+						data && data.length > 0 ? data.map((afastamento) => (
 							<tr key={afastamento.id} className="bg-slate-50">
 								<td className="px-4 py-2 border capitalize">{afastamento.solicitante.pessoa.nome}</td>
 								<td className="px-4 py-2 border">
@@ -98,7 +97,7 @@ export default function TableAfastamento({params, currentUser}: {params: Filtros
 							</tr>
 						)) : (
 							<tr>
-								<td className="px-4 py-2 border" colSpan={7}>Nenhum afastamento encontrado</td>
+								<td className="px-4 py-2 border text-center" colSpan={7}>Nenhum afastamento encontrado</td>
 							</tr>
 						))
 					}
