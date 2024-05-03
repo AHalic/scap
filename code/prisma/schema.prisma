@@ -26,7 +26,7 @@ model Professor {
 model Pessoa {
   id           String      @id @default(uuid())
   nome         String
-  email        String
+  email        String      @unique
   telefone     String
   senha        String
   secretarioId String?     @unique
@@ -49,7 +49,7 @@ model Parentesco {
 
 model Mandato {
   id          String    @id @default(uuid())
-  professorId String    @unique
+  professorId String
   dataFim     DateTime?
   dataInicio  DateTime
   isChefe     Boolean
