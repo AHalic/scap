@@ -6,9 +6,9 @@ import { toast } from "react-toastify";
 
 import { TipoParentesco } from "@prisma/client";
 
-import { TipoPessoa } from "../../lib/interfaces/Filtros";
-import InputAsync from "./InputAsync";
-import Select from "./Select";
+import { TipoPessoa } from "../../../lib/interfaces/Filtros";
+import InputAsync from "../InputAsync";
+import Select from "../Select";
 
 
 export default function ParentescoModal({
