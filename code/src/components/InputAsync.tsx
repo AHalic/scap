@@ -24,6 +24,11 @@ export default function InputAsync({loadOptions, defaultValue=null, light=false,
 	const firstRenderRef = useRef(true);
 
 	useEffect(() => {
+		setSelectedOption(defaultValue);
+		setInputValue(defaultValue?.label || '');
+	}, [defaultValue]);
+
+	useEffect(() => {
 		if (firstRenderRef.current) {
 			firstRenderRef.current = false;
 		} else {
@@ -53,15 +58,26 @@ export default function InputAsync({loadOptions, defaultValue=null, light=false,
 		};
 	}, []);
 
-	useEffect(() => {
-		if (inputValue.length >= 3) {
-			setIsOpen(true);
-		}
-	}, [inputValue]);
+	// useEffect(() => {
+	// 	if (options.length >= 1) {
+	// 		setIsOpen(true);
+	// 	}
+	// }, [options]);
+		
 
 	useEffect(() => {
+		if (selectedOption?.label === inputValue) 
+			return;
+		
 		if (inputValue.length >= 3) {
-			loadOptions(inputValue).then(setOptions);
+			loadOptions(inputValue).then((options) => {
+				setOptions(options);
+				if (options.length >= 1) {
+					setIsOpen(true);
+				} else {
+					setIsOpen(false);
+				}
+			});
 		}
 	}, [inputValue, loadOptions]);
 
