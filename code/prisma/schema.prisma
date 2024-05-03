@@ -50,7 +50,7 @@ model Parentesco {
 model Mandato {
   id          String    @id @default(uuid())
   professorId String    @unique
-  dataFim     DateTime
+  dataFim     DateTime?
   dataInicio  DateTime
   isChefe     Boolean
   professor   Professor @relation(fields: [professorId], references: [id], onDelete: Cascade)
