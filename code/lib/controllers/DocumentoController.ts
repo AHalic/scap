@@ -30,7 +30,7 @@ export default class DocumentoController {
 					return;
 				}
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Documento não encontrado",
 					});
 					return;
@@ -115,7 +115,7 @@ export default class DocumentoController {
 				}
 
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Usuário não encontrado",
 					});
 					return;

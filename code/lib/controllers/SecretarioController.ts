@@ -40,7 +40,7 @@ export default class SecretarioController {
 				}
 
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Secretário não encontrado",
 					});
 					return;

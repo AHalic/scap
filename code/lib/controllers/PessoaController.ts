@@ -58,7 +58,7 @@ export default class PessoaController {
 			.buscarPorId(id as string)
 			.catch((error) => {
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Usuário não encontrado",
 					});
 					return;
@@ -84,7 +84,7 @@ export default class PessoaController {
 		const filtros = { ...req.query } as unknown as FiltrosPessoa;
 		const pessoas = await this.pessoaService.buscar(filtros).catch((error) => {
 			if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-				res.status(401).json({
+				res.status(204).json({
 					message: "Usuários não encontrados",
 				});
 				return;
@@ -170,7 +170,7 @@ export default class PessoaController {
 				}
 
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Usuário não encontrado",
 					});
 					return;
@@ -215,7 +215,7 @@ export default class PessoaController {
 				}
 
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Usuário não encontrado",
 					});
 					return;

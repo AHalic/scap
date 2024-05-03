@@ -27,7 +27,7 @@ export default class AfastamentoController {
 			.buscarPorId(id as string)
 			.catch((error) => {
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Afastamento não encontrado",
 					});
 					return;
@@ -57,7 +57,7 @@ export default class AfastamentoController {
 			.buscar(filtros)
 			.catch((error) => {
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Afastamentos não encontrados",
 					});
 					return;
@@ -145,7 +145,7 @@ export default class AfastamentoController {
 				}
 
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Afastamento não encontrado",
 					});
 					return;
@@ -199,7 +199,7 @@ export default class AfastamentoController {
 				}
 
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-					res.status(401).json({
+					res.status(204).json({
 						message: "Afastamento não encontrado",
 					});
 					return;
