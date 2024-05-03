@@ -13,7 +13,7 @@ import { ChevronRightIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24
 import { Pessoa, TipoParentesco } from "@prisma/client";
 
 import { ParentescoCompleto, PessoaCompleta, TipoPessoa } from "../../../lib/interfaces/Filtros";
-import ParentescoModal from "../ParentescoModal";
+import ParentescoModal from "./ParentescoModal";
 
 const inter = Inter({style: "normal", weight: "400", subsets: ["latin"]});
 

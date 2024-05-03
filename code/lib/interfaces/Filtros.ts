@@ -22,6 +22,13 @@ interface FiltrosPessoa {
 	tipo: TipoPessoa | null;
 }
 
+interface FiltrosMandato {
+	professorId: string | null;
+	dataInicio: string | null;
+	dataFim: string | null;
+	isChefe: boolean | null;
+}
+
 interface FiltrosDocumento {
 	titulo: string | null;
 }
@@ -106,13 +113,21 @@ interface PessoaCompleta extends Pessoa {
 	};
 }
 
+interface MandatoCompleto extends Mandato {
+	professor: {
+		pessoa: Pessoa;
+	};
+}
+
 export type {
 	AfastamentoCompleto,
 	FiltrosPessoa,
 	FiltrosAfastamento,
 	FiltrosDocumento,
+	FiltrosMandato,
 	PessoaCompleta,
 	ParentescoCompleto,
+	MandatoCompleto,
 };
 export { TipoPessoa, estadoAfastamentoColors };
 
