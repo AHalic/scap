@@ -3,10 +3,12 @@ import Cookies from "js-cookie";
 import { DateTime } from "luxon";
 import { Inter } from "next/font/google";
 import Head from "next/head";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 import ProtectedRoute from "@/auth";
+import ConfirmModal from "@/components/ConfirmModal";
 import InputAsync from "@/components/InputAsync";
 import NavBar from "@/components/NavBar";
 import Section from "@/components/Section";
@@ -75,7 +77,7 @@ export default function MandatoPage() {
 							</Section>
 
 							<Section title="Sub-Chefe">
-								<FormMandato mandatoAtual={mandatoSubChefeAtual} isChefe isSecretario={!!secretarioId} />
+								<FormMandato mandatoAtual={mandatoSubChefeAtual} isChefe={false} isSecretario={!!secretarioId} />
 							</Section>
 						</div>
 					</div>
@@ -90,12 +92,18 @@ const FormMandato = ({mandatoAtual, isSecretario, isChefe}: {
   isSecretario?: boolean
   isChefe?: boolean
 }) => {
+	const router = useRouter();
 	const formRef = useRef<HTMLFormElement>(null);
 
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const formData = new FormData(event.currentTarget);
+	const [isConfirmSubmitModalOpen, setIsConfirmSubmitModalOpen] = useState<string | undefined>();
+	const [isConfirmFinishModalOpen, setIsConfirmFinishModalOpen] = useState<string | undefined>();
 
+	const handleSubmit = () => {
+		if (!formRef.current) {
+			return;
+		}
+
+		const formData = new FormData(formRef.current);
 		const professorId = formData.get('professorId') as string;
 		const isChefe = formData.get('isChefe') as string;
 		const dataInicio = DateTime.fromISO(formData.get('dataInicio') as string).toISO();
@@ -103,59 +111,88 @@ const FormMandato = ({mandatoAtual, isSecretario, isChefe}: {
 		const dF = formData.get('dataFim') as string | null;
 		const dataFim = dF ? DateTime.fromISO(formData.get('dataFim') as string).toISO()
 			: null;
-    
-		const body = {
+
+
+		if (dataFim && dataInicio && DateTime.fromISO(dataFim) < DateTime.fromISO(dataInicio)) {
+			toast('Data de Fim deve ser maior que a Data de Início', {
+				type: 'error',
+			});
+			return;
+		}
+
+		const formBody = {
 			professorId,
 			isChefe,
 			dataInicio,
 			dataFim,
 		};
+    
+    
+		axios.post('/api/mandato', formBody)
+			.then(() => {
+				toast('Mandato criado com sucesso', {
+					type: 'success',
+				});
 
-		// get ONLY form inputs values from formRef
+				router.reload();
+			})
+			.catch(error => {
+				console.error(error);
+
+				const message = error.response?.data?.message;
+				toast(message ? message : 'Ocorreu um erro ao criar o Mandato', {
+					type: 'error',
+				});
+			});
+	};
+
+	const handleFinishMandato = () => {
 		if (!formRef.current) {
 			return;
 		}
-		const formInputs = new FormData(formRef.current);
-		const formInputsprofessorId = formInputs.get('professorId') as string;
-		const formInputsisChefe = formInputs.get('isChefe') as string;
-		const formInputsdataInicio = DateTime.fromISO(formInputs.get('dataInicio') as string).toISO();
+
+		const formData = new FormData(formRef.current);
     
-		const formInputsdF = formInputs.get('dataFim') as string | null;
-		const formInputsdataFim = formInputsdF ? DateTime.fromISO(formInputs.get('dataFim') as string).toISO()
-			: null;
+		const id = formData.get('id') as string;
+
+		const dataInicio = DateTime.fromISO(formData.get('dataInicio') as string).toISO();
+
+		const dF = formData.get('dataFim') as string | null;
+		const dataFim = dF ? DateTime.fromISO(formData.get('dataFim') as string).toISO()
+			: DateTime.now().toISO();
+
+		if (dataFim && dataInicio && DateTime.fromISO(dataFim) < DateTime.fromISO(dataInicio)) {
+			toast('Data de Fim deve ser maior que a Data de Início', {
+				type: 'error',
+			});
+			return;
+		}
 
 		const formBody = {
-			professorId: formInputsprofessorId,
-			isChefe: formInputsisChefe,
-			dataInicio: formInputsdataInicio,
-			dataFim: formInputsdataFim,
+			id,
+			dataFim,
 		};
     
-		console.log(formBody);
-    
-    
+		axios.put(`/api/mandato/${id}`, formBody)
+			.then(() => {
+				toast('Mandato finalizado com sucesso', {
+					type: 'success',
+				});
 
-		// axios.post('/api/mandato', body)
-		// 	.then(() => {
-		// 		toast('Mandato criado com sucesso', {
-		// 			type: 'success',
-		// 		});
-		// 	})
-		// 	.catch(error => {
-		// 		console.error(error);
+				router.reload();
+			})
+			.catch(error => {
+				console.error(error);
 
-		// 		const message = error.response?.data?.message;
-		// 		toast(message ? message : 'Ocorreu um erro ao criar o Mandato', {
-		// 			type: 'error',
-		// 		});
-		// 	});
-    
+				const message = error.response?.data?.message;
+				toast(message ? message : 'Ocorreu um erro ao finalizar o Mandato', {
+					type: 'error',
+				});
+			});
 	};
 
-	const handleFinishMandato = () => {};
-
 	return (
-		<form className="w-full h-full" ref={formRef} onSubmit={handleSubmit}>
+		<form className="w-full h-full" ref={formRef}>
 			<div className="grid grid-cols-8 gap-4 mb-8">
 				<input type="hidden" name="id" value={mandatoAtual?.id} />
 				<input type="hidden" name="isChefe" value={String(isChefe)} />
@@ -231,16 +268,42 @@ const FormMandato = ({mandatoAtual, isSecretario, isChefe}: {
 			{isSecretario && (
 				<div>
 					{mandatoAtual ? (
-						<button type="button" onClick={handleFinishMandato} className="bg-red-600 hover:opacity-80 text-white font-bold py-2 px-2 text-sm rounded mr-4">
+						<button type="button" onClick={() => setIsConfirmFinishModalOpen(isChefe ? 'Chefe' : 'Sub-chefe')} className="bg-red-600 hover:opacity-80 text-white font-bold py-2 px-2 text-sm rounded mr-4">
               Finalizar Mandato
 						</button>
 					) : (
-						<button type="submit" className="bg-green-600 hover:opacity-80 text-white font-bold py-2 px-2 text-sm rounded mr-4">
+            
+						<button type="button" onClick={() => setIsConfirmSubmitModalOpen(isChefe ? 'Chefe' : 'Sub-chefe')} className="bg-green-600 hover:opacity-80 text-white font-bold py-2 px-2 text-sm rounded mr-4">
 							Salvar Mandato
 						</button>
 					)}
 				</div>
 			)}
+
+
+			<ConfirmModal
+				open={isConfirmSubmitModalOpen !== undefined}
+				onCancel={() => {setIsConfirmSubmitModalOpen(undefined);}}
+				onConfirm={() => {
+					handleSubmit();
+					setIsConfirmSubmitModalOpen(undefined);
+				}}
+				title="Salvar Mandato"
+				message={`Tem certeza que deseja salvar o mandato de ${isConfirmSubmitModalOpen}?`} 
+			/>
+
+			<ConfirmModal
+				open={isConfirmFinishModalOpen !== undefined}
+				onCancel={() => {setIsConfirmFinishModalOpen(undefined);}}
+				onConfirm={() => {
+					handleFinishMandato();
+					setIsConfirmFinishModalOpen(undefined);
+				}}
+				title="Terminar mandato Mandato"
+				message={`Tem certeza que deseja finalizar o mandato de ${isConfirmFinishModalOpen}?
+        Caso uma data final não seja informada, o mandato será finalizado hoje.`
+				} 
+			/>
 		</form>
 	);
 };

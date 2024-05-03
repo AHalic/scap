@@ -115,6 +115,27 @@ export default class MandatoController {
 					});
 					return;
 				}
+
+				if (error.message === Errors.ESTADO_INVALIDO.toString()) {
+					res.status(404).json({
+						message: "Já existe um Mandato em andamento",
+					});
+					return;
+				}
+
+				if (error.message === Errors.PROF_COM_MANDATO.toString()) {
+					res.status(404).json({
+						message: "O Professor já possui um Mandato em andamento",
+					});
+					return;
+				}
+
+				if (error.message === Errors.DATA_INVALIDA.toString()) {
+					res.status(404).json({
+						message: "Data de Fim deve ser maior que a Data de Início",
+					});
+					return;
+				}
 			});
 
 		if (!mandato) {
@@ -163,6 +184,21 @@ export default class MandatoController {
 				if (error.message === Errors.ESTADO_INVALIDO.toString()) {
 					res.status(404).json({
 						message: "Mandato já finalizado não pode ser editado",
+					});
+					return;
+				}
+
+				if (error.message === Errors.DATA_INVALIDA.toString()) {
+					res.status(404).json({
+						message: "Data de Fim deve ser maior que a Data de Início",
+					});
+					return;
+				}
+
+				if (error.message === Errors.CAMPO_OBRIGATORIO.toString()) {
+					res.status(404).json({
+						message:
+							"Data de Fim é um campo obrigatório para finalizar o mandato",
 					});
 					return;
 				}

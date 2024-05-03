@@ -46,17 +46,33 @@ export default class MandatoService implements IMandatoService {
 			return Promise.reject(new Error(Errors.USUARIO_SEM_PERMISSAO.toString()));
 		}
 
+		const mandatos = await this.mandatoRepository.getLast(data.isChefe);
+
+		if (mandatos) {
+			return Promise.reject(new Error(Errors.ESTADO_INVALIDO.toString()));
+		}
+
+		const mandato = await this.mandatoRepository.getLast(!data.isChefe);
+
+		if (mandato?.professorId === data.professorId) {
+			return Promise.reject(new Error(Errors.PROF_COM_MANDATO.toString()));
+		}
+
+		if (data.dataFim && data.dataInicio > data.dataFim) {
+			return Promise.reject(new Error(Errors.DATA_INVALIDA.toString()));
+		}
+
 		return this.mandatoRepository.post(data);
 	}
 
 	async editar(data: Mandato, userId: string): Promise<Mandato> {
-		const mandato = await this.pessoaRepository.getById(userId);
+		const pessoa = await this.pessoaRepository.getById(userId);
 
-		if (!mandato) {
+		if (!pessoa) {
 			return Promise.reject(
 				new Error(Errors.USUARIO_NAO_ENCONTRADO.toString())
 			);
-		} else if (!mandato.secretarioId) {
+		} else if (!pessoa.secretarioId) {
 			return Promise.reject(new Error(Errors.USUARIO_SEM_PERMISSAO.toString()));
 		}
 
@@ -68,9 +84,18 @@ export default class MandatoService implements IMandatoService {
 			return Promise.reject(new Error(Errors.ESTADO_INVALIDO.toString()));
 		}
 
-		const { dataFim } = data;
+		const { dataFim, id } = data;
+
+		// check if dataFim is before dataInicio
+		// ps datas are in ISO format
+		if (!dataFim) {
+			return Promise.reject(new Error(Errors.CAMPO_OBRIGATORIO.toString()));
+		} else if (mandatoEditado.dataInicio > dataFim) {
+			return Promise.reject(new Error(Errors.DATA_INVALIDA.toString()));
+		}
 
 		return this.mandatoRepository.put({
+			id,
 			dataFim,
 		});
 	}
