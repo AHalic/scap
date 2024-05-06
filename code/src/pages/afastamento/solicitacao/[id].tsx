@@ -7,14 +7,16 @@ import { toast } from "react-toastify";
 
 import SolicitacaoPage, { checkEstado } from "@/components/afastamento/SolicitacaoPage";
 import { LoadingCircle } from "@/components/LoadingPage";
-import { Documento, EstadoSolicitacao, Mandato, Pessoa } from "@prisma/client";
+import { Documento, EstadoSolicitacao } from "@prisma/client";
 
-import { AfastamentoCompleto } from "../../../../lib/interfaces/Filtros";
+import { AfastamentoCompleto, PessoaCompleta } from "../../../../lib/interfaces/Filtros";
 
 export default function AfastamentoSolicitacaoPage()  {
-	const [user, setUser] = useState<Pessoa & {mandato: Mandato}>();
-	const [loading, setLoading] = useState(true);
+	const [user, setUser] = useState<PessoaCompleta>();
 	const [data, setData] = useState<AfastamentoCompleto>();
+	const [loading, setLoading] = useState(true);
+	const [loadingUser, setLoadingUser] = useState(true);
+	
 	const router = useRouter();
 
 	const { id } = router.query;
@@ -23,19 +25,23 @@ export default function AfastamentoSolicitacaoPage()  {
 	const userId = session ? JSON.parse(session).id : undefined;
 
 	useEffect(() => {
-		if (userId){
+		if (userId) {
+			setLoadingUser(true);
 			axios.get(`/api/pessoa/${userId}`)
 				.then(response => {
+					setLoadingUser(false);
 					setUser(response.data);
 				})
 				.catch(error => {
 					console.error(error);
-					toast('Ocorreu um erro ao buscar o Usuário', {
+					setLoadingUser(false);
+					toast(error.message ? error.message : 'Ocorreu um erro ao buscar o Usuário', {
 						type: 'error',
 					});
 				});
-		}
+		} 
 	}, [userId]);
+
 
 	useEffect(() => {
 		if (id) {
@@ -62,7 +68,7 @@ export default function AfastamentoSolicitacaoPage()  {
 			return true;
 		} else if (user?.professorId === data?.solicitanteId && !checkEstado(data?.estado)) {
 			return false;
-		} else if (user?.mandato.isChefe && data?.estado === EstadoSolicitacao.INICIADO) {
+		} else if (user?.professor?.mandato.length && data?.estado === EstadoSolicitacao.INICIADO) {
 			return false;
 		} 
 		
@@ -92,6 +98,7 @@ export default function AfastamentoSolicitacaoPage()  {
 				});
 		} else if (user?.professorId === data?.solicitanteId) {
 			const nomeEvento = formData.get('nomeEvento') as string;
+			const cidadeEvento = formData.get('cidadeEvento') as string;
 
 			const dataInicio = DateTime.fromISO(formData.get('dataInicio') as string).toISO();
 			const dataFim = DateTime.fromISO(formData.get('dataFim') as string).toISO();
@@ -100,9 +107,28 @@ export default function AfastamentoSolicitacaoPage()  {
 			const motivo = formData.get('motivo') as string;
 			const documentos = JSON.parse(formData.get('documentos') as string);
 
+			// Verifica se as datas de fim são maiores que as datas de início
+			if ((dataFim && dataInicio && DateTime.fromISO(dataFim) < DateTime.fromISO(dataInicio)) ||
+				(dataFimEvento && dataInicioEvento && DateTime.fromISO(dataFimEvento) < DateTime.fromISO(dataInicioEvento))){
+				toast('Datas de Fim devem ser maiores que as respectivas Datas de Início', {
+					type: 'error',
+				});
+				return;
+			}
+
+			// Verifica se as datas do evento estão dentro do intervalo de afastamento
+			if ((dataInicioEvento && dataInicio && DateTime.fromISO(dataInicioEvento) < DateTime.fromISO(dataInicio)) ||
+				(dataFimEvento && dataFim && DateTime.fromISO(dataFimEvento) > DateTime.fromISO(dataFim))){
+				toast('Datas do Evento devem estar dentro do intervalo de afastamento', {
+					type: 'error',
+				});
+				return;
+			}
+
 			const body = {
 				id,
 				nomeEvento,
+				cidadeEvento,
 				dataInicio,
 				dataFim,
 				dataInicioEvento,
@@ -127,7 +153,7 @@ export default function AfastamentoSolicitacaoPage()  {
 						type: 'error',
 					});
 				});
-		} else if (user?.mandato.isChefe && data?.estado === EstadoSolicitacao.INICIADO) {
+		} else if (user?.professor?.mandato.length && data?.estado === EstadoSolicitacao.INICIADO) {
 			const relator = formData.get('relator') as string;
 
 			axios.put(`/api/afastamento/${id}`, { relator, id})
@@ -153,7 +179,7 @@ export default function AfastamentoSolicitacaoPage()  {
 	return (
 		<main>
 			{
-				loading && 
+				(loading || loadingUser) && 
 				<div className=" z-10 absolute top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
 					<LoadingCircle height="24" width="24" />
 				</div>

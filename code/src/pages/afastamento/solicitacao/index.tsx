@@ -15,6 +15,7 @@ export default function AfastamentoSolicitacaoPage() {
 	 
 		const formData = new FormData(event.currentTarget);
 		const nomeEvento = formData.get('nomeEvento') as string;
+		const cidadeEvento = formData.get('cidadeEvento') as string;
 		const tipo = formData.get('tipo') as TipoAfastamento;
 		const onus = formData.get('onus') as Onus;
 		const dataInicio = DateTime.fromISO(formData.get('dataInicio') as string).toISO();
@@ -24,11 +25,29 @@ export default function AfastamentoSolicitacaoPage() {
 		const motivo = formData.get('motivo') as string;
 		const documentos = JSON.parse(formData.get('documentos') as string);
 
+		if ((dataFim && dataInicio && DateTime.fromISO(dataFim) < DateTime.fromISO(dataInicio)) ||
+		(dataFimEvento && dataInicioEvento && DateTime.fromISO(dataFimEvento) < DateTime.fromISO(dataInicioEvento))){
+			toast('Datas de Fim devem ser maiores que as respectivas Datas de Início', {
+				type: 'error',
+			});
+			return;
+		}
+
+		// Verifica se as datas do evento estão dentro do intervalo de afastamento
+		if ((dataInicioEvento && dataInicio && DateTime.fromISO(dataInicioEvento) < DateTime.fromISO(dataInicio)) ||
+		(dataFimEvento && dataFim && DateTime.fromISO(dataFimEvento) > DateTime.fromISO(dataFim))){
+			toast('Datas do Evento devem estar dentro do intervalo de afastamento', {
+				type: 'error',
+			});
+			return;
+		}
+
 
 		const body = {
 			nomeEvento,
 			tipo,
 			onus,
+			cidadeEvento,
 			dataInicio,
 			dataFim,
 			dataInicioEvento,

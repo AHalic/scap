@@ -11,7 +11,7 @@ import NavBar from "@/components/NavBar";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { EstadoSolicitacao, Onus, TipoAfastamento } from "@prisma/client";
 
-import { AfastamentoCompleto, TipoPessoa, estadoAfastamentoColors } from "../../../lib/interfaces/Filtros";
+import { AfastamentoCompleto, PessoaCompleta, TipoPessoa, estadoAfastamentoColors } from "../../../lib/interfaces/Filtros";
 import Chip from "../Chip";
 import Dropzone from "../Dropzone";
 import InputAsync from "../InputAsync";
@@ -28,10 +28,11 @@ export const checkEstado = (estado: EstadoSolicitacao | undefined) => {
 	return false;
 };
 
-export default function SolicitacaoPage({data, disabled=false, isSecretario=false, handleSubmit}: {
+export default function SolicitacaoPage({data, disabled=false, isSecretario=false, user, handleSubmit}: {
   data?: AfastamentoCompleto | undefined,
   disabled?: boolean,
 	isSecretario?: boolean,
+	user?: PessoaCompleta,
   handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void
 }) {
 
@@ -57,7 +58,7 @@ export default function SolicitacaoPage({data, disabled=false, isSecretario=fals
 
 						<div className="w-full bg-slate-100 rounded-md py-6 px-4 drop-shadow-[0_2px_4px_rgba(15,23,42,0.2)]">
 							<h1 className="text-slate-700 font-bold text-2xl mb-5">Solicitação de Afastamento</h1>
-							<FormAfastamento data={data} disabled={disabled} handleSubmit={handleSubmit} isSecretario={isSecretario} />
+							<FormAfastamento user={user} data={data} disabled={disabled} handleSubmit={handleSubmit} isSecretario={isSecretario} />
 						</div>
 					</div>
 				</div>
@@ -66,10 +67,11 @@ export default function SolicitacaoPage({data, disabled=false, isSecretario=fals
 	);
 }
 
-const FormAfastamento = ({data, disabled=false, isSecretario=false, handleSubmit}: {
+const FormAfastamento = ({data, disabled=false, isSecretario=false, user, handleSubmit}: {
   data?: AfastamentoCompleto | undefined, 
   disabled?: boolean,
 	isSecretario?: boolean,
+	user?: PessoaCompleta,
   handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void
 }) => {
 	const [tipoAfastamento, setTipoAfastamento] = useState<TipoAfastamento | undefined>(data?.tipo);
@@ -125,13 +127,13 @@ const FormAfastamento = ({data, disabled=false, isSecretario=false, handleSubmit
 									light
 									name="estado"
 									defaultValue={data?.estado}
-									disabled={isSecretario ? checkEstado(data?.estado) : disabled}
+									disabled={isSecretario ? checkEstado(data?.estado) : true}
 									renderFunction={
 										(option: {
                       value: string;
                       label: EstadoSolicitacao;}
 										) => <Chip color={estadoAfastamentoColors[option.label].color}>{option.value}</Chip>}
-									options={Object.values(EstadoSolicitacao).map((value) => ({ label: value, value }))}
+									options={Object.values(EstadoSolicitacao).map((value) => ({ label: value, value })).filter((value) => value.value !== EstadoSolicitacao.LIBERADO && value.value !== EstadoSolicitacao.CANCELADO)}
 								/>
 							</div>
 						</>
@@ -240,6 +242,23 @@ const FormAfastamento = ({data, disabled=false, isSecretario=false, handleSubmit
 						/>
 					</div>
 
+					{/* cidade */}
+					<div className="col-span-4">
+						<label htmlFor="cidadeEvento" className="block text-base font-medium text-slate-600">
+						Cidade *
+						</label>
+						<input
+							name="cidadeEvento"
+							id="cidadeEvento"
+							title="Cidade"
+							defaultValue={data?.cidadeEvento}
+							required
+							disabled={disabled}
+							placeholder="Cidade"
+							className={`w-full bg-white border border-gray-300 ${disabled ? 'text-gray-400' : 'text-gray-500'} rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-1 focus:ring-blue-500`}
+						/>
+					</div>
+
 					{/* Relator */}
 					{tipoAfastamento && tipoAfastamento === TipoAfastamento.INTERNACIONAL && (
 						<div className="col-span-4">
@@ -250,7 +269,7 @@ const FormAfastamento = ({data, disabled=false, isSecretario=false, handleSubmit
 								name="relatorId"
 								placeholder="Digite o nome do relator"
 								light
-								disabled={disabled}
+								disabled={!user?.professor?.mandato.length || disabled}
 								loadOptions={async (inputValue) => {
 									return axios.get('/api/pessoa', { params: {nome: inputValue, tipo: TipoPessoa.professor} })
 										.then(response => {
