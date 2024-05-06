@@ -2,13 +2,15 @@ import {
 	Afastamento,
 	Documento,
 	EstadoSolicitacao,
-	Mandato,
-	Parentesco,
 	Pessoa,
 	TipoAfastamento,
 } from "@prisma/client";
 
-import { AfastamentoCompleto, FiltrosAfastamento } from "../interfaces/Filtros";
+import {
+	AfastamentoCompleto,
+	FiltrosAfastamento,
+	PessoaCompleta,
+} from "../interfaces/Filtros";
 import AfastamentoRepository from "../repositories/AfastamentoRepository";
 import PessoaRepository from "../repositories/PessoaRepository";
 import Errors from "./interfaces/Errors";
@@ -63,10 +65,9 @@ export default class AfastamentoService {
 		},
 		userId: string
 	): Promise<Afastamento> {
-		const pessoa = (await this.pessoaRepository.getById(userId)) as Pessoa & {
-			mandato: Mandato;
-			parentescoA: Parentesco;
-		};
+		const pessoa = (await this.pessoaRepository.getById(
+			userId
+		)) as PessoaCompleta;
 
 		if (!pessoa) {
 			return Promise.reject(
@@ -79,7 +80,8 @@ export default class AfastamentoService {
 		)) as AfastamentoCompleto;
 		if (
 			afastamento?.solicitante?.pessoa?.id !== userId &&
-			!pessoa.secretarioId
+			!pessoa.secretarioId &&
+			!pessoa.professor?.mandato.length
 		) {
 			return Promise.reject(new Error(Errors.USUARIO_SEM_PERMISSAO.toString()));
 		}
@@ -92,34 +94,47 @@ export default class AfastamentoService {
 			afastamento.estado === EstadoSolicitacao.ARQUIVADO ||
 			afastamento.estado === EstadoSolicitacao.CANCELADO ||
 			afastamento.estado === EstadoSolicitacao.REPROVADO ||
-			(data?.estado === EstadoSolicitacao.LIBERADO &&
-				afastamento.tipo === TipoAfastamento.NACIONAL)
+			(data?.estado === EstadoSolicitacao.ARQUIVADO &&
+				afastamento.estado !== EstadoSolicitacao.APROVADO_PRPPG) ||
+			(afastamento.tipo === TipoAfastamento.NACIONAL &&
+				data?.estado === EstadoSolicitacao.APROVADO_PRPPG) ||
+			(afastamento.tipo === TipoAfastamento.NACIONAL &&
+				data?.estado === EstadoSolicitacao.APROVADO_CT)
 		) {
 			return Promise.reject(new Error(Errors.ESTADO_INVALIDO.toString()));
 		}
 
 		if (pessoa.secretarioId) {
-			if (data.estado === EstadoSolicitacao.LIBERADO && !afastamento.relator) {
-				return Promise.reject(new Error(Errors.CAMPO_OBRIGATORIO.toString()));
-			}
-
 			return this.afastamentoRepository.put({
 				estado: data.estado,
 				id: data.id,
 			} as AfastamentoCompleto);
-		} else if (pessoa.mandato.isChefe) {
+		} else if (
+			pessoa?.professor?.mandato.length &&
+			pessoa?.professorId !== afastamento.solicitanteId
+		) {
 			if (afastamento.estado !== EstadoSolicitacao.INICIADO) {
 				return Promise.reject(new Error(Errors.ESTADO_INVALIDO.toString()));
+			}
+
+			if (data.tipo === TipoAfastamento.INTERNACIONAL && !afastamento.relator) {
+				return Promise.reject(new Error(Errors.CAMPO_OBRIGATORIO.toString()));
 			}
 
 			// TODO: adicionar validação de parentesco
 
 			return this.afastamentoRepository.put({
-				relator: data.relator,
+				relatorId: data.relatorId,
 				id: data.id,
 				estado: EstadoSolicitacao.LIBERADO,
 			} as AfastamentoCompleto);
 		} else {
+			if (data.estado !== EstadoSolicitacao.CANCELADO) {
+				return Promise.reject(
+					new Error(Errors.USUARIO_SEM_PERMISSAO.toString())
+				);
+			}
+
 			return this.afastamentoRepository.put({
 				id: data.id,
 				nomeEvento: data.nomeEvento,
@@ -129,6 +144,8 @@ export default class AfastamentoService {
 				dataInicioEvento: data.dataInicioEvento,
 				dataFimEvento: data.dataFimEvento,
 				documentos: data?.documentos,
+				cidadeEvento: data.cidadeEvento,
+				estado: data.estado,
 			} as AfastamentoCompleto);
 		}
 	}
