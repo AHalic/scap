@@ -63,6 +63,7 @@ export default function PessoaForm() {
 		const email = formData.get('email') as string;
 		const telefone = formData.get('telefone') as string;
 		const senha = formData.get('senha') as string;
+		const matricula = formData.get('matricula') as string;
 		const parentescoA = JSON.parse(formData.get('parentescoA')as string) as ParentescoCompleto[];
 		const tipoPessoa = formData.get('tipoPessoa') as string;
 	
@@ -72,6 +73,7 @@ export default function PessoaForm() {
 			nome,
 			email,
 			telefone,
+			matricula,
 			senha,
 			tipoPessoa,
 			professor: {

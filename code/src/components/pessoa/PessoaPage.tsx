@@ -232,22 +232,38 @@ const FormPessoa = ({data, disabled=false, user, handleSubmit, tipo}: {
 						</label>
 						<InputMask
 							mask="+55 (99) 99999-9999"
-							defaultValue={data?.telefone}
+							defaultValue={data?.telefone || ''}
 							disabled={disabled}
 							type="tel"
-							required
 						>
 							<input
 								name="telefone"
 								id="telefone"
 								title="Telefone"
 								type="tel"
-								defaultValue={data?.telefone}
+								defaultValue={data?.telefone || ''}
 								placeholder="Telefone"
 								pattern="\+55 \([0-9]{2}\) [0-9]{5}-[0-9]{4}"
 								className={`w-full bg-white border border-gray-300 ${disabled ? 'text-gray-400' : 'text-gray-500'} rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-1 focus:ring-blue-500`}
 							/>
 						</InputMask>
+					</div>
+
+					{/* Matricula */}
+					<div className="col-span-4">
+						<label htmlFor="matricula" className="block text-base font-medium text-slate-600">
+						Matrícula
+						</label>
+						<input
+							name="matricula"
+							id="matricula"
+							title="Matrícula"
+							defaultValue={data?.matricula}
+							placeholder="Matrícula"
+							required
+							disabled={disabled}
+							className={`w-full bg-white border border-gray-300 ${disabled ? 'text-gray-400' : 'text-gray-500'} rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-1 focus:ring-blue-500`}
+						/>
 					</div>
 
 					{/* Senha */}
@@ -269,6 +285,8 @@ const FormPessoa = ({data, disabled=false, user, handleSubmit, tipo}: {
 							/>
 						</div>
 					)}
+
+
 
 					{/* Table of parents */}
 					{/* show if its professor */}

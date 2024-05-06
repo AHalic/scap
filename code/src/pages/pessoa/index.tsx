@@ -35,9 +35,12 @@ export default function PessoaForm() {
 		const parentescoA = JSON.parse(formData.get('parentescoA')as string) as ParentescoCompleto[];
 		const tipoPessoa = formData.get('tipoPessoa') as string;
 
+		const matricula = formData.get('matricula') as string;
+
 		const body = {
 			nome,
 			email,
+			matricula,
 			telefone,
 			senha,
 			tipoPessoa,
