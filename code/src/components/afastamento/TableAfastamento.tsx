@@ -1,10 +1,11 @@
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-import { ArrowTopRightOnSquareIcon,  TrashIcon} from "@heroicons/react/24/outline";
-import { Pessoa, TipoAfastamento } from "@prisma/client";
+import { ArrowTopRightOnSquareIcon, XCircleIcon} from "@heroicons/react/24/outline";
+import { EstadoSolicitacao, Pessoa, TipoAfastamento } from "@prisma/client";
 
 import { AfastamentoCompleto, FiltrosAfastamento, estadoAfastamentoColors } from "../../../lib/interfaces/Filtros";
 import Chip from "../Chip";
@@ -19,10 +20,11 @@ const tipoAfastamentoColors = {
 
 
 export default function TableAfastamento({params, currentUser}: {params: FiltrosAfastamento, currentUser?: Pessoa}) {
+	const [confirmCancel, setConfirmCancel] = useState<undefined | string>();
 	const [data, setData] = useState<AfastamentoCompleto[]>();
 	const [loading, setLoading] = useState(true);
-  
-	const [confirmDelete, setConfirmDelete] = useState<undefined | string>();
+
+	const router = useRouter();
     
 
 	useEffect(() => {
@@ -89,8 +91,10 @@ export default function TableAfastamento({params, currentUser}: {params: Filtros
   
 									{
 										afastamento.solicitante.pessoa.id === currentUser?.id &&
-										<button onClick={() => setConfirmDelete(afastamento.id)} className="text-slate-600 hover:text-red-900 h-full" title="Deletar">
-											<TrashIcon className="w-5 h-6" />
+										afastamento.estado !== EstadoSolicitacao.CANCELADO &&
+										afastamento.estado !== EstadoSolicitacao.APROVADO_DI &&
+										<button onClick={() => setConfirmCancel(afastamento.id)} className="text-slate-600 hover:text-red-900 h-full" title="Cancelar">
+											<XCircleIcon className="w-5 h-6" />
 										</button>
 									}
 								</td>
@@ -105,28 +109,31 @@ export default function TableAfastamento({params, currentUser}: {params: Filtros
 			</table>
 
 			<ConfirmModal
-				open={!!confirmDelete}
-				title="Deletar Afastamento"
-				message="Tem certeza que deseja deletar este afastamento?"
-				onConfirm={() => {
-					axios.delete(`/api/afastamento/${confirmDelete}`)
+				open={!!confirmCancel}
+				hasInput
+				title="Cancelar Afastamento"
+				message="Tem certeza que deseja cancelar este afastamento?"
+				onConfirm={(inputRef) => {
+					axios.put(`/api/afastamento/${confirmCancel}`, { estado: EstadoSolicitacao.CANCELADO,
+						motivo: inputRef?.current?.value,
+						id: confirmCancel})
 						.then(() => {
-							setData(data?.filter(afastamento => afastamento.id !== confirmDelete));
-							setConfirmDelete(undefined);
-							toast('Afastamento deletado com sucesso', {
+							router.reload();
+							setConfirmCancel(undefined);
+							toast('Afastamento Cancelado com sucesso', {
 								type: 'success',
 							});
 						})
 						.catch(error => {
-							setConfirmDelete(undefined);
+							setConfirmCancel(undefined);
 							console.error(error);
 							const message = error.response?.data?.message;
-							toast(message ? message : 'Ocorreu um erro ao deletar o Afastamento', {
+							toast(message ? message : 'Ocorreu um erro ao cancelar o Afastamento', {
 								type: 'error',
 							});
 						});
 				}}
-				onCancel={() => setConfirmDelete(undefined)}
+				onCancel={() => setConfirmCancel(undefined)}
 			/>
 		</>
 
