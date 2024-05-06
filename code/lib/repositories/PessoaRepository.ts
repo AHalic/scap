@@ -36,6 +36,7 @@ export default class PessoaRepository extends BaseRepository<
 
 		const pessoa = await prisma.pessoa.create({
 			data: {
+				matricula: data.matricula,
 				email: data.email,
 				nome: data.nome,
 				telefone: data.telefone,
@@ -213,7 +214,11 @@ export default class PessoaRepository extends BaseRepository<
 			select: {
 				professor: {
 					select: {
-						mandato: true,
+						mandato: {
+							where: {
+								dataFim: { equals: null },
+							},
+						},
 						parentescoA: {
 							select: {
 								id: true,
@@ -244,6 +249,7 @@ export default class PessoaRepository extends BaseRepository<
 				nome: true,
 				email: true,
 				telefone: true,
+				matricula: true,
 				secretarioId: true,
 				professorId: true,
 				senha: selectPassword ? true : undefined,
@@ -260,13 +266,18 @@ export default class PessoaRepository extends BaseRepository<
 			select: {
 				professor: {
 					select: {
-						mandato: true,
+						mandato: {
+							where: {
+								dataFim: { equals: null },
+							},
+						},
 						parentescoA: true,
 					},
 				},
 				id: true,
 				nome: true,
 				email: true,
+				matricula: true,
 				telefone: true,
 				secretarioId: true,
 				professorId: true,
