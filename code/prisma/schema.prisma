@@ -27,8 +27,9 @@ model Pessoa {
   id           String      @id @default(uuid())
   nome         String
   email        String      @unique
-  telefone     String
+  telefone     String?
   senha        String
+  matricula    String      @unique
   secretarioId String?     @unique
   professorId  String?     @unique
   professor    Professor?  @relation(fields: [professorId], references: [id], onDelete: Cascade)
@@ -70,6 +71,7 @@ model Afastamento {
   dataInicioEvento DateTime
   dataSolicitacao  DateTime?         @default(now())
   nomeEvento       String
+  cidadeEvento     String
   relator          Professor?        @relation("relatorAfastamento", fields: [relatorId], references: [id])
   solicitante      Professor         @relation("solicitanteAfastamento", fields: [solicitanteId], references: [id])
   documentos       Documento[]
