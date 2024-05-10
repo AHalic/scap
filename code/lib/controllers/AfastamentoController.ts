@@ -155,6 +155,27 @@ export default class AfastamentoController {
 					});
 					return;
 				}
+
+				if (error.message === Errors.CAMPO_OBRIGATORIO.toString()) {
+					res.status(400).json({
+						message: "Há dados obrigatórios para o Afastamento não preenchidos",
+					});
+					return;
+				}
+
+				if (error.message === Errors.DADO_INVALIDO.toString()) {
+					res.status(400).json({
+						message: "Há pelo menos um dado inválidos para o Afastamento",
+					});
+					return;
+				}
+
+				if (error.message === Errors.PARENTE_NAO_ENCONTRADO.toString()) {
+					res.status(400).json({
+						message: "Relator não pode ser parente do solicitante",
+					});
+					return;
+				}
 			});
 
 		if (!afastamento) {

@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 import {
 	Afastamento,
 	Documento,
@@ -12,19 +14,23 @@ import {
 	PessoaCompleta,
 } from "../interfaces/Filtros";
 import AfastamentoRepository from "../repositories/AfastamentoRepository";
+import ParentescoRepository from "../repositories/ParentescoRepository";
 import PessoaRepository from "../repositories/PessoaRepository";
 import Errors from "./interfaces/Errors";
 
 export default class AfastamentoService {
 	private readonly afastamentoRepository: AfastamentoRepository;
 	private readonly pessoaRepository: PessoaRepository;
+	private readonly parentescoRepository: ParentescoRepository;
 
 	constructor(
 		afastamentoRepository: AfastamentoRepository = new AfastamentoRepository(),
-		pessoaRepository: PessoaRepository = new PessoaRepository()
+		pessoaRepository: PessoaRepository = new PessoaRepository(),
+		parentescoRepository: ParentescoRepository = new ParentescoRepository()
 	) {
 		this.afastamentoRepository = afastamentoRepository;
 		this.pessoaRepository = pessoaRepository;
+		this.parentescoRepository = parentescoRepository;
 	}
 
 	async buscarPorId(id: string): Promise<Afastamento | null> {
@@ -78,8 +84,9 @@ export default class AfastamentoService {
 		const afastamento = (await this.afastamentoRepository.getById(
 			data.id
 		)) as AfastamentoCompleto;
+
 		if (
-			afastamento?.solicitante?.pessoa?.id !== userId &&
+			afastamento?.solicitanteId !== pessoa.professorId &&
 			!pessoa.secretarioId &&
 			!pessoa.professor?.mandato.length
 		) {
@@ -99,15 +106,46 @@ export default class AfastamentoService {
 			(afastamento.tipo === TipoAfastamento.NACIONAL &&
 				data?.estado === EstadoSolicitacao.APROVADO_PRPPG) ||
 			(afastamento.tipo === TipoAfastamento.NACIONAL &&
-				data?.estado === EstadoSolicitacao.APROVADO_CT)
+				data?.estado === EstadoSolicitacao.APROVADO_CT) ||
+			(afastamento.tipo === TipoAfastamento.NACIONAL &&
+				data?.estado === EstadoSolicitacao.LIBERADO) ||
+			(afastamento.tipo === TipoAfastamento.INTERNACIONAL &&
+				data?.estado === EstadoSolicitacao.BLOQUEADO)
 		) {
 			return Promise.reject(new Error(Errors.ESTADO_INVALIDO.toString()));
 		}
 
+		if (
+			afastamento.estado === EstadoSolicitacao.LIBERADO &&
+			data.estado === EstadoSolicitacao.REPROVADO
+		) {
+			data.estado = EstadoSolicitacao.BLOQUEADO;
+		}
+
 		if (pessoa.secretarioId) {
+			if (
+				afastamento.tipo === TipoAfastamento.INTERNACIONAL &&
+				!afastamento.relatorId &&
+				data.estado !== EstadoSolicitacao.LIBERADO
+			) {
+				return Promise.reject(new Error(Errors.CAMPO_OBRIGATORIO.toString()));
+			}
+
+			// se ainda não completaram 10 dias da data de solicitação, não é possível aprovar
+			if (
+				afastamento.tipo === TipoAfastamento.NACIONAL &&
+				data.estado === EstadoSolicitacao.APROVADO_DI &&
+				afastamento.dataSolicitacao &&
+				DateTime.now().diff(DateTime.fromJSDate(afastamento.dataSolicitacao))
+					.days > 10
+			) {
+				return Promise.reject(new Error(Errors.ESTADO_INVALIDO.toString()));
+			}
+
 			return this.afastamentoRepository.put({
 				estado: data.estado,
 				id: data.id,
+				documentos: data?.documentos,
 			} as AfastamentoCompleto);
 		} else if (
 			pessoa?.professor?.mandato.length &&
@@ -121,7 +159,22 @@ export default class AfastamentoService {
 				return Promise.reject(new Error(Errors.CAMPO_OBRIGATORIO.toString()));
 			}
 
-			// TODO: adicionar validação de parentesco
+			if (data.relatorId === afastamento.solicitanteId) {
+				return Promise.reject(new Error(Errors.DADO_INVALIDO.toString()));
+			}
+
+			const parentesco = await this.parentescoRepository.verificaParentesco(
+				afastamento.solicitanteId,
+				data.relatorId as string
+			);
+
+			console.log(parentesco, afastamento.solicitanteId, data.relatorId);
+
+			if (parentesco) {
+				return Promise.reject(
+					new Error(Errors.PARENTE_NAO_ENCONTRADO.toString())
+				);
+			}
 
 			return this.afastamentoRepository.put({
 				relatorId: data.relatorId,
@@ -129,7 +182,11 @@ export default class AfastamentoService {
 				estado: EstadoSolicitacao.LIBERADO,
 			} as AfastamentoCompleto);
 		} else {
-			if (data.estado !== EstadoSolicitacao.CANCELADO) {
+			if (
+				data.estado &&
+				afastamento.estado !== data.estado &&
+				data.estado !== EstadoSolicitacao.CANCELADO
+			) {
 				return Promise.reject(
 					new Error(Errors.USUARIO_SEM_PERMISSAO.toString())
 				);

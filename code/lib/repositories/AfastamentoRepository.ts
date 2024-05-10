@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Afastamento } from "@prisma/client";
 
@@ -15,6 +16,7 @@ export default class AfastamentoRepository extends BaseRepository<
 		const afastamento = await prisma.afastamento.create({
 			data: {
 				...afastamentoData,
+				pareceres: undefined,
 				documentos: {
 					create: data.documentos,
 				},
@@ -24,32 +26,48 @@ export default class AfastamentoRepository extends BaseRepository<
 	}
 
 	async put(data: AfastamentoCompleto): Promise<Afastamento> {
-		console.log("repository", data);
+		// only properties of data that are different than undefined
+		const relator = data.relatorId
+			? {
+					relator: {
+						connect: { id: data.relatorId },
+					},
+				}
+			: {};
+
+		// only documents that are not already in the database aka dont have an id
+		const documentsToCreate = data.documentos
+			? data.documentos.filter((d) => !d.id)
+			: [];
 
 		const afastamento = await prisma.afastamento.update({
 			where: { id: data.id },
 			data: {
 				estado: data.estado,
-				// nomeEvento: data.nomeEvento,
-				// motivo: data.motivo,
-				// dataInicio: data.dataInicio,
-				// dataFim: data.dataFim,
-				// dataInicioEvento: data.dataInicioEvento,
-				// dataFimEvento: data.dataFimEvento,
-				// documentos: {
-				// 	upsert: data.documentos.map((d) => ({
-				// 		where: { id: d.id },
-				// 		update: { titulo: d.titulo, url: d.url },
-				// 		create: { titulo: d.titulo, url: d.url },
-				// 	})),
-				// 	deleteMany: {
-				// 		id: {
-				// 			notIn: data.documentos.map((d) => d.id).filter(Boolean),
-				// 		},
-				// 	},
-				// },
+				nomeEvento: data.nomeEvento,
+				motivo: data.motivo,
+				dataInicio: data.dataInicio,
+				dataFim: data.dataFim,
+				dataInicioEvento: data.dataInicioEvento,
+				dataFimEvento: data.dataFimEvento,
+				cidadeEvento: data.cidadeEvento,
+				...relator,
+				documentos: {
+					deleteMany: {
+						AND: {
+							id: {
+								notIn: data?.documentos?.map((d) => d.id).filter(Boolean),
+							},
+							afastamentoId: data.id,
+						},
+					},
+					createMany: {
+						data: documentsToCreate,
+					},
+				},
 			},
 		});
+
 		return afastamento;
 	}
 
