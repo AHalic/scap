@@ -32,7 +32,9 @@ export default function MandatoPage() {
 		})
 			.catch((error) => {
 				console.error(error);
-				toast(error.message ? error.message : "Ocorreu um erro ao buscar o Mandato Atual", {
+
+				const message = error.response?.data?.message;
+				toast(message ? message : "Ocorreu um erro ao buscar o Mandato Atual", {
 					type: "error",
 				});
 			});
@@ -42,7 +44,9 @@ export default function MandatoPage() {
 		})
 			.catch((error) => {
 				console.error(error);
-				toast(error.message ? error.message : "Ocorreu um erro ao buscar o Mandato Atual", {
+
+				const message = error.response?.data?.message;
+				toast(message ? message : "Ocorreu um erro ao buscar o Mandato Atual", {
 					type: "error",
 				});
 			});

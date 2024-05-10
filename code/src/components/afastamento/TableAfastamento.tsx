@@ -92,7 +92,8 @@ export default function TableAfastamento({params, currentUser}: {params: Filtros
 									{
 										afastamento.solicitante.pessoa.id === currentUser?.id &&
 										afastamento.estado !== EstadoSolicitacao.CANCELADO &&
-										afastamento.estado !== EstadoSolicitacao.APROVADO_DI &&
+										afastamento.estado !== EstadoSolicitacao.REPROVADO &&
+										afastamento.estado !== EstadoSolicitacao.ARQUIVADO &&
 										<button onClick={() => setConfirmCancel(afastamento.id)} className="text-slate-600 hover:text-red-900 h-full" title="Cancelar">
 											<XCircleIcon className="w-5 h-6" />
 										</button>
