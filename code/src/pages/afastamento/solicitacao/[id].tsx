@@ -35,7 +35,10 @@ export default function AfastamentoSolicitacaoPage()  {
 				.catch(error => {
 					console.error(error);
 					setLoadingUser(false);
-					toast(error.message ? error.message : 'Ocorreu um erro ao buscar o Usuário', {
+					
+					const message = error.response?.data?.message;
+
+					toast(message ? message : 'Ocorreu um erro ao buscar o Usuário', {
 						type: 'error',
 					});
 				});
@@ -48,15 +51,15 @@ export default function AfastamentoSolicitacaoPage()  {
 			setLoading(true);
 			axios.get(`/api/afastamento/${id}`)
 				.then(response => {
-					console.log(DateTime.fromISO(response.data.dataInicio).toFormat('yyyy-MM-dd'), response.data.dataInicio);
-					
 					setLoading(false);
 					setData(response.data);
 				})
 				.catch(error => {
 					setLoading(false);
 					console.error(error);
-					toast(error.message ? error.message : 'Ocorreu um erro ao buscar o Afastamento', {
+
+					const message = error.response?.data?.message;
+					toast(message ? message : 'Ocorreu um erro ao buscar o Afastamento', {
 						type: 'error',
 					});
 				});
@@ -67,8 +70,6 @@ export default function AfastamentoSolicitacaoPage()  {
 		if (user?.secretarioId) {
 			return true;
 		} else if (user?.professorId === data?.solicitanteId && !checkEstado(data?.estado)) {
-			return false;
-		} else if (user?.professor?.mandato.length && data?.estado === EstadoSolicitacao.INICIADO) {
 			return false;
 		} 
 		
@@ -83,11 +84,24 @@ export default function AfastamentoSolicitacaoPage()  {
 		
 		if (user?.secretarioId) {
 			const estado = formData.get('estado') as EstadoSolicitacao;
-			axios.put(`/api/afastamento/${id}`, { estado, id })
+			const documentos = JSON.parse(formData.get('documentos') as string);
+
+			const body = {
+				id,
+				estado,
+				documentos: documentos.map((d: Documento) => ({
+					titulo: d.titulo,
+					url: d.url,
+				})),
+			};
+
+			axios.put(`/api/afastamento/${id}`, body)
 				.then(() => {
 					toast('Afastamento atualizado com sucesso', {
 						type: 'success',
 					});
+
+					router.reload();
 				})
 				.catch(error => {
 					console.error(error);
@@ -145,6 +159,8 @@ export default function AfastamentoSolicitacaoPage()  {
 					toast('Afastamento atualizado com sucesso', {
 						type: 'success',
 					});
+
+					router.reload();
 				})
 				.catch(error => {
 					console.error(error);
@@ -154,13 +170,15 @@ export default function AfastamentoSolicitacaoPage()  {
 					});
 				});
 		} else if (user?.professor?.mandato.length && data?.estado === EstadoSolicitacao.INICIADO) {
-			const relator = formData.get('relator') as string;
+			const relatorId = formData.get('relatorId') as string;
 
-			axios.put(`/api/afastamento/${id}`, { relator, id})
+			axios.put(`/api/afastamento/${id}`, { relatorId, id})
 				.then(() => {
 					toast('Afastamento atualizado com sucesso', {
 						type: 'success',
 					});
+
+					router.reload();
 				})
 				.catch(error => {
 					console.error(error);
@@ -185,7 +203,12 @@ export default function AfastamentoSolicitacaoPage()  {
 				</div>
 			}
 
-			<SolicitacaoPage data={data} handleSubmit={handleSubmit} disabled={checkIfDisabled()} isSecretario={!!user?.secretarioId} />
+			<SolicitacaoPage 
+				data={data}
+				handleSubmit={handleSubmit}
+				disabled={checkIfDisabled()}
+				isSecretario={!!user?.secretarioId}
+				user={user} />
 		</main>
 	);
 }

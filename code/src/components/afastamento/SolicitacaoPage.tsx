@@ -3,18 +3,19 @@ import axios from "axios";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { FormEvent, RefObject, useState } from "react";
 import { toast } from "react-toastify";
 
 import ProtectedRoute from "@/auth";
 import NavBar from "@/components/NavBar";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { EstadoSolicitacao, Onus, TipoAfastamento } from "@prisma/client";
+import { EstadoSolicitacao, FonteParecer, Onus, TipoAfastamento, TipoParecer } from "@prisma/client";
 
 import { AfastamentoCompleto, PessoaCompleta, TipoPessoa, estadoAfastamentoColors } from "../../../lib/interfaces/Filtros";
 import Chip from "../Chip";
 import Dropzone from "../Dropzone";
 import InputAsync from "../InputAsync";
+import ModalParecer from "../ModalParecer";
 import Select from "../Select";
 
 const inter = Inter({style: "normal", weight: "400", subsets: ["latin"]});
@@ -33,8 +34,82 @@ export default function SolicitacaoPage({data, disabled=false, isSecretario=fals
   disabled?: boolean,
 	isSecretario?: boolean,
 	user?: PessoaCompleta,
-  handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void
+  handleSubmit?: (event: FormEvent<HTMLFormElement>) => void
 }) {
+	const [isModalNacionalOpen, setIsModalNacionalOpen] = useState(false);
+	const [isModalInternacionalOpen, setIsModalInternacionalOpen] = useState(false);
+
+	const router = useRouter();
+
+	const handleParecer = (formRef: RefObject<HTMLFormElement>) => {
+		if (!formRef.current) {
+			return;
+		}
+
+		const formData = new FormData(formRef.current);
+		const motivo = formData.get('motivo') as string;
+		
+		if (!motivo) {
+			toast('O campo Motivo é obrigatório', {type: 'error'});
+			return;
+		}
+
+		const body = {
+			motivo,
+			afastamentoId: data?.id,
+			data: new Date().toISOString(),
+			professorId: user?.professorId,
+		};
+
+		if (data?.tipo === TipoAfastamento.NACIONAL) {
+			axios.post(`/api/parecer`, {
+				...body,
+				fonte: FonteParecer.DI,
+				julgamento: TipoParecer.DESFAVORAVEL,
+			})
+				.then(() => {
+					setIsModalNacionalOpen(false);
+					setIsModalInternacionalOpen(false);
+					toast('Manifestação enviada com sucesso', {type: 'success'});
+
+					router.reload();
+				})
+				.catch((error) => {
+					console.error(error);
+					const message = error.response?.data?.message;
+
+					toast(message ? message : 'Ocorreu um erro ao enviar a manifestação', {
+						type: 'error',
+					});
+				});
+		} else if (data?.tipo === TipoAfastamento.INTERNACIONAL) {
+			const julgamento = formData.get('julgamento') as TipoParecer;
+			const fonte = formData.get('fonte') as FonteParecer;
+
+			axios.post(`/api/parecer`, {
+				...body,
+				fonte,
+				julgamento,
+			})
+				.then(() => {
+					setIsModalNacionalOpen(false);
+					setIsModalInternacionalOpen(false);
+					toast('Parecer enviado com sucesso', {type: 'success'});
+
+					router.reload();
+				})
+				.catch((error) => {
+					console.error(error);
+					const message = error.response?.data?.message;
+
+					toast(message ? message : 'Ocorreu um erro ao enviar o parecer', {
+						type: 'error',
+					});
+				});
+		}
+
+		setIsModalNacionalOpen(false);
+	};
 
 	return (
 		<ProtectedRoute>
@@ -50,10 +125,32 @@ export default function SolicitacaoPage({data, disabled=false, isSecretario=fals
 					<div className="flex-grow px-8 py-11">
 						<div className="flex items-center justify-between flex-row mb-4">
 							<nav className={`flex leading-6 items-center text-md text-slate-500 ${inter.className}`}>
-               Afastamentos 
+               	Afastamentos 
 								<ChevronRightIcon className="inline-block w-6 h-6" />
-              Solicitação
+              	Solicitação
 							</nav>
+
+							{data?.tipo === TipoAfastamento.NACIONAL && data?.estado === EstadoSolicitacao.INICIADO && 
+							data.solicitanteId !== user?.professorId && !user?.secretarioId && (
+								<button
+									onClick={() => setIsModalNacionalOpen(true)}
+									className="flex py-1 px-2 rounded-md items-center bg-red-500  hover:bg-red-400"
+								>
+									Manifestar Contra
+								</button>
+							)}
+
+							{data?.tipo === TipoAfastamento.INTERNACIONAL && (
+								(data?.estado === EstadoSolicitacao.LIBERADO && data.solicitanteId !== user?.professorId) || 
+								((data?.estado === EstadoSolicitacao.APROVADO_DI || data?.estado === EstadoSolicitacao.APROVADO_CT) &&
+									!!user?.secretarioId)) && (
+								<button
+									onClick={() => setIsModalInternacionalOpen(true)}
+									className="flex py-1 px-2 rounded-md items-center bg-red-500  hover:bg-red-400"
+								>
+									Parecer
+								</button>
+							)}
 						</div>
 
 						<div className="w-full bg-slate-100 rounded-md py-6 px-4 drop-shadow-[0_2px_4px_rgba(15,23,42,0.2)]">
@@ -62,6 +159,17 @@ export default function SolicitacaoPage({data, disabled=false, isSecretario=fals
 						</div>
 					</div>
 				</div>
+
+				<ModalParecer 
+					openState={[isModalNacionalOpen, setIsModalNacionalOpen]}
+					onConfirm={handleParecer}
+				/>
+
+				<ModalParecer 
+					isParecer
+					openState={[isModalInternacionalOpen, setIsModalInternacionalOpen]}
+					onConfirm={handleParecer}
+				/>
 			</div>
 		</ProtectedRoute>
 	);
@@ -76,7 +184,7 @@ const FormAfastamento = ({data, disabled=false, isSecretario=false, user, handle
 }) => {
 	const [tipoAfastamento, setTipoAfastamento] = useState<TipoAfastamento | undefined>(data?.tipo);
 	const router = useRouter();
-
+		
 
 	return (
 		<>
@@ -133,7 +241,7 @@ const FormAfastamento = ({data, disabled=false, isSecretario=false, user, handle
                       value: string;
                       label: EstadoSolicitacao;}
 										) => <Chip color={estadoAfastamentoColors[option.label].color}>{option.value}</Chip>}
-									options={Object.values(EstadoSolicitacao).map((value) => ({ label: value, value })).filter((value) => value.value !== EstadoSolicitacao.LIBERADO && value.value !== EstadoSolicitacao.CANCELADO)}
+									options={Object.values(EstadoSolicitacao).map((value) => ({ label: value, value }))}
 								/>
 							</div>
 						</>
@@ -269,12 +377,13 @@ const FormAfastamento = ({data, disabled=false, isSecretario=false, user, handle
 								name="relatorId"
 								placeholder="Digite o nome do relator"
 								light
-								disabled={!user?.professor?.mandato.length || disabled}
+								defaultValue={data?.relatorId ? {id: data?.relatorId, label: data?.relator?.pessoa?.nome} : undefined}
+								disabled={user?.professor?.mandato.length ? data?.estado !== EstadoSolicitacao.INICIADO : true}
 								loadOptions={async (inputValue) => {
 									return axios.get('/api/pessoa', { params: {nome: inputValue, tipo: TipoPessoa.professor} })
 										.then(response => {
 											return response.data.map((professor: any) => ({
-												id: professor.id,
+												id: professor.professorId,
 												label: professor.nome,
 											}));
 										})
@@ -315,16 +424,22 @@ const FormAfastamento = ({data, disabled=false, isSecretario=false, user, handle
 						<label htmlFor="documentos" className="block text-base font-medium text-slate-600 mb-1">
             Documentos
 						</label>
-						<Dropzone initialFiles={data?.documentos} disabled={disabled} />
+						<Dropzone initialFiles={data?.documentos} disabled={isSecretario ? checkEstado(data?.estado) : disabled} />
 					</div>
 				</div>
 
 				<div>
-					{!(isSecretario ? checkEstado(data?.estado) : disabled) && (
-						<button type="submit" className="bg-green-600 hover:opacity-80 text-white font-bold py-2 px-6 rounded mr-4">
-							{data ? 'Salvar' : 'Solicitar Afastamento'}
-						</button>
-					)}
+					{(!(isSecretario ? checkEstado(data?.estado) : disabled) 
+					|| (
+						!!user?.professor?.mandato.length &&
+						data?.estado === EstadoSolicitacao.INICIADO && 
+						data.tipo === TipoAfastamento.INTERNACIONAL
+					)) 
+						&& (
+							<button type="submit" className="bg-green-600 hover:opacity-80 text-white font-bold py-2 px-6 rounded mr-4">
+								{data ? 'Salvar' : 'Solicitar Afastamento'}
+							</button>
+						)}
 
 					<button type="button" onClick={() => {router.push('/afastamento');}} className="bg-slate-300 hover:opacity-70 text-slate-500 font-bold py-2 px-6 rounded">
             Fechar
