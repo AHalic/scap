@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { Inter } from "next/font/google";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -7,6 +8,9 @@ const inter = Inter({style: "normal", weight: "400", subsets: ["latin"]});
 
 export default function NavBar() {
 	const router = useRouter();
+
+	const session = Cookies.get('session');
+	const userId = session ? JSON.parse(session).id : undefined;
 
 	return (
 		<nav className="flex flex-col bg-blue-930 w-48">
@@ -87,8 +91,8 @@ export default function NavBar() {
 			<div className={`flex items-center justify-center h-12 text-lg bg-blue-950 ${router.pathname === '/perfil' ? 'font-bold text-slate-50' : 'text-slate-300 hover:text-slate-50 hover:cursor-pointer'} transition duration-200 ease-in-out ${inter.className}`}>
 				<a
 					onClick={() => {
-						if (router.pathname !== "/perfil") {
-							router.push("/perfil");
+						if (router.pathname !== `pessoa/${userId}`) {
+							router.push(`/pessoa/${userId}`);
 						}
 					}}
 				>

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Cookies from "js-cookie";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -26,6 +27,14 @@ export default function PessoaPage({data, isSecretarioExclusive=false, disabled=
   tipo?: string,
   handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void
 }) {
+	const router = useRouter();
+
+	const handleLogout = () => {
+		// logout (delete from cookies)
+		Cookies.remove('session');
+		// redirect to login
+		router.replace('/');
+	};
 
 	return (
 		<ProtectedRoute isSecretarioExclusive={isSecretarioExclusive}>
@@ -45,6 +54,15 @@ export default function PessoaPage({data, isSecretarioExclusive=false, disabled=
 								<ChevronRightIcon className="inline-block w-6 h-6" />
                 Cadastro
 							</nav>
+
+							{user?.id === data?.id && (
+								<button
+									onClick={handleLogout}
+									className="flex py-1 px-2 rounded-md items-center text-white bg-red-500  hover:bg-red-400"
+								>
+									Logout
+								</button>
+							)}
 						</div>
 
 						<div className="w-full bg-slate-100 rounded-md py-6 px-4 drop-shadow-[0_2px_4px_rgba(15,23,42,0.2)]">
