@@ -82,14 +82,15 @@ model Afastamento {
 }
 
 model Parecer {
-  id            String      @id @default(uuid())
+  id            String       @id @default(uuid())
   data          DateTime
   julgamento    TipoParecer
+  fonte         FonteParecer @default(DI)
   motivo        String
   afastamentoId String
-  professorId   String
-  afastamento   Afastamento @relation(fields: [afastamentoId], references: [id], onDelete: Cascade)
-  professor     Professor   @relation(fields: [professorId], references: [id])
+  professorId   String?
+  afastamento   Afastamento  @relation(fields: [afastamentoId], references: [id], onDelete: Cascade)
+  professor     Professor?   @relation(fields: [professorId], references: [id])
 
   @@index([afastamentoId], map: "Parecer_afastamentoId_fkey")
   @@index([professorId], map: "Parecer_professorId_fkey")
@@ -120,6 +121,12 @@ enum EstadoSolicitacao {
 enum TipoAfastamento {
   NACIONAL
   INTERNACIONAL
+}
+
+enum FonteParecer {
+  DI
+  CT
+  PRPPG
 }
 
 enum TipoParecer {
