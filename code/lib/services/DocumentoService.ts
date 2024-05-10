@@ -17,7 +17,7 @@ export default class DocumentoService {
 	}
 
 	async buscarPorId(id: string, userId: string): Promise<Documento | null> {
-		const pessoa = await this.documentoRepository.getById(userId);
+		const pessoa = await this.pessoaRepository.getById(userId);
 
 		if (!pessoa) {
 			return Promise.reject(
