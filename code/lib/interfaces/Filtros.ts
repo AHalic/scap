@@ -4,6 +4,7 @@ import {
 	EstadoSolicitacao,
 	Mandato,
 	Onus,
+	Parecer,
 	Parentesco,
 	Pessoa,
 	Secretario,
@@ -92,6 +93,7 @@ interface AfastamentoCompleto extends Afastamento {
 		pessoa: Pessoa;
 	};
 	documentos: Documento[];
+	pareceres: Parecer[];
 }
 
 interface ParentescoCompleto extends Parentesco {
