@@ -100,6 +100,7 @@ model Documento {
   id            String       @id @default(uuid())
   titulo        String
   url           String
+  data          DateTime     @default(now())
   afastamentoId String?
   afastamento   Afastamento? @relation(fields: [afastamentoId], references: [id], onDelete: Cascade)
 
