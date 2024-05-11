@@ -7,7 +7,7 @@ export interface IPessoaService {
 	criar(data: PessoaCompleta, userId: string): Promise<Pessoa>;
 	editar(data: Pessoa, userId: string): Promise<Pessoa>;
 	deletar(id: string, userId: string): Promise<Pessoa>;
-	buscarPorId(id: string): Promise<Pessoa | null>;
-	buscar(filtros: FiltrosPessoa): Promise<Pessoa[]>;
+	buscarPorId(id: string, userId: string): Promise<Pessoa | null>;
+	buscar(filtros: FiltrosPessoa, userId: string): Promise<Pessoa[]>;
 }
 

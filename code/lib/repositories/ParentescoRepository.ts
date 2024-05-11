@@ -24,5 +24,57 @@ export default class ParentescoRepository
 		});
 		return !!parentesco;
 	}
+
+	async post(data: Parentesco): Promise<Parentesco> {
+		const parentesco = await prisma.parentesco.create({
+			data: {
+				tipo: data.tipo,
+				professorA: {
+					connect: {
+						id: data.professorAId,
+					},
+				},
+				professorB: {
+					connect: {
+						id: data.professorBId,
+					},
+				},
+			},
+		});
+
+		await prisma.parentesco.create({
+			data: {
+				tipo: data.tipo,
+				professorA: {
+					connect: {
+						id: data.professorBId,
+					},
+				},
+				professorB: {
+					connect: {
+						id: data.professorAId,
+					},
+				},
+			},
+		});
+
+		return parentesco;
+	}
+
+	async delete(id: string): Promise<Parentesco> {
+		return prisma.parentesco.delete({
+			where: {
+				id: id,
+			},
+		});
+	}
+
+	async getById(id: string): Promise<Parentesco | null> {
+		return prisma.parentesco.findUnique({
+			where: {
+				id: id,
+			},
+		});
+	}
 }
 

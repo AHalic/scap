@@ -18,7 +18,15 @@ export default class PessoaService implements IPessoaService {
 		this.pessoaRepository = pessoaRepository;
 	}
 
-	async buscarPorId(id: string): Promise<Pessoa | null> {
+	async buscarPorId(id: string, userId: string): Promise<Pessoa | null> {
+		const pessoaReq = await this.pessoaRepository.getById(userId);
+
+		if (!pessoaReq) {
+			return Promise.reject(
+				new Error(Errors.USUARIO_NAO_ENCONTRADO.toString())
+			);
+		}
+
 		const pessoa = await this.pessoaRepository.getById(id);
 
 		if (!pessoa) {
@@ -28,7 +36,15 @@ export default class PessoaService implements IPessoaService {
 		return pessoa;
 	}
 
-	async buscar(filtros: FiltrosPessoa): Promise<Pessoa[]> {
+	async buscar(filtros: FiltrosPessoa, userId: string): Promise<Pessoa[]> {
+		const pessoaReq = await this.pessoaRepository.getById(userId);
+
+		if (!pessoaReq) {
+			return Promise.reject(
+				new Error(Errors.USUARIO_NAO_ENCONTRADO.toString())
+			);
+		}
+
 		const pessoas = await this.pessoaRepository.get(filtros, false);
 
 		return pessoas.filter((pessoa) => {

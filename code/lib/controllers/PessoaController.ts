@@ -54,9 +54,21 @@ export default class PessoaController {
 		}
 
 		const { id } = req.query;
+		const { id: userId } = JSON.parse(user);
+
 		const pessoa = await this.pessoaService
-			.buscarPorId(id as string)
+			.buscarPorId(id as string, userId)
 			.catch((error) => {
+				if (
+					error.message === Errors.USUARIO_NAO_LOGADO.toString() ||
+					error.message === Errors.USUARIO_NAO_ENCONTRADO.toString()
+				) {
+					res.status(401).json({
+						message: "Usuário sem permissão para acessar o sistema",
+					});
+					return;
+				}
+
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
 					res.status(404).json({
 						message: "Usuário não encontrado",
@@ -81,13 +93,27 @@ export default class PessoaController {
 			return;
 		}
 
+		const { id: userId } = JSON.parse(user);
+
 		const filtros = { ...req.query } as unknown as FiltrosPessoa;
-		const pessoas = await this.pessoaService.buscar(filtros).catch((error) => {
-			if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
-				res.status(204).end();
-				return;
-			}
-		});
+		const pessoas = await this.pessoaService
+			.buscar(filtros, userId)
+			.catch((error) => {
+				if (
+					error.message === Errors.USUARIO_NAO_LOGADO.toString() ||
+					error.message === Errors.USUARIO_NAO_ENCONTRADO.toString()
+				) {
+					res.status(401).json({
+						message: "Usuário sem permissão para acessar o sistema",
+					});
+					return;
+				}
+
+				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
+					res.status(204).end();
+					return;
+				}
+			});
 
 		if (!pessoas) {
 			res

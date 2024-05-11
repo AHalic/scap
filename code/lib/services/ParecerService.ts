@@ -11,8 +11,9 @@ import AfastamentoRepository from "../repositories/AfastamentoRepository";
 import ParecerRepository from "../repositories/ParecerRepository";
 import PessoaRepository from "../repositories/PessoaRepository";
 import Errors from "./interfaces/Errors";
+import { IParecerService } from "./interfaces/IParecerService";
 
-export default class ParecerService {
+export default class ParecerService implements IParecerService {
 	private readonly parecerRepository: ParecerRepository;
 	private readonly pessoaRepository: PessoaRepository;
 	private readonly afastamentoRepository: AfastamentoRepository;

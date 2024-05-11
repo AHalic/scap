@@ -17,8 +17,9 @@ import AfastamentoRepository from "../repositories/AfastamentoRepository";
 import ParentescoRepository from "../repositories/ParentescoRepository";
 import PessoaRepository from "../repositories/PessoaRepository";
 import Errors from "./interfaces/Errors";
+import { IAfastamentoService } from "./interfaces/IAfastamentoService";
 
-export default class AfastamentoService {
+export default class AfastamentoService implements IAfastamentoService {
 	private readonly afastamentoRepository: AfastamentoRepository;
 	private readonly pessoaRepository: PessoaRepository;
 	private readonly parentescoRepository: ParentescoRepository;
@@ -33,7 +34,15 @@ export default class AfastamentoService {
 		this.parentescoRepository = parentescoRepository;
 	}
 
-	async buscarPorId(id: string): Promise<Afastamento | null> {
+	async buscarPorId(id: string, userId: string): Promise<Afastamento | null> {
+		const pessoa = await this.pessoaRepository.getById(userId);
+
+		if (!pessoa) {
+			return Promise.reject(
+				new Error(Errors.USUARIO_NAO_ENCONTRADO.toString())
+			);
+		}
+
 		const afastamento = await this.afastamentoRepository.getById(id);
 
 		if (!afastamento) {
@@ -43,7 +52,18 @@ export default class AfastamentoService {
 		return afastamento;
 	}
 
-	async buscar(filtros: FiltrosAfastamento): Promise<Afastamento[]> {
+	async buscar(
+		filtros: FiltrosAfastamento,
+		userId: string
+	): Promise<Afastamento[]> {
+		const pessoa = await this.pessoaRepository.getById(userId);
+
+		if (!pessoa) {
+			return Promise.reject(
+				new Error(Errors.USUARIO_NAO_ENCONTRADO.toString())
+			);
+		}
+
 		return this.afastamentoRepository.get(filtros);
 	}
 

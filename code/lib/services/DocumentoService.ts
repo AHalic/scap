@@ -3,8 +3,9 @@ import { Documento } from "@prisma/client";
 import DocumentoRepository from "../repositories/DocumentoRepository";
 import PessoaRepository from "../repositories/PessoaRepository";
 import Errors from "./interfaces/Errors";
+import { IDocumentoService } from "./interfaces/IDocumentoService";
 
-export default class DocumentoService {
+export default class DocumentoService implements IDocumentoService {
 	private readonly documentoRepository: DocumentoRepository;
 	private readonly pessoaRepository: PessoaRepository;
 
