@@ -23,8 +23,11 @@ export default class AfastamentoController {
 		}
 
 		const { id } = req.query;
+
+		const { id: userId } = JSON.parse(user);
+
 		const afastamento = await this.afastamentoService
-			.buscarPorId(id as string)
+			.buscarPorId(id as string, userId)
 			.catch((error) => {
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
 					res.status(404).json({
@@ -52,9 +55,11 @@ export default class AfastamentoController {
 			return;
 		}
 
+		const { id: userId } = JSON.parse(user);
+
 		const filtros = { ...req.query } as unknown as FiltrosAfastamento;
 		const afastamentos = await this.afastamentoService
-			.buscar(filtros)
+			.buscar(filtros, userId)
 			.catch((error) => {
 				if (error.message === Errors.OBJETO_NAO_ENCONTRADO.toString()) {
 					res.status(204).end();
