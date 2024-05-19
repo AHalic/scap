@@ -7,12 +7,61 @@
 
 \vitor{Não iniciar um capítulo direto com uma seção ou uma seção direto com subseção. Adicionar um parágrafo explicando o que será apresentado neste capítulo, quando você tiver adicionado as demais seções.}
 
+Após a definição dos requisitos, é necessário realizar o projeto arquitetural, nessa
+fase as tecnologias utilizadas são incorporadas à modelagem do sistema. Neste capítulo
+são apresentados os passos de planejamento e desenvolvimento da aplicação.
+Na Seção~\ref{sec-projeto-tecnologias} estão as tecnologias utilizadas, na Seção~\ref{sec-projeto-frameweb}
+são exemplificados os modelos FrameWeb desenvolvidos para auxilio na implementação do SCAP.
+A Seção~\ref{sec-projeto-arquitetura} mostra a arquitetura do sistema. 
+Por fim, na Seção~\ref{sec-projeto-impl} são apresentadas capturas de tela da aplicação para
+ilustrar o desenvolvimento do SCAP.
+
+
 \section{Tecnologias Utilizadas}
 \label{sec-projeto-tecnologias}
 
+Neste projeto, utilizou-se a linguagem \textit{TypeScript} unida ao \textit{framework} Next.js.
+A Tabela~\ref{tab-tecnologias} apresenta as tecnologias e bibliotecas utilizadas, suas funções e suas respectivas versões.
+Dentre as tecnologias, destaca-se o MySQL, um sistema de gerenciamento de banco de dados relacional,
+e o Prisma, um ORM (\textit{Object-Relational Mapping}) para Node.js, ferramenta utilizada
+para mapear classes para tabelas, além de facilitar a manipulação de dados com o banco.
 
-\section{Arquitetura do Sistema}
-\label{sec-projeto-arquitetura}
+\begin{table}[h]
+    \centering
+    \caption{Tecnologias e Bibliotecas Utilizadas.}
+    \label{tab-tecnologias}
+    \begin{tabularx}{\textwidth}{|p{4cm}|X|p{2cm}|}%{|p{3cm}|p{5cm}|p{5cm}|}
+        \hline
+        \textbf{Tecnologia} & \textbf{Função} & \textbf{Versão} \\
+        \hline
+        TypeScript & Linguagem de programação & 5 \\
+        \hline
+        Next.js & \textit{Framework} para desenvolvimento \textit{Web} & 14.1.3 \\
+        \hline
+        Tailwind CSS & \textit{Framework} CSS para estilizar componentes & 3.3.0 \\
+        \hline
+        Axios & Cliente HTTP baseado em \textit{Promises} & 1.6.8 \\
+        \hline
+        Prisma & ORM (\textit{Object-Relational Mapping}) para Node.js & 5.11.0 \\
+        \hline
+        MySQL & Sistema de Gerenciamento de Banco de Dados Relacional & 8.3.0 \\
+        \hline
+        React Dropzone & Componente para \textit{upload} de arquivos & 14.2.3 \\
+        \hline
+        React Input Mask & Componente para máscaras de \textit{inputs} & 3.0.0 \\
+        \hline
+        React Toastify & Componente para notificações & 10.0.5 \\
+        \hline
+        Luxon & Biblioteca para manipulação de datas & 3.4.4 \\
+        \hline
+        uuid & Biblioteca para geração de identificadores únicos & 9.0.1 \\
+        \hline
+        NPM & Gerenciador de pacotes para \textit{Node.js} & 10.5.0 \\
+        \hline
+        \end{tabularx}
+\end{table}
+
+
 
 
 \section{Modelos FrameWeb}
@@ -56,6 +105,35 @@ os tipos enumerados do modelo de entidades do SCAP.
 \end{figure}
 
 
+Os Diagramas~\ref{fig-diagrama-estado-nacional} e~\ref{fig-diagrama-estado-internacional} apresentam os fluxos de estados
+para solicitações de afastamento do tipo nacional e internacional, respectivamente.
+Explicitando os estados que uma solicitação de afastamento pode assumir e as transições entre eles,
+de acordo com determinadas ações. Um exemplo de fluxo para um afastamento nacional é descrito abaixo:
+
+\begin{enumerate}
+    \item O professor solicita um afastamento nacional, este é criado no estado \textbf{INICIADO};
+    \item Um professor do DI manifesta-se contra a solicitação, o afastamento passa para o estado \textbf{BLOQUEADO};
+    \item Após votação favorável do colegiado, o secretário registra a aprovação do afastamento que muda para o estado \textbf{APROVADO\_DI};
+    \item Por fim, o secretário arquiva a solicitação, modificando seu estado para \textbf{ARQUIVADO}.
+
+\end{enumerate}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/fig-diagrama-estado-nacional.png}
+    \caption{Diagrama de Estados da Solicitação de Afastamento Nacional do SCAP.}
+    \label{fig-diagrama-estado-nacional}
+\end{figure}
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figuras/fig-diagrama-estado-internacional.png}
+    \caption{Diagrama de Estados da Solicitação de Afastamento Internacional do SCAP.}
+    \label{fig-diagrama-estado-internacional}
+\end{figure}
+
+
 \subsection{Modelo de Persistência}
 \label{subsec-frameweb-persistencia}
 
@@ -63,8 +141,6 @@ O modelo de persistência de FrameWeb é um diagrama de classes UML que represen
 as classes responsáveis pela persistência das classes de domínio no banco de dados~\cite{souza:2007}.
 Foi utilizado o padrão \textit{Repository} para a implementação das classes de persistência,
 este propõe uma camada de separação entre o domínio e o mapeamento de dados.
-
-\sophie{Acho que o get com filtros pode ser do IBaseRepositoy mas não ser definido em BaseRepository (filtros vão ser específicos de cada entidade)}
 
 
 Para isso, foi criada uma interface base (\textbf{IBaseRepositoy}) que define os métodos comuns a todas as classes de persistência,
@@ -100,7 +176,7 @@ apresentam o modelo de persistência do SCAP.
 	
 	Além disso, o padrão de nome das interfaces é curioso. Eu imaginaria que a interface de \textsf{PessoaRepository} fosse \textsf{IPessoaRepository} e não apenas \textsf{IPessoa}. Esse é o padrão sugerido pelo \textit{framework} mesmo?}
 
-\sophie{Por enquanto só esses métodos, mas se precisar de mais métodos adiciono aqui sim.
+\sophie{Só esses métodos foram usados mesmo.
     Sobre o padrão de nomes, pesquisando sobre o Repository Pattern vi que não existe um consenso em relação ao nome das interfaces e classes, mas achei que de fato ficou mais claro nomear as interfaces com o sufixo Repository.}
 
 \subsection{Modelo de Navegação}
@@ -217,8 +293,200 @@ as classes de persistência para realizar as operações de leitura e escrita no
 \end{figure}
 
 
+
+\section{Arquitetura do Sistema}
+\label{sec-projeto-arquitetura}
+
+Por ser um \textit{framework} de \textit{Single Page Application} (SPA), o Next.js funciona por meio de componentes,
+e possui um padrão de \textit{design} diferente de projetos Java, por exemplo, que costumam utilizar
+padrões como o \textit{Model-View-Controller} (MVC). 
+
+A Figura~\ref{fig-pastas} apresenta a organização de pastas da implementação do SCAP. 
+Na pasta \textbf{components} estão os componentes reutilizáveis, como o componente \textit{navbar} presente em todas as páginas do sistema.
+A pasta \textbf{src} é a principal, nela estão contidas algumas pastas especiais controladas pelo \textit{framework}
+como \textbf{pages} e \textbf{api}. A primeira, \textbf{pages}, transforma tudo que está dentro dela em uma rota do sistema,
+ou seja, um arquivo \textit{index.js} em uma pasta chamada \textbf{pessoa} estará disponível como a rota \textit{/pessoa}.
+De forma similar, a pasta \textbf{api} gera rotas de API a partir dos arquivos presentes nela.
+
+Os arquivos presentes na pasta \textbf{api} possuem funções \textit{handler} especiais que são responsáveis por lidar com as requisições feitas ao servidor.
+Estas funções utilizam as classes \textbf{controller} presente na pasta \textbf{lib} para manipular a requisição e retornar uma resposta.
+Esta, por consequência, utiliza as classes \textbf{service} para realizar as operações de negócio, que por fim acessam as classes \textbf{reposity} para realizar
+operações de leitura e escrita no banco de dados. As classes foram criadas seguindo o padrão de projeto \textit{Repository Pattern}.
+
+No diretório \textbf{prisma} está presente o arquivo de configuração do Prisma, que contém o \textit{schema} do banco de dados e as \textit{migrations}
+geradas pelo Prisma.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figuras/fig-pastas.png}
+    \caption{Arquitetura do SCAP.}
+    \label{fig-pastas}
+\end{figure}
+
+
 \section{Implementação e Resultados}
 \label{sec-projeto-impl}
 
 Essa seção apresenta a implementação do SCAP, por meio de capturas de tela,
 e discute os resultados obtidos.
+
+\subsection{Login}
+\label{subsec-projeto-login}
+
+Para ter acesso ao SCAP, é necessário que o usuário realize o \textit{login} fornecendo o \textit{e-mail}
+e senha cadastrados no sistema. A Figura~\ref{fig-login} apresenta a tela de \textit{login} do SCAP.
+Por questões de segurança, sem o \textit{login} o usuário não consegue acessar as outras páginas do sistema
+ou utilizar as rotas da API.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-login.png}
+    \caption{Tela de Login do SCAP.}
+    \label{fig-login}
+\end{figure}
+
+Como mencionado anteriormente, existem dois tipos de usuários: secretário e professor. 
+Os secretários são responsáveis por gerenciar os usuários e os estados dos afastamentos.
+Já os professores podem solicitar afastamentos e visualizar o andamento das solicitações.
+Dessa forma, as telas mudam de acordo com o tipo de usuário que está logado.
+
+
+\subsection{Listagem de Afastamentos}
+\label{subsec-projeto-afastamentos}
+
+Ao completar o \textit{login}, o usuário é redirecionado para a página inicial do sistema, onde é possível
+visualizar os afastamentos solicitados pelos professores. A Figura~\ref{fig-listagem-afastamentos} apresenta a tela de listagem de afastamentos
+do SCAP. Nela é possível também buscar os afastamentos por diferentes critérios, como o nome do professor ou o estado do afastamento,
+a Figura~\ref{fig-filtro-afastamentos} apresenta este filtro. Por fim, caso o usuário seja um professor,
+o botão de solicitar afastamento estará disponível, ao clicá-lo o usuário é redirecionado para a página de cadastro de afastamento.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-lista-afastamento.png}
+    \caption{Listagem de Afastamentos do SCAP.}
+    \label{fig-listagem-afastamentos}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-filtro-afastamento.png}
+    \caption{Filtro de Busca de Afastamentos.}
+    \label{fig-filtro-afastamentos}
+\end{figure}
+
+\subsection{Cadastro de Afastamento}
+\label{subsec-projeto-cadastro-afastamento}
+
+A Figura~\ref{fig-cadastro-afastamento} apresenta a tela de cadastro de afastamento do SCAP. Esta rota
+é acessível apenas para professores, que podem solicitar um afastamento preenchendo o formulário,
+campos marcados com asterisco são obrigatórios. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-solicitar-afastamento.png}
+    \caption{Cadastro de Afastamento do SCAP.}
+    \label{fig-cadastro-afastamento}
+\end{figure}
+
+A edição de um afastamento é feita de forma similar ao cadastro, porém os campos já estarão preenchidos com os valores
+do afastamento a ser editado. O mesmo componente é utilizado para ambas as ações, estando a diferença na rota acessada.
+Na edição, apenas o professor solicitante pode editar as informações do afastamento, exceto os campos:
+\textit{estado} e \textit{relator}, que são de responsabilidade do secretário e professor chefe, respectivamente.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-editar-afastamento.png}
+    \caption{Edição de Afastamento do SCAP.}
+    \label{fig-editar-afastamento}
+\end{figure}
+
+Caso seja um professor sem parentesco com o solicitante do afastamento, o botão de \textbf{Parecer} estará disponível,
+abrindo um modal com o formulário para preenchimento do parecer. A Figura~\ref{fig-parecer} apresenta este modal.
+Por serem funcionalidades semelhantes, o modal de parecer é utilizado também para pareceres externos (CT e PRPPG) e manifestações
+de professores contra o afastamento nacional.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-parecer.png}
+    \caption{Modal de Parecer do SCAP.}
+    \label{fig-parecer}
+\end{figure}
+
+Por fim, o formulário de afastamento possui também um campo para \textit{upload} de arquivos, onde o professor solicitante
+pode anexar o relatório de viagem e o secretário pode anexar atas ou documentos enviados pelo CT e PRPPG.
+
+\subsection{Cadastro de Usuários}
+\label{subsec-projeto-cadastro-usuarios}
+
+Através do \textbf{NavBar} é possível navegar pela aplicação, clicando em \textbf{Professores} o usuário é redirecionado
+para a página de listagem de professores, onde é possível visualizar os professores cadastrados, assim como seus \textit{e-mails}
+e telefones. A Figura~\ref{fig-listagem-professores} apresenta a tela de listagem de professores do SCAP.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-lista-professor.png}
+    \caption{Listagem de Professores do SCAP.}
+    \label{fig-listagem-professores}
+\end{figure}
+
+A Figura~\ref{fig-listagem-secretarios} apresenta a tela de listagem de secretários, que pode ser acessada
+da mesma forma, pelo \textbf{NavBar} clicando em \textbf{Secretários}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-lista-secretario.png}
+    \caption{Listagem de Secretários do SCAP.}
+    \label{fig-listagem-secretarios}
+\end{figure}
+
+Apenas o secretário pode deletar, visualizar e adicionar professores. A Figura~\ref{fig-cadastro-professor} apresenta
+a tela de cadastro de usuários, por onde o secretário pode adicionar um novo usuário preenchendo o formulário,
+seja ele um professor ou secretário. Campos marcados com asterisco são obrigatórios.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-cadastro-professor.png}
+    \caption{Cadastro de Usuários do SCAP.}
+    \label{fig-cadastro-professor}
+\end{figure}
+
+
+Caso o usuário a ser criado seja um professor, o secretário pode adicionar parentescos entre professores.
+Para isso, deve-se clicar no botão de adição que então abre um modal com um pequeno formulário.
+A Figura~\ref{fig-parentesco} apresenta este modal.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-modal-parentesco.png}
+    \caption{Cadastro de Parentesco do SCAP.}
+    \label{fig-parentesco}
+\end{figure}
+
+
+O componente de cadastro de usuários é utilizado também para a edição de usuários, assim como foi feito com Afastamentos. A Figura~\ref{fig-editar-professor}
+apresenta a página de usuário preenchida com os dados do professor logado no momento. É por essa página também que o usuário pode alterar sua senha ou realizar o \textit{logout} do sistema.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-perfil.png}
+    \caption{Edição de Professor do SCAP.}
+    \label{fig-editar-professor}
+\end{figure}
+
+
+\subsection{Cadastro de Mandato}
+\label{subsec-projeto-cadastro-mandato}
+
+O secretário é responsável por gerenciar os mandatos dos professores, funções que estes exercem
+no departamento. A Figura~\ref{fig-mandato} apresenta a tela de cadastro de mandatos do SCAP.
+Nela é possível visualizar os mandatos atuais, e para cadastrar um novo mandato deve-se finalizar o anterior.
+Para finalizar o mandato basta clicar no botão \textbf{Finalizar Mandato}, caso uma data de fim não seja enviada,
+será considerada a data de hoje. Professores também podem visualizar os mandatos atuais. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/prints-app/fig-mandato-visao-secretario.png}
+    \caption{Cadastro de Mandatos do SCAP.}
+    \label{fig-mandato}
+\end{figure}
