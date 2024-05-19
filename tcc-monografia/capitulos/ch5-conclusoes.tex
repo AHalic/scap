@@ -5,18 +5,54 @@
 \chapter{Conclusão}
 \label{sec-conclusoes}
 
-Neste capítulo devem ser realizadas as considerações finais do trabalho, sendo apresentadas suas principais contribuições, limitações, lições aprendidas durante o desenvolvimento do trabalho, dificuldades enfrentadas e perspectivas de trabalhos futuros. O capítulo deve ter entre 3 e 5 páginas.
+% \hl{Neste capítulo devem ser realizadas as considerações finais do trabalho, sendo apresentadas suas principais contribuições, limitações, lições aprendidas durante o desenvolvimento do trabalho, dificuldades enfrentadas e perspectivas de trabalhos futuros. O capítulo deve ter entre 3 e 5 páginas.}
 
+Este capítulo apresenta as considerações finais do trabalho, dificuldades, e perspectivas para trabalhos futuros.
+Na Seção~\ref{sec-conclusoes-consideracoes}, são apresentados as conclusões obtidas e suas relações com os objetivos definidos, enquanto
+na Seção~\ref{sec-conclusoes-trabalhosfuturos} são apresentadas ideias e melhorias para trabalhos futuros.
 
 %%% Início de seção. %%%
 \section{Considerações Finais}
 \label{sec-conclusoes-consideracoes}
 
-Esta seção deve apresentar um texto de fechamento do trabalho, devendo incluir considerações sobre o trabalho desenvolvido, suas limitações, contribuições, experiência adquirida pelo aluno e lições aprendidas ao longo do desenvolvimento, bem como dificuldades enfrentadas durante o desenvolvimento do trabalho. Nesta seção é preciso mostrar claramente a relação entre os resultados produzidos no trabalho e os objetivos estabelecidos no Capítulo
+% \hl{Esta seção deve apresentar um texto de fechamento do trabalho, devendo incluir considerações sobre o trabalho desenvolvido, suas limitações, contribuições, experiência adquirida pelo aluno e lições aprendidas ao longo do desenvolvimento, bem como dificuldades enfrentadas durante o desenvolvimento do trabalho. Nesta seção é preciso mostrar claramente a relação entre os resultados produzidos no trabalho e os objetivos estabelecidos no Capítulo}
+
+% Objetivos
+% • Compreender o método FrameWeb;
+% • Analisar os requisitos da aplicação SCAP;
+% • Implementar a aplicação SCAP utilizando o framework Next.js e o método FrameWeb
+
+Neste projeto uma nova implementação do SCAP aplicando o método FrameWeb foi feita, dessa vez utilizando o \textit{framework} Next.js.
+Os modelos FrameWeb produzidos foram essenciais para a implementação do SCAP, pois forneceram uma visão geral da aplicação, facilitando e agilizando o desenvolvimento do sistema.
+Mesmo assim, ao longo da implementação os modelos foram revisitados diversas vezes, e inconsistências tiveram de ser consertadas.
+
+Portanto, revisitando os objetivos do projeto, foi possível estudar e compreender o método FrameWeb para aplicá-lo na implementação do SCAP, considerando os requisitos levantados anteriormente.
+Com isso, as disciplinas de Engenharia de Software foram revisitadas e colocadas em prática, e o conhecimento adquirido foi essencial para o andamento deste projeto.
+Além disso, o projeto permitiu o aprendizado de um novo e moderno \textit{framework} de desenvolvimento, o Next.js.
+
+% Limitações
+Uma limitação do método FrameWeb é o fato de este ter sido construído em cima de projetos Java, que não refletem a realidade do desenvolvimento de aplicações web modernas
+SPA. Isso tornou a implementação mais complexa do que o esperado, uma vez que o Next.js não costuma seguir padrões como o \textit{DAO} ou ser Orientado a Objetos.
+Tendo em vista que o foco do projeto era a aplicação e análise do método FrameWeb, duas funcionalidades ficaram não foram implementadas,
+sendo elas: o envio de \textit{e-mails} e a geração de atas. Ambas funcionalidades são complexas e demandariam um tempo maior para serem implementadas.
+
+Apesar do método FrameWeb utilizar UML, o que facilitaria a modelagem dos diagramas, a ferramenta utilizada para a modelagem, o \textit{Visual Paradigm}, 
+tem uma curva de aprendizado acentuada, o que inicialmente dificultou a modelagem dos diagramas. Além disso, a ferramenta ainda não possui suporte para a geração de código
+a partir dos diagramas, portanto o código foi implementado por inteiro do zero.
 
 
 %%% Início de seção. %%%
 \section{Trabalhos Futuros}
 \label{sec-conclusoes-trabalhosfuturos}
 
-Nesta seção devem ser identificados trabalhos futuros que poderão ser realizados a partir dos resultados obtidos até o momento no trabalho. Idealmente, trabalhos futuros não devem apenas ser citados. Recomenda-se discutir aspectos sobre como podem ser realizados e por que é importante que sejam realizados (que benefícios podem ser obtidos com sua realização).
+% \hl{Nesta seção devem ser identificados trabalhos futuros que poderão ser realizados a partir dos resultados obtidos até o momento no trabalho. Idealmente, trabalhos futuros não devem apenas ser citados. Recomenda-se discutir aspectos sobre como podem ser realizados e por que é importante que sejam realizados (que benefícios podem ser obtidos com sua realização).}
+
+Para trabalhos futuros, seria interessante analisar se os requisitos de fato contemplam as necessidades do departamento,
+implementar as funcionalidades que ficaram pendentes, e fazer o \textit{deploy} da aplicação em um servidor.
+
+Além disso, utilizar as ferramentas de modelagem, sejam elas o Editor FrameWeb~\cite{campos:2017} ou o \textit{Visual Paradigm} com o plugin desenvolvido~\cite{silva:2023},
+com aplicações utilizando JavaScript, assim como testar o gerador de código.
+
+A grande maioria das aplicações, dos trabalhos anteriores, foram feitas utilizando \textit{frameworks} Java ou JavaScript, e seria interessante
+testar também a implementação com \textit{frameworks} Python,\footnote{Python, \url{https://www.python.org}} como Django, ou com \textit{frameworks} Ruby,\footnote{Ruby, \url{https://www.ruby-lang.org/en/}} como Ruby on Rails.
+Por fim, para deixar o modelo mais robusto, é importante comparar todos os resultados obtidos ao longo de todas as diferentes implementações feitas.
