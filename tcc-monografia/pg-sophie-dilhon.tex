@@ -37,7 +37,7 @@
 % Conserta o erro "No room for a new \count". 
 % O comando \reserveinserts deve ser comentado ou não, dependendo da versão do LaTeX.
 \usepackage{etex}
-%\reserveinserts{28}
+% \reserveinserts{28}
 
 % Usa a fonte Latin Modern.
 \usepackage{lmodern}
@@ -107,7 +107,6 @@
 
 % Permite inserir hiperlinks com \url{}.
 \usepackage{bigfoot}
-\usepackage{hyperref}
 
 % Permite usar o comando \hl{} para evidenciar texto com fundo amarelo. Útil para chamar atenção a itens a fazer.
 \usepackage{soulutf8}
@@ -120,9 +119,13 @@
 % Permite inserir espaço em branco condicional (incluído no texto final só se necessário) em macros.
 \usepackage{xspace}
 
-% Permite incluir listagens de código com o comando \lstinputlisting{}.
+% % Permite incluir listagens de código com o comando \lstinputlisting{}.
 \usepackage{listings}
 \usepackage{caption}
+
+\usepackage{hyperref}
+
+
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
@@ -421,9 +424,9 @@ Duis elementum dictum tristique. Integer mattis libero sit amet pretium euismod.
 \end{siglas}
 
 % % Insere o sumário.
-% \pdfbookmark[0]{\contentsname}{toc}
-% \tableofcontents*
-% \cleardoublepage
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
 
 
 
@@ -440,8 +443,7 @@ Duis elementum dictum tristique. Integer mattis libero sit amet pretium euismod.
 \include{capitulos/ch2-referencial}
 \include{capitulos/ch3-especificao-requisitos}
 \include{capitulos/ch4-projeto}
-% \include{capitulos/ch5-conclusoes}
-% \include{capitulos/ch6-dicaslatex}
+\include{capitulos/ch5-conclusoes}
 
 
 
