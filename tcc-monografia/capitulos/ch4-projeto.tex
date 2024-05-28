@@ -5,16 +5,15 @@
 \chapter{Projeto Arquitetural e Implementação}
 \label{chap-projeto}
 
-\vitor{Não iniciar um capítulo direto com uma seção ou uma seção direto com subseção. Adicionar um parágrafo explicando o que será apresentado neste capítulo, quando você tiver adicionado as demais seções.}
-
-Após a definição dos requisitos, é necessário realizar o projeto arquitetural, nessa
-fase as tecnologias utilizadas são incorporadas à modelagem do sistema. Neste capítulo
-são apresentados os passos de planejamento e desenvolvimento da aplicação.
+Neste capítulo
+são apresentados os passos de projeto arquitetural e desenvolvimento da aplicação.
 Na Seção~\ref{sec-projeto-tecnologias} estão as tecnologias utilizadas, na Seção~\ref{sec-projeto-frameweb}
 são exemplificados os modelos FrameWeb desenvolvidos para auxilio na implementação do SCAP.
 A Seção~\ref{sec-projeto-arquitetura} mostra a arquitetura do sistema. 
 Por fim, na Seção~\ref{sec-projeto-impl} são apresentadas capturas de tela da aplicação para
 ilustrar o desenvolvimento do SCAP.
+
+\vitor{A Seção~\ref{sec-projeto-arquitetura} não mostra a arquitetura, mas sim a estrutura do sistema pra implementação. A arquitetura teria que ser mostrada antes dos modelos FrameWeb, como é feito no documento de especificação de projeto.}
 
 
 \section{Tecnologias Utilizadas}
@@ -59,6 +58,7 @@ para mapear classes para tabelas, além de facilitar a manipulação de dados co
         NPM & Gerenciador de pacotes para \textit{Node.js} & 10.5.0 \\
         \hline
         Visual Paradigm & Ferramenta para modelagem de diagramas & 17.1 \\
+        \hline
         \end{tabularx}
 \end{table}
 
@@ -90,14 +90,6 @@ os tipos enumerados do modelo de entidades do SCAP.
     \label{fig-modelo-entidades}
 \end{figure}
 
-\vitor{Figura~\ref{fig-modelo-entidades}: 
-	\begin{itemize}
-		\item No TypeScript há um tipo de dado só pra datas e outro só pra horas ou existe apenas o \textsf{DateTime} usado no modelo? Se existir apenas um tipo unificado, é preciso especificar \textsf{precision=date} quando só estamos interessados na data (que é o caso na maioria das datas representadas no diagrama);
-		\item As navegabilidades entre \textsf{Professor} e \textsf{Parentesco} foram pensadas pra ser desta forma mesmo? O objeto \textsf{p1} da classe \textsf{Professor} teria um atributo \textsf{parentesco} que se refere a uma instância da classe \textsf{Parentesco} que, por sua vez, tem um atributo \textsf{professor} que aponta para um objeto \textsf{p2} da classe \textsf{Professor}, mas \textsf{p2} não tem uma referência para este parentesco... Não seria melhor modelar como uma relação única \textsf{Professor} 2 -- 0.* \textsf{Parentesco}? A navegabilidade neste caso poderia ser dupla ou de \textsf{Parentesco} pra \textsf{Professor} apenas, pois essa informação é usada apenas num momento muito específico.
-	\end{itemize}}
-
-\sophie{Fiz as duas alterações}
-
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{figuras/fig-modelo-entidades-enum.png}
@@ -106,7 +98,7 @@ os tipos enumerados do modelo de entidades do SCAP.
 \end{figure}
 
 
-Os Diagramas~\ref{fig-diagrama-estado-nacional} e~\ref{fig-diagrama-estado-internacional} apresentam os fluxos de estados
+Os diagramas~\ref{fig-diagrama-estado-nacional} e~\ref{fig-diagrama-estado-internacional} apresentam os fluxos de estados
 para solicitações de afastamento do tipo nacional e internacional, respectivamente.
 Explicitando os estados que uma solicitação de afastamento pode assumir e as transições entre eles,
 de acordo com determinadas ações. Um exemplo de fluxo para um afastamento nacional é descrito abaixo:
@@ -173,12 +165,7 @@ apresentam o modelo de persistência do SCAP.
     \label{fig-modelo-persist}
 \end{figure}
 
-\vitor{Figura~\ref{fig-modelo-persist}: são só esses métodos mesmo que você precisou na implementação? Caso ainda vá avançar na implementação e surja a necessidade de novos métodos nos repositories, adicione-os neste modelo. 
-	
-	Além disso, o padrão de nome das interfaces é curioso. Eu imaginaria que a interface de \textsf{PessoaRepository} fosse \textsf{IPessoaRepository} e não apenas \textsf{IPessoa}. Esse é o padrão sugerido pelo \textit{framework} mesmo?}
 
-\sophie{Só esses métodos foram usados mesmo.
-    Sobre o padrão de nomes, pesquisando sobre o Repository Pattern vi que não existe um consenso em relação ao nome das interfaces e classes, mas achei que de fato ficou mais claro nomear as interfaces com o sufixo Repository.}
 
 \subsection{Modelo de Navegação}
 \label{subsec-frameweb-navegacao}
@@ -256,8 +243,6 @@ A Figura~\ref{fig-modelo-navegacao-professor} apresenta o modelo de navegação 
 para isso ele deve preencher os campos do formulário e clicar em um botão que faz uma chamada ao método
 \textbf{criar} da \textit{controller} \textbf{PessoaController}.
 
-\vitor{Explicar o componente \textsf{NavBar} presente nas duas figuras.}
-
 O componente \textbf{NavBar} presente em ambos os modelos de navegação é responsável por exibir
 no topo da tela uma barra de navegação com links para as páginas principais do sistema, como a página inicial,
 a página de listagem de afastamentos e a página de cadastro de professores. Ele é um componente
@@ -283,8 +268,6 @@ as classes de persistência para realizar as operações de leitura e escrita no
     \label{fig-modelo-aplicacao-1}
 \end{figure}
 
-\vitor{Figura~\ref{fig-modelo-aplicacao-1}: acredito ue a direção da dependência entre \textsf{IParecer} e \textsf{ParecerService} esteja invertida, idem para \textsf{IMandato}. Além disso, foi usada uma relação de dependência entre as classes (controlador-serviço e serviço-repository). O FrameWeb geralmente usa uma associação entre essas classes, mas pode ser porque no Java, que é meu background, as classes de fato possuem um atributo que é uma referência pra outra classe. No seu caso uma dependência representa isso melhor? Se sim, inclua no texto uma explicação sobre isso.}
-\sophie{Consertei as direções e verifiquei que a associação é mais adequada mesmo, então mudei para associação.}
 
 \begin{figure}[h!]
     \centering
@@ -316,6 +299,8 @@ operações de leitura e escrita no banco de dados. As classes foram criadas seg
 
 No diretório \textbf{prisma} está presente o arquivo de configuração do Prisma, que contém o \textit{schema} do banco de dados e as \textit{migrations}
 geradas pelo Prisma.
+
+\vitor{Adicione uma frase explicando o que são as \textit{migrations}.}
 
 \begin{figure}
     \centering
@@ -392,7 +377,7 @@ campos marcados com asterisco são obrigatórios.
 A edição de um afastamento é feita de forma similar ao cadastro, porém os campos já estarão preenchidos com os valores
 do afastamento a ser editado. O mesmo componente é utilizado para ambas as ações, estando a diferença na rota acessada.
 Na edição, apenas o professor solicitante pode editar as informações do afastamento, exceto os campos:
-\textit{estado} e \textit{relator}, que são de responsabilidade do secretário e professor chefe, respectivamente.
+\textit{estado} e \textit{relator}, que são de responsabilidade do secretário e professor chefe, respectivamente. Um exemplo é exibido na Figura~\ref{fig-editar-afastamento}.
 
 \begin{figure}
     \centering
