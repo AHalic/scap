@@ -30,15 +30,21 @@ Portanto, revisitando os objetivos do projeto, foi possível estudar e compreend
 Com isso, as disciplinas de Engenharia de Software foram revisitadas e colocadas em prática, e o conhecimento adquirido foi essencial para o andamento deste projeto.
 Além disso, o projeto permitiu o aprendizado de um novo e moderno \textit{framework} de desenvolvimento, o Next.js.
 
+\vitor{Dizer explicitamente acima se os objetivos do projeto foram satisfeitos completamente, parcialmente ou não foram satisfeitos.}
+
 % Limitações
 Uma limitação do método FrameWeb é o fato de este ter sido construído em cima de projetos Java, que não refletem a realidade do desenvolvimento de aplicações web modernas
 SPA. Isso tornou a implementação mais complexa do que o esperado, uma vez que o Next.js não costuma seguir padrões como o \textit{DAO} ou ser Orientado a Objetos.
-Tendo em vista que o foco do projeto era a aplicação e análise do método FrameWeb, duas funcionalidades ficaram não foram implementadas,
+Tendo em vista que o foco do projeto era a aplicação e análise do método FrameWeb, duas funcionalidades não foram implementadas,
 sendo elas: o envio de \textit{e-mails} e a geração de atas. Ambas funcionalidades são complexas e demandariam um tempo maior para serem implementadas.
+
+\vitor{O trabalho do Pedro~\cite{hoppe:2023}, que você inclusive cita na Seção~\ref{sec-fundteo-frameweb}, visa trazer os frameworks SPA para o FrameWeb. O parágrafo acima não menciona isso. Elaborar melhor essa parte.}
 
 Apesar do método FrameWeb utilizar UML, o que facilitaria a modelagem dos diagramas, a ferramenta utilizada para a modelagem, o \textit{Visual Paradigm}, 
 tem uma curva de aprendizado acentuada, o que inicialmente dificultou a modelagem dos diagramas. Além disso, a ferramenta ainda não possui suporte para a geração de código
 a partir dos diagramas, portanto o código foi implementado por inteiro do zero.
+
+\vitor{A ferramenta possui suporte pra geração de código de alguns modelos (falta o de Navegação), mas para gerar código para o framework que você escolheu, é preciso construir os templates. Acertar o parágrafo acima para explicar de forma mais precisa porque não foi usada a geração de código.}
 
 
 %%% Início de seção. %%%
@@ -50,9 +56,11 @@ a partir dos diagramas, portanto o código foi implementado por inteiro do zero.
 Para trabalhos futuros, seria interessante analisar se os requisitos de fato contemplam as necessidades do departamento,
 implementar as funcionalidades que ficaram pendentes, e fazer o \textit{deploy} da aplicação em um servidor.
 
-Além disso, utilizar as ferramentas de modelagem, sejam elas o Editor FrameWeb~\cite{campos:2017} ou o \textit{Visual Paradigm} com o plugin desenvolvido~\cite{silva:2023},
+Além disso, seria também interessante utilizar as ferramentas de modelagem, sejam elas o Editor FrameWeb~\cite{campos:2017} ou o \textit{Visual Paradigm} com o plugin desenvolvido~\cite{silva:2023},
 com aplicações utilizando JavaScript, assim como testar o gerador de código.
 
 A grande maioria das aplicações, dos trabalhos anteriores, foram feitas utilizando \textit{frameworks} Java ou JavaScript, e seria interessante
 testar também a implementação com \textit{frameworks} Python,\footnote{Python, \url{https://www.python.org}} como Django, ou com \textit{frameworks} Ruby,\footnote{Ruby, \url{https://www.ruby-lang.org/en/}} como Ruby on Rails.
 Por fim, para deixar o modelo mais robusto, é importante comparar todos os resultados obtidos ao longo de todas as diferentes implementações feitas.
+
+\vitor{Acho que você poderia incluir aqui a tabela com os trabalhos anteriores que implementaram o SCAP, pegando o que o Danillo Gomes fez na Tabela 2 do TCC dele e atualizando com o seu trabalho. Isso mostraria que faltam implementações com Python e Ruby, como você diz no parágrafo. Você pode obter o código-fonte \LaTeX\ da tabela aqui: \url{https://bitbucket.org/vitorsouza-students/pg-2022-danilo-gomes/src/main/pg-monografia/capitulos/ch4-avaliacao.tex}. O TCC do Danillo em PDF está aqui: \url{http://www.inf.ufes.br/~vitorsouza/wp-content/papercite-data/pdf/gomes-pg22.pdf}}
