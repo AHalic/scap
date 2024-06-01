@@ -189,7 +189,7 @@ quatro modelos baseados no diagrama de classes UML~\cite{souza:2007,souza:2020}:
 
 A proposta inicial do método FrameWeb foi feita pensando em \textit{frameworks} MVC \cite{souza:2007},
 no entanto, com a popularidade dos \textit{frameworks} SPA, o método foi adaptado para suportar
-esse tipo de \textit{framework}, que se diferencia dos primeiro principalmente pelo fato de possuir elementos que se comportam tanto como \textit{controller} quanto como 
+esse tipo de \textit{framework}, que se diferencia do primeiro principalmente pelo fato de possuir elementos que se comportam tanto como \textit{controller} quanto como 
 \textit{view} e por focar na interação destes~\cite{hoppe:2023}.
 
 
@@ -204,7 +204,7 @@ pode reduzir o tempo de desenvolvimento e deixar a manutenção do software mais
 
 \textit{Frameworks} podem ser classificados de diversas formas, como \textit{frameworks} MVC,
 \textit{frameworks} SPA, \textit{frameworks} ORM, entre outros. Nesta seção, serão abordados
-com detalhes os \textit{frameworks} SPA, ORM e MVC, e por fim, o \textit{framework} utilizado neste trabalho,
+com detalhes os \textit{frameworks} ORM e SPA, e por fim, o \textit{framework} utilizado neste trabalho,
 que se encaixa nesta categoria.
 
 \subsection{Frameworks SPA}
@@ -226,7 +226,7 @@ que no entanto é uma biblioteca, mas que também implementa aplicações SPA.
 
 No entanto, este tipo de aplicação possui também problemas, sendo eles o alto tempo de carregamento
 inicial, pois é necessário carregar todo o código da aplicação de uma vez, e a dificuldade de
-indexação por mecanismos de busca (SEO), uma vez que a estes tendem a classificar melhor
+indexação por mecanismos de busca (SEO), uma vez que estes tendem a classificar melhor
 páginas que carregam mais rápido~\cite{konshin:2018}. Isso é uma grande desvantagem para um sistema
 de vendas, por exemplo, que precisa ser indexado por mecanismos de busca para que o site seja mais
 fácilmente encontrado por possíveis consumidores.
@@ -247,7 +247,7 @@ de objetos interconectados. Essa é a chamada incompatibilidade de paradigmas (\
 
 Na década de 80, surgiram os \textit{frameworks} ORM (Mapeamento Objeto/Relacional), que têm como objetivo
 mapear os objetos da aplicação para as tabelas do banco de dados relacional. O uso desses \textit{frameworks} 
-facilita a manipulação de dados para o desenvolvedor, que precisa apenas informar ao \textit{frameworks} de
+facilita a manipulação de dados para o desenvolvedor, que precisa apenas informar ao \textit{framework}
 como transformar objetos e seus atributos em tabelas e colunas e chamar métodos simples, sem precisar
 aprender uma nova linguagem como SQL.
 
@@ -261,7 +261,7 @@ Prisma para TypeScript.\footnote{Prisma, \url{https://www.prisma.io}}
 \label{sec-fundteo-framework-next}
 
 
-O Next.js é um \textit{framework Web} baseado no React, biblioteca JavaScript \textit{front-end open-source}
+O Next.js é um \textit{framework Web} construído em cima do React, biblioteca JavaScript \textit{front-end open-source}
 baseada em componentes, voltada para a construção da interface de usuário e mantida pela Meta.\footnote{Meta, \url{https://about.meta.com}}
 Por ser uma biblioteca, o React não implementa 
 técnicas de roteamento, o que faz com que exista a dependência do uso de outras bibliotecas, 

@@ -7,13 +7,13 @@
 
 Neste capítulo
 são apresentados os passos de projeto arquitetural e desenvolvimento da aplicação.
-Na Seção~\ref{sec-projeto-tecnologias} estão as tecnologias utilizadas, na Seção~\ref{sec-projeto-frameweb}
-são exemplificados os modelos FrameWeb desenvolvidos para auxilio na implementação do SCAP.
-A Seção~\ref{sec-projeto-arquitetura} mostra a arquitetura do sistema. 
-Por fim, na Seção~\ref{sec-projeto-impl} são apresentadas capturas de tela da aplicação para
-ilustrar o desenvolvimento do SCAP.
+Na Seção~\ref{sec-projeto-tecnologias} estão as tecnologias utilizadas, enquanto a Seção~\ref{sec-projeto-arquitetura}
+apresenta a arquitetura do sistema. São exemplificados, na Seção~\ref{sec-projeto-frameweb},
+os modelos FrameWeb desenvolvidos para auxilio na implementação do SCAP. A Seção~\ref{sec-projeto-estrutura}
+mostra a estrutura do sistema. E por fim, na Seção~\ref{sec-projeto-impl} são apresentadas capturas de
+tela da aplicação para ilustrar o desenvolvimento do SCAP.
 
-\vitor{A Seção~\ref{sec-projeto-arquitetura} não mostra a arquitetura, mas sim a estrutura do sistema pra implementação. A arquitetura teria que ser mostrada antes dos modelos FrameWeb, como é feito no documento de especificação de projeto.}
+\vitor{A Seção~\ref{sec-projeto-estrutura} não mostra a arquitetura, mas sim a estrutura do sistema pra implementação. A arquitetura teria que ser mostrada antes dos modelos FrameWeb, como é feito no documento de especificação de projeto.}
 
 
 \section{Tecnologias Utilizadas}
@@ -59,10 +59,41 @@ para mapear classes para tabelas, além de facilitar a manipulação de dados co
         \hline
         Visual Paradigm & Ferramenta para modelagem de diagramas & 17.1 \\
         \hline
+        VSCode & Editor de código-fonte & 1.89.1 \\
+        \hline
         \end{tabularx}
 \end{table}
 
 
+\section{Arquitetura do Sistema}
+\label{sec-projeto-arquitetura}
+
+Após reunir os requisitos do sistema, e definir as tecnologias a serem utilizadas, entra a fase 
+de definir a arquitetura a ser utilizada no projeto. A arquitetura define elementos
+de software (ou módulos) e envolve informações sobre como eles se relacionam uns com os outros~\cite{falbo:2018}.
+
+Por ser um \textit{framework} de \textit{Single Page Application} (SPA), o Next.js funciona por meio de componentes,
+e possui um padrão de \textit{design} diferente de projetos Java, por exemplo, que costumam utilizar
+padrões como o \textit{Model-View-Controller} (MVC). 
+
+Baseado na arquitetura sugerida pelo FrameWeb, apresentada anteriormente na Figura~\ref{fig-arquitetura-frameweb}, 
+desenvolveu-se a arquitetura presente na Figura~\ref{fig-arquitetura}.
+A arquitetura é dividida em três camadas: Apresentação, Negócio e Persistência.
+A primeira contém os componentes responsáveis por exibir as informações na tela e manejar as interações do usuário
+com o sistema. Os componentes se comunicam com a camada de Negócio a partir de requisições HTTP à REST API.
+
+A camada de Negócio contém as classes de controle e serviço, a primeira é responsável por tratar as requisições
+enviadas pelos componentes de apresentação, enquanto a segunda é responsável por realizar as operações de negócio.
+Por fim, as classes de serviço acessam a camada de Persistência, que contém as classes de repositório, responsáveis por
+persistir os dados no banco, por meio de operações de leitura e escrita. Essas operações são realizadas utilizando o Prisma,
+\textit{framework} ORM.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/fig-arquitetura.png}
+    \caption{Representação em pacotes da arquitetura do SCAP.}
+    \label{fig-arquitetura}
+\end{figure}
 
 
 \section{Modelos FrameWeb}
@@ -170,7 +201,7 @@ apresentam o modelo de persistência do SCAP.
 \subsection{Modelo de Navegação}
 \label{subsec-frameweb-navegacao}
 
-O Modelo de Navegação é um diagrama de classe da UML que representa os diferentes componentes que
+O Modelo de Navegação é um diagrama de classe UML que representa os diferentes componentes que
 formam a camada de Lógica de Apresentação, como páginas Web, formulários HTML e classes de ação do \textit{framework} específico~\cite{souza:2007}. 
 Esse modelo é utilizado para guiar a implementação dos pacotes Visão e Controle.
 
@@ -222,13 +253,14 @@ cada linha da tabela possui um botão que redireciona para a página de detalhes
 
 Se redirecionado para a \textbf{PaginaAfastamento} a partir do componente \textbf{ListagemAfastamento},
 o \textit{partial} possui o atributo \textbf{id} inicializado com o \textit{id} do afastamento, e é
-utilizado para fazer uma chamada ao método \textbf{buscarPorId} da \textit{controller} \textbf{AfastamentoController}.
-Caso o usuário seja o solicitante do afastamento, ele pode cancelá-lo clicando em um botão que faz uma chamada ao método
-\textbf{cancelar} da \textit{controller} \textbf{AfastamentoController}.
+utilizado para fazer uma chamada ao método \textbf{buscarPorId} da \textit{controller} \textbf{AfastamentoController}, por
+meio de uma requisição \textit{GET} HTTP à API.
+Caso o usuário seja o solicitante do afastamento, ele pode cancelá-lo clicando em um botão que faz uma chamada ao método \textit{DELETE}
+do protocolo HTTP, que é recebido pelo método \textbf{cancelar} da \textit{controller} \textbf{AfastamentoController}.
 
 Quando não possui um \textit{id} inicializado, o \textit{partial} é utilizado para criar um novo afastamento,
 o usuário deve então preencher os campos do formulário e clicar em um botão que faz uma chamada ao método
-\textbf{criar} da \textit{controller} \textbf{AfastamentoController}.
+\textbf{criar} da \textit{controller} \textbf{AfastamentoController}, por meio de uma requisição do tipo \textit{POST} à API.
 
 
 \begin{figure}
@@ -240,8 +272,8 @@ o usuário deve então preencher os campos do formulário e clicar em um botão 
 
 A Figura~\ref{fig-modelo-navegacao-professor} apresenta o modelo de navegação do SCAP para o caso de uso
 \textbf{Cadastrar Professor}. Na \textbf{PaginaProfessor} o secretário pode cadastrar um novo professor,
-para isso ele deve preencher os campos do formulário e clicar em um botão que faz uma chamada ao método
-\textbf{criar} da \textit{controller} \textbf{PessoaController}.
+para isso ele deve preencher os campos do formulário e clicar em um botão que faz uma chamada ao método \textit{POST} HTTP,
+que é recebido pelo método \textbf{criar} da \textit{controller} \textbf{PessoaController}.
 
 O componente \textbf{NavBar} presente em ambos os modelos de navegação é responsável por exibir
 no topo da tela uma barra de navegação com links para as páginas principais do sistema, como a página inicial,
@@ -277,13 +309,8 @@ as classes de persistência para realizar as operações de leitura e escrita no
 \end{figure}
 
 
-
-\section{Arquitetura do Sistema}
-\label{sec-projeto-arquitetura}
-
-Por ser um \textit{framework} de \textit{Single Page Application} (SPA), o Next.js funciona por meio de componentes,
-e possui um padrão de \textit{design} diferente de projetos Java, por exemplo, que costumam utilizar
-padrões como o \textit{Model-View-Controller} (MVC). 
+\section{Estrutura do Sistema}
+\label{sec-projeto-estrutura}
 
 A Figura~\ref{fig-pastas} apresenta a organização de pastas da implementação do SCAP. 
 Na pasta \textbf{components} estão os componentes reutilizáveis, como o componente \textit{navbar} presente em todas as páginas do sistema.
@@ -294,18 +321,19 @@ De forma similar, a pasta \textbf{api} gera rotas de API a partir dos arquivos p
 
 Os arquivos presentes na pasta \textbf{api} possuem funções \textit{handler} especiais que são responsáveis por lidar com as requisições feitas ao servidor.
 Estas funções utilizam as classes \textbf{controller} presente na pasta \textbf{lib} para manipular a requisição e retornar uma resposta.
-Esta, por consequência, utiliza as classes \textbf{service} para realizar as operações de negócio, que por fim acessam as classes \textbf{reposity} para realizar
+Esta, por consequência, utiliza as classes \textbf{service} para realizar as operações de negócio, que por fim acessam as classes \textbf{repository} para realizar
 operações de leitura e escrita no banco de dados. As classes foram criadas seguindo o padrão de projeto \textit{Repository Pattern}.
 
 No diretório \textbf{prisma} está presente o arquivo de configuração do Prisma, que contém o \textit{schema} do banco de dados e as \textit{migrations}
-geradas pelo Prisma.
+geradas pelo Prisma. \textit{Migrations} são arquivos que contém as alterações feitas no banco de dados, como a criação de tabelas ou a adição de colunas~\cite{prisma:2020}.
+O arquivo \textbf{prisma.schema} é responsável por definir as tabelas que serão criadas no banco, e as relações entre elas. Além disso, é a partir deste que 
+o cliente \textit{prisma} gera as classes das entidades que são utilizadas no sistema.
 
-\vitor{Adicione uma frase explicando o que são as \textit{migrations}.}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.4\textwidth]{figuras/fig-pastas.png}
-    \caption{Arquitetura do SCAP.}
+    \caption{Estrutura de pastas do SCAP.}
     \label{fig-pastas}
 \end{figure}
 
