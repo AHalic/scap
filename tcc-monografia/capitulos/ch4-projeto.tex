@@ -86,7 +86,8 @@ A camada de Negócio contém as classes de controle e serviço, a primeira é re
 enviadas pelos componentes de apresentação, enquanto a segunda é responsável por realizar as operações de negócio.
 Por fim, as classes de serviço acessam a camada de Persistência, que contém as classes de repositório, responsáveis por
 persistir os dados no banco, por meio de operações de leitura e escrita. Essas operações são realizadas utilizando o Prisma,
-\textit{framework} ORM.
+\textit{framework} ORM. As camadas de Negócio e Persistência implementam o padrão \textit{Repository}, este propõe uma
+camada de separação entre o domínio e o mapeamento de dados.
 
 \begin{figure}[h!]
     \centering
@@ -94,6 +95,10 @@ persistir os dados no banco, por meio de operações de leitura e escrita. Essas
     \caption{Representação em pacotes da arquitetura do SCAP.}
     \label{fig-arquitetura}
 \end{figure}
+
+
+O sistema roda em um único servidor, mas podemos separar lógicamente os pacotes sendo a Camada de Apresentação
+o \textit{frontend} e as camadas de Negócio e Persistência o \textit{backend}.
 
 
 \section{Modelos FrameWeb}
@@ -163,9 +168,6 @@ de acordo com determinadas ações. Um exemplo de fluxo para um afastamento naci
 
 O modelo de persistência de FrameWeb é um diagrama de classes UML que representa
 as classes responsáveis pela persistência das classes de domínio no banco de dados~\cite{souza:2007}.
-Foi utilizado o padrão \textit{Repository} para a implementação das classes de persistência,
-este propõe uma camada de separação entre o domínio e o mapeamento de dados.
-
 
 Para isso, foi criada uma interface base (\textbf{IBaseRepositoy}) que define os métodos comuns a todas as classes de persistência,
 sendo eles: \textit{get} para buscar todos os elementos com base nos filtros passados como parâmetro,
