@@ -31,7 +31,6 @@ Com isso, as disciplinas de Engenharia de Software foram revisitadas e colocadas
 Além disso, o projeto permitiu o aprendizado de um novo e moderno \textit{framework} de desenvolvimento, o Next.js, por meio da implementação do sistema SCAP.
 Assim, os objetivos foram totalmente satisfeitos.
 
-\vitor{Dizer explicitamente acima se os objetivos do projeto foram satisfeitos completamente, parcialmente ou não foram satisfeitos.}
 
 
 % Limitações
@@ -44,28 +43,10 @@ Em sua maioria o Next.js é utilizado apenas como \textit{frontend}, no entanto 
 Tendo em vista que o foco do projeto era a aplicação e análise do método FrameWeb, duas funcionalidades não foram implementadas,
 sendo elas: o envio de \textit{e-mails} e a geração de atas. Ambas funcionalidades são complexas e demandariam um tempo maior para serem implementadas.
 
-\vitor{O trabalho do Pedro~\cite{hoppe:2023}, que você inclusive cita na Seção~\ref{sec-fundteo-frameweb}, visa trazer os frameworks SPA para o FrameWeb. O parágrafo acima não menciona isso. Elaborar melhor essa parte.}
-
-\sophie{
-Fiquei em dúvida de como escrever essa parte, acho que seria mais uma dificuldade minha do que limitação do modelo, a minha dificuldade foi em relação
-a eu não conhecer o Next e não ter achado muitas referencias de padrões de projeto usando ele como fullstack
-(E eu não tinha muitas experiência implementando um back assim).
-
-O trabalho do~\cite{hoppe:2023} me pareceu ter sido mais voltado para os modelos de navegação e nos frameworks SPA
-usando orientação à objeto. No meu caso os components são na verdade funções e apesar de terem também um comportamento de Controller
-ainda existe um controller no back-end,
-revisando os meus modelos de navegação acho até que eles podem estar errados, já que por ser função não há uma chamada de método,
-mas sim chamadas à api.
-}
-
 
 Apesar do método FrameWeb utilizar UML, o que facilitaria a modelagem dos diagramas, a ferramenta utilizada para a modelagem, o \textit{Visual Paradigm}, 
 tem uma curva de aprendizado acentuada, o que inicialmente dificultou a modelagem dos diagramas. Além disso, a ferramenta possui suporte para a geração de código
 a partir dos diagramas, porém houve uma grande dificuldade de usá-la, o que fez com que a implementação fosse feita manualmente.
-
-\vitor{A ferramenta possui suporte pra geração de código de alguns modelos (falta o de Navegação), mas para gerar código para o framework que você escolheu, é preciso construir os templates. Acertar o parágrafo acima para explicar de forma mais precisa porque não foi usada a geração de código.}
-\sophie{Implementei os templates mas não consegui gerar, achei que a documentação não estava completamente clara.
-Posso escrever isso e dizer que um trabalho futuro seria melhorar a ferramenta e documentação?}
 
 
 %%% Início de seção. %%%
@@ -86,7 +67,6 @@ implementar o sistema também com \textit{frameworks} Python,\footnote{Python, \
 linguagens essas muito utilizados no mercado atual.
 Por fim, para deixar o modelo mais robusto, é importante comparar todos os resultados obtidos ao longo de todas as diferentes implementações feitas.
 
-\vitor{Acho que você poderia incluir aqui a tabela com os trabalhos anteriores que implementaram o SCAP, pegando o que o Danillo Gomes fez na Tabela 2 do TCC dele e atualizando com o seu trabalho. Isso mostraria que faltam implementações com Python e Ruby, como você diz no parágrafo. Você pode obter o código-fonte \LaTeX\ da tabela aqui: \url{https://bitbucket.org/vitorsouza-students/pg-2022-danilo-gomes/src/main/pg-monografia/capitulos/ch4-avaliacao.tex}. O TCC do Danillo em PDF está aqui: \url{http://www.inf.ufes.br/~vitorsouza/wp-content/papercite-data/pdf/gomes-pg22.pdf}}
 
 
 \begin{table}[h]
