@@ -131,6 +131,8 @@ ou seja, indicar um professor como relator para um pedido de afastamento no exte
 \section{Análise do SCAP}
 \label{sec-espec-analise-scap}
 
+\clarete{Acho que vale colocar a figura 4 num lugar melhor, ficou no outro subtítulo. 
+Isso acontece em outras figuras também,acho que vale uma atenção.}
 A Figura~\ref{fig:diagrama-classes} apresenta o diagrama de classes do SCAP, adaptado
 do levantamento feito por~\citeonline{prado:2015}, juntamente com o que havia sido
 levantado anteriormente por~\citeonline{duarte:2014}.
@@ -146,8 +148,10 @@ As classes \textbf{Professor} e \textbf{Secretario}, que representam os professo
 e secretários do DI, respectivamente, herdam as propriedades da classe \textbf{Pessoa},
 que contém as informações pessoais do usuário. A classe \textbf{Parentesco} 
 guarda relações de parentesco que podem existir entre professores do DI.
-A classe \textbf{Mandato} representa o tempo do mandato, de chefe ou subchefe do departamento,
+A classe \textbf{Mandato} representa o tempo do mandato, de chefe ou \hl{subchefe} do departamento,
 que o professor está exercendo.
+
+\clarete{Na figura não traz a informação de ser subchefe}
 
 A classe \textbf{Afastamento} guarda informações sobre os pedidos de afastamento
 feitos pelos professores, como as datas de início e fim, o nome do evento e etc.

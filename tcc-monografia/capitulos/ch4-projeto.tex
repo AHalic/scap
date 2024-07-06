@@ -18,6 +18,9 @@ tela da aplicação para ilustrar o desenvolvimento do SCAP.
 \section{Tecnologias Utilizadas}
 \label{sec-projeto-tecnologias}
 
+\patricia{Acho que aqui vc precisa explicar melhor suas escolhas… 
+Fullstack com next.js…. }
+
 Neste projeto, utilizou-se a linguagem \textit{TypeScript} unida ao \textit{framework} Next.js.
 A Tabela~\ref{tab-tecnologias} apresenta as tecnologias e bibliotecas utilizadas, suas funções e suas respectivas versões.
 Dentre as tecnologias, destaca-se o MySQL, um sistema de gerenciamento de banco de dados relacional,
@@ -96,8 +99,9 @@ persistir os dados no banco, por meio de operações de leitura e escrita. Essas
 camada de separação entre o domínio e o mapeamento de dados.
 
 
-O sistema roda em um único servidor, mas podemos separar lógicamente os pacotes sendo a Camada de Apresentação
-o \textit{frontend} e as camadas de Negócio e Persistência o \textit{backend}.
+\hl{O sistema roda em um único servidor, mas podemos separar lógicamente os pacotes sendo a Camada de Apresentação
+o \textit{frontend} e as camadas de Negócio e Persistência o \textit{backend}.}
+\patricia{não entendi muito bem…}
 
 
 \section{Modelos FrameWeb}
@@ -188,8 +192,8 @@ retorna um elemento da classe \textbf{Afastamento}.
 
 As interfaces do modelo herdam \textbf{IBaseRepositoy}, enquanto as classes \textit{Repository} estendem a
 classe \textbf{BaseRepository}. De modo que todas as classes de persistência possuam, além dos métodos
-específicos dessas, os métodos comuns definidos na interface base. As Figuras~\ref{fig-modelo-persist}
-apresentam o modelo de persistência do SCAP.
+específicos dessas, os métodos comuns definidos na interface base. A Figura~\ref{fig-modelo-persist}
+contém as classes de persistência, que juntas compõem o modelo de persistência do SCAP.
 
 \begin{figure}[h!]
     \centering
@@ -221,7 +225,7 @@ dos estereótipos propostos originalmente por~\citeonline{souza:2007}.
         \hline
         \textbf{Estereótipo} & \textbf{Descrição} \\
         \hline
-        (Nenhum)    & Controladora de um framework Front Controller ou a parte controladora de um component de um framework SPA. \\
+        (Nenhum)    & Controladora de um framework Front Controller ou a parte controladora de um componente de um framework SPA. \\
         \hline
         <<Page>>    & Página Web estática ou dinâmica. \\
         \hline
@@ -257,10 +261,15 @@ cada linha da tabela possui um botão que redireciona para a página de detalhes
 
 Se redirecionado para a \textbf{PaginaAfastamento} a partir do componente \textbf{ListagemAfastamento},
 o \textit{partial} possui o atributo \textbf{id} inicializado com o \textit{id} do afastamento, e é
-utilizado para fazer uma chamada ao método \textbf{buscarPorId} da \textit{controller} \textbf{AfastamentoController}, por
-meio de uma requisição \textit{GET} HTTP à API.
+utilizado para fazer uma chamada ao método \textbf{buscarPorId} da \textit{controller} \textbf{AfastamentoController}, \hl{por
+meio de uma requisição \textit{GET} HTTP à API}.
 Caso o usuário seja o solicitante do afastamento, ele pode cancelá-lo clicando em um botão que faz uma chamada ao método \textit{DELETE}
 do protocolo HTTP, que é recebido pelo método \textbf{cancelar} da \textit{controller} \textbf{AfastamentoController}.
+\clarete{Não pode separar a palavra nesse ponto. - referente à ListagemAfastamento e AfastamentoController}
+
+\patricia{Primeira vez que se fala de uma API. Acho que isso deve ser explicado com cuidado…
+a API do sistema é a forma como o frontend e o backend se comunicam, certo?
+Ela deve ficar bem clara, devidamente explicada…}
 
 Quando não possui um \textit{id} inicializado, o \textit{partial} é utilizado para criar um novo afastamento,
 o usuário deve então preencher os campos do formulário e clicar em um botão que faz uma chamada ao método
@@ -322,6 +331,9 @@ as classes de persistência para realizar as operações de leitura e escrita no
 \section{Estrutura do Sistema}
 \label{sec-projeto-estrutura}
 
+\patricia{Achei que poderia explorar um pouco mais essa seção. 
+Talvez com alguns trechos de código para exemplificar?}
+
 A Figura~\ref{fig-pastas} apresenta a organização de pastas da implementação do SCAP. 
 Na pasta \textbf{components} estão os componentes reutilizáveis, como o componente \textit{navbar} presente em todas as páginas do sistema.
 A pasta \textbf{src} é a principal, nela estão contidas algumas pastas especiais controladas pelo \textit{framework}
@@ -344,14 +356,17 @@ operações de leitura e escrita no banco de dados. As classes foram criadas seg
 
 No diretório \textbf{prisma} está presente o arquivo de configuração do Prisma, que contém o \textit{schema} do banco de dados e as \textit{migrations}
 geradas pelo Prisma. \textit{Migrations} são arquivos que contém as alterações feitas no banco de dados, como a criação de tabelas ou a adição de colunas~\cite{prisma:2020}.
-O arquivo \textbf{prisma.schema} é responsável por definir as tabelas que serão criadas no banco, e as relações entre elas. Além disso, é a partir deste que 
-o cliente \textit{prisma} gera as classes das entidades que são utilizadas no sistema.
+\hl{O arquivo \textbf{prisma.schema} é responsável por definir as tabelas que serão criadas no banco, e as relações entre elas. Além disso, é a partir deste que 
+o cliente \textit{prisma} gera as classes das entidades que são utilizadas no sistema.}
+
+\patricia{Exemplo?}
 
 \FloatBarrier
 
 
 \section{Implementação e Resultados}
 \label{sec-projeto-impl}
+\patricia{A seção não trata da implementação em si, apenas dos resultados.}
 
 Essa seção apresenta a implementação do SCAP, por meio de capturas de tela,
 e discute os resultados obtidos.
@@ -497,7 +512,8 @@ A Figura~\ref{fig-parentesco} apresenta este modal.
 
 
 O componente de cadastro de usuários é utilizado também para a edição de usuários, assim como foi feito com Afastamentos. A Figura~\ref{fig-editar-professor}
-apresenta a página de usuário preenchida com os dados do professor logado no momento. É por essa página também que o usuário pode alterar sua senha ou realizar o \textit{logout} do sistema.
+apresenta a página de usuário preenchida com os dados do professor logado no momento. É por essa página \hl{também que o usuário pode alterar sua senha ou realizar o \textit{logout} do sistema.}
+\clarete{Achei que essa linha ficou meio perdida aqui, sugestão sobe ela ou traz todo parágrafo para aqui.}
 
 \begin{figure}[h!]
     \centering
@@ -524,3 +540,8 @@ será considerada a data de hoje. Professores também podem visualizar os mandat
     \caption{Cadastro de Mandatos do SCAP.}
     \label{fig-mandato}
 \end{figure}
+
+\patricia{Importante uma reflexão: o que essa implementação revela sobre o FrameWeb? 
+A escolha dessa tecnologia “diferente” impactou na utilização do FrameWeb?
+POde-se sugerir alterações do framework? Ou então incluir outras funcionalidades?
+Enfim, o que essa implementação revelou? }
