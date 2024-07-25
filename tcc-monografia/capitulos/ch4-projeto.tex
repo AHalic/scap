@@ -21,6 +21,8 @@ tela da aplicação para ilustrar o desenvolvimento do SCAP.
 \patricia{Acho que aqui vc precisa explicar melhor suas escolhas… 
 Fullstack com next.js…. }
 
+\sophie{Explicado melhor na Seção~\ref{sec-fundteo-framework-next} sobre Next.js ser fullstack}
+
 Neste projeto, utilizou-se a linguagem \textit{TypeScript} unida ao \textit{framework} Next.js.
 A Tabela~\ref{tab-tecnologias} apresenta as tecnologias e bibliotecas utilizadas, suas funções e suas respectivas versões.
 Dentre as tecnologias, destaca-se o MySQL, um sistema de gerenciamento de banco de dados relacional,
@@ -81,8 +83,9 @@ padrões como o \textit{Model-View-Controller} (MVC).
 Baseado na arquitetura sugerida pelo FrameWeb, apresentada anteriormente na Figura~\ref{fig-arquitetura-frameweb}, 
 desenvolveu-se a arquitetura presente na Figura~\ref{fig-arquitetura}.
 A arquitetura é dividida em três camadas: Apresentação, Negócio e Persistência.
-A primeira contém os componentes responsáveis por exibir as informações na tela e manejar as interações do usuário
-com o sistema. Os componentes se comunicam com a camada de Negócio a partir de requisições HTTP à REST API.
+Podemos separar logicamente os pacotes, assim a Camada de Apresentação representa o \textit{frontend}, enquanto as
+camadas de Negócio e Persistência compõem o \textit{backend}. Contudo, ambos estão
+presentes em um único servidor, adotando uma arquitetura monolítica.
 
 \begin{figure}[h!]
 	\centering
@@ -91,17 +94,27 @@ com o sistema. Os componentes se comunicam com a camada de Negócio a partir de 
 	\label{fig-arquitetura}
 \end{figure}
 
-A camada de Negócio contém as classes de controle e serviço, a primeira é responsável por tratar as requisições
-enviadas pelos componentes de apresentação, enquanto a segunda é responsável por realizar as operações de negócio.
+A primeira camada contém os componentes responsáveis por exibir as informações na tela e manejar as interações do usuário
+com o sistema. A comunicação entre as camadas de Apresentação e Negócio é mediada por uma API
+(\textit{Application Programming Interface}), que funciona como uma ponte entre o
+\textit{frontend} e o \textit{backend}. A camada de Apresentação, envia requisições HTTP para a API.
+Essas requisições são formatadas conforme os \textit{endpoints} definidos pela API
+e podem incluir dados solicitados pelo usuário ou comandos para executar operações.
+Dentre os tipos de operações estão: \textit{GET} para buscar dados, \textit{POST} para criar novos registros,
+\textit{PUT} para atualizar registros existentes e \textit{DELETE} para remover registros.
+
+A API, por sua vez, é implementada na camada de Negócio, que contém as classes de controle e serviço, a primeira é responsável por processar e responder as requisições,
+enquanto a segunda é responsável por executar as operações de negócio.
 Por fim, as classes de serviço acessam a camada de Persistência, que contém as classes de repositório, responsáveis por
 persistir os dados no banco, por meio de operações de leitura e escrita. Essas operações são realizadas utilizando o Prisma,
 \textit{framework} ORM. As camadas de Negócio e Persistência implementam o padrão \textit{Repository}, este propõe uma
 camada de separação entre o domínio e o mapeamento de dados.
 
 
-\hl{O sistema roda em um único servidor, mas podemos separar lógicamente os pacotes sendo a Camada de Apresentação
-o \textit{frontend} e as camadas de Negócio e Persistência o \textit{backend}.}
+% \hl{O sistema roda em um único servidor, mas podemos separar lógicamente os pacotes sendo a Camada de Apresentação
+% o \textit{frontend} e as camadas de Negócio e Persistência o \textit{backend}.}
 \patricia{não entendi muito bem…}
+\sophie{Mudei a ordem dos paragrafos e expliquei melhor a separação de front e back}
 
 
 \section{Modelos FrameWeb}
@@ -122,14 +135,14 @@ escolhida para a implementação do sistema, dessa forma são apresentados os ti
 de cada propriedade. A Figura~\ref{fig-modelo-entidades-enum} apresenta
 os tipos enumerados do modelo de entidades do SCAP.
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{figuras/fig-modelo-entidades.png}
     \caption{Modelo de Entidades do SCAP.}
     \label{fig-modelo-entidades}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{figuras/fig-modelo-entidades-enum.png}
     \caption{Tipos Enumerados do Modelo de Entidades do SCAP.}
@@ -239,7 +252,7 @@ dos estereótipos propostos originalmente por~\citeonline{souza:2007}.
 A Figura~\ref{fig-modelo-navegacao-afast} apresenta o modelo de navegação do SCAP para os casos de uso
 \textbf{Cancelar Afastamento}, \textbf{Cadastrar Afastamento} e \textbf{Consultar Afastamento}.
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{figuras/fig-modelo-naveg-afast.png}
     \caption{Modelo de Navegação do SCAP.}
@@ -252,14 +265,14 @@ os afastamentos por diferentes critérios, definidos pela interface mostrada na 
 O componente \textbf{ListagemAfastamento} consiste de uma tabela que lista os afastamentos buscados,
 cada linha da tabela possui um botão que redireciona para a página de detalhes do afastamento (\textbf{PaginaAfastamento}).
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.4\textwidth]{figuras/fig-interface-filtro-afast.png}
     \caption{Interface Filtro Afastamento.}
     \label{fig-interface-filtro-afast}
 \end{figure}
 
-Se redirecionado para a \textbf{PaginaAfastamento} a partir do componente \textbf{ListagemAfastamento},
+Se redirecionado para a \textbf{PaginaAfastamento} a partir do componente~\textbf{ListagemAfastamento},
 o \textit{partial} possui o atributo \textbf{id} inicializado com o \textit{id} do afastamento, e é
 utilizado para fazer uma chamada ao método \textbf{buscarPorId} da \textit{controller} \textbf{AfastamentoController}, \hl{por
 meio de uma requisição \textit{GET} HTTP à API}.
@@ -270,6 +283,7 @@ do protocolo HTTP, que é recebido pelo método \textbf{cancelar} da \textit{con
 \patricia{Primeira vez que se fala de uma API. Acho que isso deve ser explicado com cuidado…
 a API do sistema é a forma como o frontend e o backend se comunicam, certo?
 Ela deve ficar bem clara, devidamente explicada…}
+\sophie{Explicado na Seção~\ref{sec-projeto-arquitetura}}
 
 Quando não possui um \textit{id} inicializado, o \textit{partial} é utilizado para criar um novo afastamento,
 o usuário deve então preencher os campos do formulário e clicar em um botão que faz uma chamada ao método
@@ -281,7 +295,7 @@ para isso ele deve preencher os campos do formulário e clicar em um botão que 
 que é recebido pelo método \textbf{criar} da \textit{controller} \textbf{PessoaController}.
 
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.9\textwidth]{figuras/fig-modelo-naveg-cadast.png}
 	\caption{Modelo de Navegação do SCAP do Caso de Uso Cadastrar Professor.}
@@ -293,7 +307,7 @@ no topo da tela uma barra de navegação com links para as páginas principais d
 a página de listagem de afastamentos e a página de cadastro de professores. Ele é um componente
 comum a todas as páginas do sistema, exceto à tela de \textit{login}.
 
-\FloatBarrier
+% \FloatBarrier
 
 
 
@@ -342,7 +356,7 @@ ou seja, um arquivo \textit{index.js} em uma pasta chamada \textbf{pessoa} estar
 De forma similar, a pasta \textbf{api} gera rotas de API a partir dos arquivos presentes nela.
 
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.4\textwidth]{figuras/fig-pastas.png}
 	\caption{Estrutura de pastas do SCAP.}
@@ -353,20 +367,55 @@ Os arquivos presentes na pasta \textbf{api} possuem funções \textit{handler} e
 Estas funções utilizam as classes \textbf{controller} presente na pasta \textbf{lib} para manipular a requisição e retornar uma resposta.
 Esta, por consequência, utiliza as classes \textbf{service} para realizar as operações de negócio, que por fim acessam as classes \textbf{repository} para realizar
 operações de leitura e escrita no banco de dados. As classes foram criadas seguindo o padrão de projeto \textit{Repository Pattern}.
+A Listagem~\ref{lst-controller} apresenta a função \textit{handler} que é mapeada para a rota \textit{afastamento/id}. Esta função é a
+responsável por encaminhar as requisições realizadas pelos componentes da Camada de Apresentação para a classe \textbf{AfastamentoController},
+que então as processa e retorna uma resposta.
+
+% Code
+\begin{lstlisting}[caption={Função de gerenciamento da rota afastamento/id},label={lst-controller}, float=htpb]
+    const afastamentoRepository = new AfastamentoRepository();
+    const afastamentoService = new AfastamentoService(afastamentoRepository);
+    const afastamentoController = new AfastamentoController(afastamentoService);
+    
+    export default async function handler(
+        req: NextApiRequest,
+        res: NextApiResponse
+    ) {
+        if (req.method === "GET") {
+            await afastamentoController.buscarPorId(req, res);
+        } else if (req.method === "DELETE") {
+            await afastamentoController.deletar(req, res);
+        } else if (req.method === "PUT") {
+            await afastamentoController.editar(req, res);
+        } else {
+            res.status(405).json({ message: "Método não existente" });
+        }
+    }
+\end{lstlisting}
 
 No diretório \textbf{prisma} está presente o arquivo de configuração do Prisma, que contém o \textit{schema} do banco de dados e as \textit{migrations}
 geradas pelo Prisma. \textit{Migrations} são arquivos que contém as alterações feitas no banco de dados, como a criação de tabelas ou a adição de colunas~\cite{prisma:2020}.
-\hl{O arquivo \textbf{prisma.schema} é responsável por definir as tabelas que serão criadas no banco, e as relações entre elas. Além disso, é a partir deste que 
-o cliente \textit{prisma} gera as classes das entidades que são utilizadas no sistema.}
+O arquivo \textbf{prisma.schema} é responsável por definir as tabelas que serão criadas no banco, e as relações entre elas. Além disso, é a partir deste que 
+o cliente \textit{prisma} gera as classes das entidades que são utilizadas no sistema.
+A Figura~\ref{fig-prisma} apresenta a definição do modelo Afastamento, no arquivo de configuração do Prisma, nele são
+definidos os tipos de cada atribulo além das relações com os modelos Professor, Documento e Parecer.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figuras/fig-model-prisma.png}
+    \caption{Trecho do arquivo de Configuração do Prisma.}
+    \label{fig-prisma}
+\end{figure}
 
 \patricia{Exemplo?}
 
-\FloatBarrier
+% \FloatBarrier
 
 
-\section{Implementação e Resultados}
+\section{Apresentação de Resultados}
 \label{sec-projeto-impl}
 \patricia{A seção não trata da implementação em si, apenas dos resultados.}
+\sophie{Troquei o titulo}
 
 Essa seção apresenta a implementação do SCAP, por meio de capturas de tela,
 e discute os resultados obtidos.
@@ -391,7 +440,7 @@ Os secretários são responsáveis por gerenciar os usuários e os estados dos a
 Já os professores podem solicitar afastamentos e visualizar o andamento das solicitações.
 Dessa forma, as telas mudam de acordo com o tipo de usuário que está logado.
 
-\FloatBarrier
+% \FloatBarrier
 
 
 \subsection{Listagem de Afastamentos}
@@ -417,7 +466,7 @@ o botão de solicitar afastamento estará disponível, ao clicá-lo o usuário �
     \label{fig-filtro-afastamentos}
 \end{figure}
 
-\FloatBarrier
+% \FloatBarrier
 
 \subsection{Cadastro de Afastamento}
 \label{subsec-projeto-cadastro-afastamento}
@@ -438,7 +487,7 @@ do afastamento a ser editado. O mesmo componente é utilizado para ambas as aç�
 Na edição, apenas o professor solicitante pode editar as informações do afastamento, exceto os campos:
 \textit{estado} e \textit{relator}, que são de responsabilidade do secretário e professor chefe, respectivamente. Um exemplo é exibido na Figura~\ref{fig-editar-afastamento}.
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{figuras/prints-app/fig-editar-afastamento.png}
     \caption{Edição de Afastamento do SCAP.}
@@ -450,7 +499,7 @@ abrindo um modal com o formulário para preenchimento do parecer. A Figura~\ref{
 Por serem funcionalidades semelhantes, o modal de parecer é utilizado também para pareceres externos (CT e PRPPG) e manifestações
 de professores contra o afastamento nacional.
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{figuras/prints-app/fig-parecer.png}
     \caption{Modal de Parecer do SCAP.}
@@ -460,7 +509,7 @@ de professores contra o afastamento nacional.
 Por fim, o formulário de afastamento possui também um campo para \textit{upload} de arquivos, onde o professor solicitante
 pode anexar o relatório de viagem e o secretário pode anexar atas ou documentos enviados pelo CT e PRPPG.
 
-\FloatBarrier
+% \FloatBarrier
 
 \subsection{Cadastro de Usuários}
 \label{subsec-projeto-cadastro-usuarios}
@@ -503,7 +552,7 @@ Para isso, deve-se clicar no botão de adição que então abre um modal com um 
 A Figura~\ref{fig-parentesco} apresenta este modal.
 
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{figuras/prints-app/fig-modal-parentesco.png}
     \caption{Cadastro de Parentesco do SCAP.}
@@ -522,7 +571,7 @@ apresenta a página de usuário preenchida com os dados do professor logado no m
     \label{fig-editar-professor}
 \end{figure}
 
-\FloatBarrier
+% \FloatBarrier
 
 
 \subsection{Cadastro de Mandato}

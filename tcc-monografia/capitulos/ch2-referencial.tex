@@ -266,26 +266,49 @@ Uma outra coisa importante é: vc usou o next fullstack… o que isso quer dizer
 que é feita para frontend? Explique isso melhor…}
 
 O Next.js é um \textit{framework Web} construído em cima do React, biblioteca JavaScript \textit{front-end open-source}
-baseada em componentes, voltada para a construção da interface de usuário e mantida pela Meta.\footnote{Meta, \url{https://about.meta.com}}
+baseada em componentes, voltada para a construção de interfaces de usuário e mantida pela Meta.\footnote{Meta, \url{https://about.meta.com}}
 Por ser uma biblioteca, o React não implementa 
 técnicas de roteamento, o que faz com que exista a dependência do uso de outras bibliotecas, 
 como o React Router.\footnote{React Router, \url{https://reactrouter.com}}
 Já o Next.js faz isso de forma nativa. 
 
-Outro ponto de destaque são as técnicas de renderização, 
-além do CSR, o Next.js implementa os métodos \textit{Server-Side Rendering} (SSR), ou Renderização do Lado do Servidor,
+O \textit{framework} destaca-se também por suas técnicas de renderização.
+Além do CSR, o Next.js implementa os métodos \textit{Server-Side Rendering} (SSR), ou Renderização do Lado do Servidor,
 e \textit{Static Site Generation} (SSG), ou Geração Estática de Site, que permitem que o código da aplicação seja executado
-no servidor, e resolvem os problemas de SEO e tempo de carregamento inicial, comuns de 
+no servidor, e resolvem os problemas de SEO e tempo de carregamento inicial, comuns em 
 aplicações SPA. Um detalhe que tem feito com que esse \textit{framework}
 ganhe popularidade, é o fato de que o desenvolvedor pode escolher qual método de renderização
 utilizar para cada página do sistema~\cite{vercel:2023}.
 
-Outro ponto alto do Next.js é a facilidade de se fazer o \textit{deploy} da aplicação, que pode ser feito
+Outro ponto alto do Next.js é a facilidade de se fazer o \textit{deploy} da aplicação, que pode ser realizado
 de forma otimizada com o provedor de \textit{hosting} da Vercel,\footnote{Vercel, \url{https://vercel.com}} 
 plataforma que desenvolveu o \textit{framework}~\cite{nextjs:2023}.
 
+Em termos de arquitetura, o Next.js não segue o padrão Model-View-Controller (MVC). Em vez
+disso, ele adota um modelo de execução baseado em páginas, em que cada arquivo dentro
+da pasta \textit{pages} é mapeado para uma rota na aplicação. Dessa forma, quando uma requisição
+é feita, o Next.js determina qual página deve ser renderizada e aplica a técnica de
+renderização adequada (CSR, SSR ou SSG) conforme configurado pelo desenvolvedor.
+Por exemplo, se criarmos um arquivo \textit{pages/index.js}, ele será acessível via a rota
+\textit{/}. No entanto, fora essa convenção, o Next.js não especifica outros padrões de arquitetura,
+deixando a cargo do desenvolvedor a organização do código~\cite{nextjs:2023}.
+
+Apesar do Next.js ser construído em cima da biblioteca React, isso não significa que este seja
+um \textit{framework} exclusivo para o desenvolvimento \textit{frontend}. O Next.js pode ser utilizado
+como um \textit{framework fullstack}, permitindo o desenvolvimento tanto do \textit{frontend} quanto
+do \textit{backend}, em uma única aplicação. Para isso, o Next.js utiliza a pasta reservada
+\textit{api}, dentro do diretório \textit{pages}, cada arquivo dentro dessa pasta é mapeado
+para uma rota de API, permitindo que os desenvolvedores criem \textit{endpoints} que podem ser
+acessados diretamente pelo cliente. Essas rotas de API são executadas no lado do
+servidor, proporcionando a capacidade de manipular dados, realizar autenticações,
+conectar a bancos de dados, entre outras funcionalidades comuns de \textit{backend}~\cite{nextjs:2023}.
+Dessa forma, o Next.js oferece uma solução completa e integrada para o desenvolvimento
+de aplicações \textit{Web} modernas. Ainda assim, o \textit{framework} é mais comumente utilizado
+unicamente como \textit{frontend}, com o \textit{backend} sendo implementado separadamente~\cite{atlassian:2024}.
+
+
 \textit{JavaScript} é uma linguagem leve e interpretada, que é utilizada para adicionar interatividade e dinamicidade
-à páginas \textit{Web}. No entanto, por ser uma linguagem de tipagem fraca e dinâmica, ela pode ser propensa a erros
+a páginas \textit{Web}. Por ser uma linguagem de tipagem fraca e dinâmica, ela pode ser propensa a erros
 em tempo de execução, o que, em sistemas de porte elevado, pode se tornar um grande problema~\cite{typescript:2024}.
 Nesse ambiente, surge o \textit{TypeScript}, linguagem de programação de alto nível desenvolvida e mantida pela Microsoft.\footnote{Microsoft, \url{https://www.microsoft.com}}
 O \textit{TypeScript} é convertido em código \textit{JavaScript}, e portanto fornece todas as características desta, além de adicionar suporte a tipos, 
@@ -294,5 +317,3 @@ e outras funcionalidades, como interfaces, \textit{generics} e \textit{unions}~\
 
 O Next.js suporta o uso de \textit{TypeScript} em suas aplicações, o que pode ser uma grande vantagem para
 desenvolvedores que desejam ter um código mais seguro e menos propenso a erros.
-
-% \vitor{Esta seção está muito pequena. Se você está falando de TypeScript por ela ser a linguagem usada no desenvolvimento com Next.js, então você pode incluir essa informação e mais este parágrafo na seção do Next.js.}

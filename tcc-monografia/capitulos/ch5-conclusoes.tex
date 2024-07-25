@@ -19,6 +19,17 @@ Neste projeto uma nova implementação do SCAP aplicando o método FrameWeb foi 
 Os modelos FrameWeb produzidos foram essenciais para a implementação do SCAP, pois forneceram uma visão geral da aplicação, facilitando e agilizando o desenvolvimento do sistema.
 Mesmo assim, ao longo da implementação os modelos foram revisitados diversas vezes, e inconsistências tiveram de ser consertadas.
 
+A aplicação do FrameWeb utilizando o Next.js demonstrou que o método é flexível e pode ser adaptado para atender às necessidades de \textit{frameworks} modernos,
+proporcionando uma estrutura organizada e eficiente para o desenvolvimento tanto de aplicação monolíticas quanto de aplicações com microsserviços.
+De fato, utilizar uma linguagem tipada como TypeScript, juntamente com o Next.js, facilitou a modelagem dos diagramas, quando comparado com as implementações
+feitas em Javascript~\cite{gomes:2022,dalapicola:2021}. 
+
+Diversos trabalhos anteriores apontaram mudanças necessárias para o modelo de Navegação~\cite{duarte:2014,prado:2015,ferreira:2018,avelar:2018}.
+Neste trabalho no entanto, foram utilizadas as adaptações realizadas por~\citeonline{hoppe:2023} ao modelo FrameWeb para \textit{frameworks} SPA, o que facilitou 
+a modelagem dos diagramas de navegação, principalmente. Assim, não foi necessário fazer nenhuma alteração aos modelos propostos pelo FrameWeb,
+explicitando a robustez do método. 
+
+
 Os objetivos definidos no Capítulo~\ref{chap-intro} estão listados abaixo.
 \begin{itemize}
     \item Compreender o método FrameWeb;
@@ -32,13 +43,12 @@ Além disso, o projeto permitiu o aprendizado de um novo e moderno \textit{frame
 Assim, os objetivos foram totalmente satisfeitos.
 
 
-
 % Limitações
-Em seu trabalho, \citeonline{hoppe:2023} fez adaptações do modelo FrameWeb para \textit{frameworks} SPA, o que facilitou 
-a modelagem dos diagramas de navegação, principalmente. No entanto, algumas dificuldades apareceram ao longo da implementação,
-isso pois foram encontradas poucas referências de projetos utilizando padrões, como \textit{Repository Pattern} ou DAO, com o \textit{framework} Next.js.
-\hl{Em sua maioria o Next.js é utilizado apenas como \textit{frontend}, no entanto neste projeto ele foi utilizado como \textit{fullstack}.}
+Algumas dificuldades apareceram ao longo da implementação, isso pois foram encontradas poucas referências
+de projetos utilizando padrões, como \textit{Repository Pattern} ou DAO, com o \textit{framework} Next.js.
+Em sua maioria o Next.js é utilizado apenas como \textit{frontend}, no entanto neste projeto ele foi utilizado como \textit{fullstack}.
 \patricia{Isso deve ficar muito claro desde o início!!! }
+\sophie{Explicado na Seção~\ref{sec-fundteo-framework-next}}
 
 Tendo em vista que o foco do projeto era a aplicação e análise do método FrameWeb, duas funcionalidades não foram implementadas,
 sendo elas: o envio de \textit{e-mails} e a geração de atas. Ambas funcionalidades são complexas e demandariam um tempo maior para serem implementadas.
