@@ -18,12 +18,7 @@ tela da aplicação para ilustrar o desenvolvimento do SCAP.
 \section{Tecnologias Utilizadas}
 \label{sec-projeto-tecnologias}
 
-\patricia{Acho que aqui vc precisa explicar melhor suas escolhas… 
-Fullstack com next.js…. }
-
-\sophie{Explicado melhor na Seção~\ref{sec-fundteo-framework-next} sobre Next.js ser fullstack}
-
-Neste projeto, utilizou-se a linguagem \textit{TypeScript} unida ao \textit{framework} Next.js.
+Neste projeto, utilizou-se a linguagem \textit{TypeScript} unida ao \textit{framework} Next.js, que foi utilizado como \textit{framework fullstack}.
 A Tabela~\ref{tab-tecnologias} apresenta as tecnologias e bibliotecas utilizadas, suas funções e suas respectivas versões.
 Dentre as tecnologias, destaca-se o MySQL, um sistema de gerenciamento de banco de dados relacional,
 e o Prisma, um ORM (\textit{Object-Relational Mapping}) para Node.js, ferramenta utilizada
@@ -97,7 +92,7 @@ presentes em um único servidor, adotando uma arquitetura monolítica.
 A primeira camada contém os componentes responsáveis por exibir as informações na tela e manejar as interações do usuário
 com o sistema. A comunicação entre as camadas de Apresentação e Negócio é mediada por uma API
 (\textit{Application Programming Interface}), que funciona como uma ponte entre o
-\textit{frontend} e o \textit{backend}. A camada de Apresentação, envia requisições HTTP para a API.
+\textit{frontend} e o \textit{backend}. A camada de Apresentação envia requisições HTTP para a API.
 Essas requisições são formatadas conforme os \textit{endpoints} definidos pela API
 e podem incluir dados solicitados pelo usuário ou comandos para executar operações.
 Dentre os tipos de operações estão: \textit{GET} para buscar dados, \textit{POST} para criar novos registros,
@@ -113,8 +108,6 @@ camada de separação entre o domínio e o mapeamento de dados.
 
 % \hl{O sistema roda em um único servidor, mas podemos separar lógicamente os pacotes sendo a Camada de Apresentação
 % o \textit{frontend} e as camadas de Negócio e Persistência o \textit{backend}.}
-\patricia{não entendi muito bem…}
-\sophie{Mudei a ordem dos paragrafos e expliquei melhor a separação de front e back}
 
 
 \section{Modelos FrameWeb}
@@ -274,16 +267,10 @@ cada linha da tabela possui um botão que redireciona para a página de detalhes
 
 Se redirecionado para a \textbf{PaginaAfastamento} a partir do componente~\textbf{ListagemAfastamento},
 o \textit{partial} possui o atributo \textbf{id} inicializado com o \textit{id} do afastamento, e é
-utilizado para fazer uma chamada ao método \textbf{buscarPorId} da \textit{controller} \textbf{AfastamentoController}, \hl{por
-meio de uma requisição \textit{GET} HTTP à API}.
+utilizado para fazer uma chamada ao método \textbf{buscarPorId} da \textit{controller} \textbf{AfastamentoController}, por
+meio de uma requisição \textit{GET} HTTP à API.
 Caso o usuário seja o solicitante do afastamento, ele pode cancelá-lo clicando em um botão que faz uma chamada ao método \textit{DELETE}
 do protocolo HTTP, que é recebido pelo método \textbf{cancelar} da \textit{controller} \textbf{AfastamentoController}.
-\clarete{Não pode separar a palavra nesse ponto. - referente à ListagemAfastamento e AfastamentoController}
-
-\patricia{Primeira vez que se fala de uma API. Acho que isso deve ser explicado com cuidado…
-a API do sistema é a forma como o frontend e o backend se comunicam, certo?
-Ela deve ficar bem clara, devidamente explicada…}
-\sophie{Explicado na Seção~\ref{sec-projeto-arquitetura}}
 
 Quando não possui um \textit{id} inicializado, o \textit{partial} é utilizado para criar um novo afastamento,
 o usuário deve então preencher os campos do formulário e clicar em um botão que faz uma chamada ao método
@@ -345,9 +332,6 @@ as classes de persistência para realizar as operações de leitura e escrita no
 \section{Estrutura do Sistema}
 \label{sec-projeto-estrutura}
 
-\patricia{Achei que poderia explorar um pouco mais essa seção. 
-Talvez com alguns trechos de código para exemplificar?}
-
 A Figura~\ref{fig-pastas} apresenta a organização de pastas da implementação do SCAP. 
 Na pasta \textbf{components} estão os componentes reutilizáveis, como o componente \textit{navbar} presente em todas as páginas do sistema.
 A pasta \textbf{src} é a principal, nela estão contidas algumas pastas especiais controladas pelo \textit{framework}
@@ -407,15 +391,11 @@ definidos os tipos de cada atribulo além das relações com os modelos Professo
     \label{fig-prisma}
 \end{figure}
 
-\patricia{Exemplo?}
-
 % \FloatBarrier
 
 
 \section{Apresentação de Resultados}
 \label{sec-projeto-impl}
-\patricia{A seção não trata da implementação em si, apenas dos resultados.}
-\sophie{Troquei o titulo}
 
 Essa seção apresenta a implementação do SCAP, por meio de capturas de tela,
 e discute os resultados obtidos.
@@ -561,8 +541,7 @@ A Figura~\ref{fig-parentesco} apresenta este modal.
 
 
 O componente de cadastro de usuários é utilizado também para a edição de usuários, assim como foi feito com Afastamentos. A Figura~\ref{fig-editar-professor}
-apresenta a página de usuário preenchida com os dados do professor logado no momento. É por essa página \hl{também que o usuário pode alterar sua senha ou realizar o \textit{logout} do sistema.}
-\clarete{Achei que essa linha ficou meio perdida aqui, sugestão sobe ela ou traz todo parágrafo para aqui.}
+apresenta a página de usuário preenchida com os dados do professor logado no momento. É por essa página também que o usuário pode alterar sua senha ou realizar o \textit{logout} do sistema.
 
 \begin{figure}[h!]
     \centering
@@ -590,7 +569,3 @@ será considerada a data de hoje. Professores também podem visualizar os mandat
     \label{fig-mandato}
 \end{figure}
 
-\patricia{Importante uma reflexão: o que essa implementação revela sobre o FrameWeb? 
-A escolha dessa tecnologia “diferente” impactou na utilização do FrameWeb?
-POde-se sugerir alterações do framework? Ou então incluir outras funcionalidades?
-Enfim, o que essa implementação revelou? }

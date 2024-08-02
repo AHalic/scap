@@ -5,8 +5,6 @@
 \chapter{Conclusão}
 \label{chap-conclusao}
 
-\patricia{Acho que é importante fazer algum tipo de avaliação… no mínimo comparar essa implementação com as outras… o que mudou? o que foi melhor/pior? O que justifica fazer uma outra implementação do mesmo sistema? No mais, quais foram as contribuições deste trabalho para o FrameWeb? }
-
 Este capítulo apresenta as considerações finais do trabalho, dificuldades, e perspectivas para trabalhos futuros.
 Na Seção~\ref{sec-conclusoes-consideracoes}, são apresentadas as conclusões obtidas e suas relações com os objetivos definidos, enquanto
 na Seção~\ref{sec-conclusoes-trabalhosfuturos} são apresentadas ideias e melhorias para trabalhos futuros.
@@ -22,7 +20,7 @@ Mesmo assim, ao longo da implementação os modelos foram revisitados diversas v
 A aplicação do FrameWeb utilizando o Next.js demonstrou que o método é flexível e pode ser adaptado para atender às necessidades de \textit{frameworks} modernos,
 proporcionando uma estrutura organizada e eficiente para o desenvolvimento tanto de aplicação monolíticas quanto de aplicações com microsserviços.
 De fato, utilizar uma linguagem tipada como TypeScript, juntamente com o Next.js, facilitou a modelagem dos diagramas, quando comparado com as implementações
-feitas em Javascript~\cite{gomes:2022,dalapicola:2021}. 
+feitas em JavaScript~\cite{gomes:2022,dalapicola:2021}. 
 
 Diversos trabalhos anteriores apontaram mudanças necessárias para o modelo de Navegação~\cite{duarte:2014,prado:2015,ferreira:2018,avelar:2018}.
 Neste trabalho no entanto, foram utilizadas as adaptações realizadas por~\citeonline{hoppe:2023} ao modelo FrameWeb para \textit{frameworks} SPA, o que facilitou 
@@ -47,8 +45,6 @@ Assim, os objetivos foram totalmente satisfeitos.
 Algumas dificuldades apareceram ao longo da implementação, isso pois foram encontradas poucas referências
 de projetos utilizando padrões, como \textit{Repository Pattern} ou DAO, com o \textit{framework} Next.js.
 Em sua maioria o Next.js é utilizado apenas como \textit{frontend}, no entanto neste projeto ele foi utilizado como \textit{fullstack}.
-\patricia{Isso deve ficar muito claro desde o início!!! }
-\sophie{Explicado na Seção~\ref{sec-fundteo-framework-next}}
 
 Tendo em vista que o foco do projeto era a aplicação e análise do método FrameWeb, duas funcionalidades não foram implementadas,
 sendo elas: o envio de \textit{e-mails} e a geração de atas. Ambas funcionalidades são complexas e demandariam um tempo maior para serem implementadas.
