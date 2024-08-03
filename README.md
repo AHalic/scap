@@ -10,6 +10,8 @@
 
 SCAP is a system that aims to help manage requests from professors of the Department of Informatics (DI) at the Federal University of Espírito Santo (UFES) for leave to attend conferences.
 
+This project was developed as part of my final graduation project. The complete thesis, written and defended before the examination committee, can be found at this [URL](https://github.com/AHalic/final-grad-proj).
+
 #### Features
 
 | Actors    | Features                                                                                                    |
